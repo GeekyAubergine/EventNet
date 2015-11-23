@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  overflow-y: scroll;
+  background-color: #F1F1F0;
+}
+.width-container {
+  max-width: 60em;
+  margin: 0 auto;
+}
+header {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  z-index: 100;
+  background-color: deepskyblue;
+  color: white;
+  height: 3em;
+}
+header h1 {
+  float: left;
+  width: 50%;
+  padding: 0.1em 0;
+  font-weight: normal;
+  line-height: 1.25em;
+}
+nav {
+  float: left;
+  width: 50%;
+  overflow: hidden;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+}
+nav li {
+  height: 3em;
+}
+nav a {
+  text-decoration: none;
+  display: block;
+  padding: 1em;
+  color: white;
+  border-bottom: 0 solid white;
+  transition: all 0.25s ease-out;
+  line-height: 1em;
+  height: 3em;
+}
+nav a:hover {
+  border-width: 0.25em;
+}
+main {
+  margin-top: 4em;
+}
+article {
+  float: left;
+  width: 100%;
+  background-color: #FFF;
+  padding: 1em 0.5em;
+  border-bottom: 0.1em solid #EEE;
+}
+article:last-of-type {
+  border-bottom: none;
+}
+article .container {
+  width: 100%;
+  padding-right: 8em;
+  word-wrap: break-word;
+  margin-left: 8em;
+}
+article .user-icon-container {
+  padding-right: 0.5em;
+  width: 8em;
+  margin-left: -8em;
+}
+article .user-icon-container img {
+  float: left;
+  width: 8em;
+}
+article .meta {
+  float: left;
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+article .container h3 {
+  float: left;
+  font-weight: normal;
+}
+article .container time {
+  float: right;
+  color: #CCC;
+  line-height: 1.75em;
+}
+article .container p {
+  float: left;
+}
+article .container img {
+  max-width: 100%;
+  margin: 1% 0;
+}
+article .controls {
+  float: left;
+  width: 100%;
+  margin-top: 0.5em;
+}
+article .controls ul {
+  float: left;
+  width: 100%;
+  list-style: none;
+}
+article .controls li {
+  float: left;
+  width: auto;
+}
+article .controls a {
+  float: left;
+  display: block;
+  padding: 0.25em 0.5em;
+  margin: 0 0.25em;
+  border-radius: 0.25em;
+  border: 0.1em solid #DDD;
+  text-decoration: none;
+  color: black;
+}
+article .controls a:first-of-type {
+  margin-left: 0;
+}
+article .controls a.comment-button:hover {
+  background-color: deepskyblue;
+}
+article .controls a.report-button:hover {
+  background-color: red;
+}
+article .comments {
+  float: left;
+  width: 100%;
+  padding-right: 8em;
+  word-wrap: break-word;
+  margin-left: 8em;
+  margin-top: 1em;
+}
+article .comments ul {
+  float: left;
+  width: 100%;
+  list-style: none;
+}
+article .comments li {
+  float: left;
+  width: 100%;
+  padding: 0.5em 0;
+  border-top: 0.1em solid #EEE;
+}
