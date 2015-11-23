@@ -1,0 +1,107 @@
+/* Posts */
+
+#posts {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2em 0;
+}
+#posts ul {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+.post {
+  flex: 1 1 100%;
+  background-color: #FFF;
+  padding: 0.5em;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  border-top: 1px solid #DDD;
+  border-bottom: 1px solid #EEE;
+}
+.post:first-child {
+  border-top: none;
+}
+.post:last-child {
+  border-bottom: none;
+}
+.post .user-icon-container img {
+  width: 4em;
+  margin-right: 0.5em;
+}
+
+/* Everything else in post */
+
+.post .content-container {
+  flex: 1 1;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.post .post-information {
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-bottom: 0.25em;
+}
+.post .post-information h3 {
+  font-weight: normal;
+}
+.post .post-information time {
+  color: #CCC;
+  line-height: 1.75em;
+}
+.post .content, .post .controls {
+  flex: 1 1 100%;
+}
+.post .content img {
+  width: 100%;
+  padding-top: 0.5em;
+}
+.post .controls {
+  margin-top: 1em;
+}
+.post .controls ul {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+.post .controls a {
+  display: block;
+  padding: 0.25em 0.5em;
+  margin: 0 0.25em;
+  border-radius: 0.25em;
+  border: 0.1em solid #DDD;
+  text-decoration: none;
+  color: black;
+}
+.post .controls a:first-of-type {
+  margin-left: 0;
+}
+.post .controls a.view-comments-button:hover {
+  border-color: deepskyblue;
+}
+.post .controls a.comment-button:hover {
+  border-color: deepskyblue;
+}
+.post .controls a.report-button:hover {
+  border-color: red;
+}
+
+/* Comments */
+
+.comments {
+  margin-top: 1em;
+  border-top: 0.1em solid #DDD;
+}
+.comments .post {
+  padding-left: 0;
+  border-bottom: none;
+}
+.comments .user-icon-container {
+  margin-left: -0.25em;
+}
