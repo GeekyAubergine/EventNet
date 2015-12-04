@@ -28,7 +28,7 @@ traits:
 
 
 /networks:
-  description: Return list of all networks
+  description: A collection of networks
   get:
     description: Return list of all networks
     is : [
@@ -42,3 +42,16 @@ traits:
         required: false
         example: true
         default: false
+  post:
+    description: Create a new networks
+    queryParameters:
+      networkName:
+        description: Name of the networkName
+        type: string
+        required: true
+        example: O2 Arena
+      networkLocation:
+        description: Location that the network was created from
+        type: string
+        required: true
+        
