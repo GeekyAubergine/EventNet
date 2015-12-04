@@ -1,0 +1,44 @@
+#%RAML 0.8
+title: EventNet
+version: v1
+baseUri: http://eventNet.com/api/v1/
+mediaType: application/json
+traits:
+- formatable:
+  queryParameters:
+    format:
+      description: Force the format to be returned as the format requested here. 'JSON' is only currently implemented format.
+      type: string
+      required: false
+      example: format=json
+- pagable:
+  queryParameters:
+    offset:
+      description: Start index of elements to put in response.
+      type: integer
+      required: false
+      example: 20
+      default: 0
+    limit:
+      description: Number of elements in the response
+      type: integer
+      required: false
+      example: 10
+      default: 0
+
+
+/networks:
+  description: Return list of all networks
+  get:
+    description: Return list of all networks
+    is : [
+      formatable
+      pagable
+    ]
+    queryParameters:
+      archived:
+        description: Include achieved networks
+        type: boolean
+        required: false
+        example: true
+        default: false
