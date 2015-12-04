@@ -59,3 +59,7 @@ nav a:hover {
 main {
   margin-top: 4em;
 }
+
+.hidden {
+  display: none !important;
+}
