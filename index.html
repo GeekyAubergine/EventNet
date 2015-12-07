@@ -6,6 +6,7 @@
   <title>EventNet</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="lib/css/core.css">
+  <link rel="stylesheet" href="lib/css/feed.css">
 </head>
 
 <body>
@@ -35,106 +36,137 @@
   </header>
   <div class=width-container>
     <main>
-      <article>
-        <div class=container>
-          <div class=user-icon-container>
-            <img src="res/icons/default_user.svg" alt="">
-          </div>
-          <div class=meta>
-            <h3 class=user-name>Test user 2</h3>
-            <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
-          </div>
-          <div class=content>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus maximus
-              quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna arcu in nisl.
-              Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna, pharetra eget lacus
-              varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-          </div>
-          <div class=controls>
-            <ul>
-              <li>
-                <a class=comment-button href="">Comment</a>
-              </li>
-              <li>
-                <a class=report-button href="">Report</a>
-              </li>
-            </ul>
-          </div>
-          <div class=comments>
-            <ul>
-              <li>
-                <div class=user-icon-container>
-                  <img src="res/icons/default_user.svg" alt="">
-                </div>
-                <div class=meta>
-                  <h3 class=user-name>Test user 3</h3>
-                  <time datetime="2015-11-10 08:01">08:11 - 10.11.2015</time>
+      <section>
+        <div id=posts>
+          <ul>
+            <li class=post>
+              <div class=user-icon-container>
+                <img src="res/icons/default_user.svg" alt="">
+              </div>
+              <div class=content-container>
+                <div class=post-information>
+                  <h3 class=user-name>Test user 2</h3>
+                  <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
                 </div>
                 <div class=content>
-                  <p>Lorem ipsum dolor sit amet</p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus
+                    maximus quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna
+                    arcu in nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna,
+                    pharetra eget lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
                 </div>
-              </li>
-            </ul>
-          </div>
+                <div class=controls>
+                  <ul>
+                    <li>
+                      <a class=comment-button href="">Comment</a>
+                    </li>
+                    <li>
+                      <a class=report-button href="">Report</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class=post>
+              <div class=user-icon-container>
+                <img src="res/icons/default_user.svg" alt="">
+              </div>
+              <div class=content-container>
+                <div class=post-information>
+                  <h3 class=user-name>Test user 2</h3>
+                  <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
+                </div>
+                <div class=content>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus
+                    maximus quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna
+                    arcu in nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna,
+                    pharetra eget lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
+                    <img src="res/images/demo_image_1.jpg" alt="">
+                </div>
+                <div class=controls>
+                  <ul>
+                    <li>
+                      <a class=view-comments-button href="">View Comments</a>
+                    </li>
+                    <li>
+                      <a class=comment-button href="">Comment</a>
+                    </li>
+                    <li>
+                      <a class=report-button href="">Report</a>
+                    </li>
+                  </ul>
+                </div>
+                <ul class="comments hidden">
+                  <li class=post>
+                    <div class=user-icon-container>
+                      <img src="res/icons/default_user.svg" alt="">
+                    </div>
+                    <div class=content-container>
+                      <div class=post-information>
+                        <h3 class=user-name>Test user 2</h3>
+                        <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
+                      </div>
+                      <div class=content>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus
+                          maximus quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna
+                          arcu in nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna,
+                          pharetra eget lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li class=post>
+                    <div class=user-icon-container>
+                      <img src="res/icons/default_user.svg" alt="">
+                    </div>
+                    <div class=content-container>
+                      <div class=post-information>
+                        <h3 class=user-name>Test user 2</h3>
+                        <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
+                      </div>
+                      <div class=content>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus
+                          maximus quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna
+                          arcu in nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna,
+                          pharetra eget lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class=post>
+              <div class=user-icon-container>
+                <img src="res/icons/default_user.svg" alt="">
+              </div>
+              <div class=content-container>
+                <div class=post-information>
+                  <h3 class=user-name>Test user 2</h3>
+                  <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
+                </div>
+                <div class=content>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus
+                    maximus quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna
+                    arcu in nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna,
+                    pharetra eget lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
+                </div>
+                <div class=controls>
+                  <ul>
+                    <li>
+                      <a class=comment-button href="">Comment</a>
+                    </li>
+                    <li>
+                      <a class=report-button href="">Report</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
-      </article>
-      <article>
-        <div class=container>
-          <div class=user-icon-container>
-            <img src="res/icons/default_user.svg" alt="">
-          </div>
-          <div class=meta>
-            <h3 class=user-name>Test user 1</h3>
-            <time datetime="2015-11-10 08:00">08:00 - 10.11.2015</time>
-          </div>
-          <div class=content>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus maximus
-              quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna arcu in nisl.
-              Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna, pharetra eget lacus
-              varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-            <img src="res/images/demo_image_1.jpg" alt="">
-          </div>
-          <div class=controls>
-            <ul>
-              <li>
-                <a class=comment-button href="">Comment</a>
-              </li>
-              <li>
-                <a class=report-button href="">Report</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </article>
-      <article>
-        <div class=container>
-          <div class=user-icon-container>
-            <img src="res/icons/default_user.svg" alt="">
-          </div>
-          <div class=meta>
-            <h3 class=user-name>Test user 1</h3>
-            <time datetime="2015-11-10 07:30">07:30 - 10.11.2015</time>
-          </div>
-          <div class=content>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus maximus
-              quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna arcu in nisl.
-              Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna, pharetra eget lacus
-              varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-          </div>
-          <div class=controls>
-            <ul>
-              <li>
-                <a class=comment-button href="">Comment</a>
-              </li>
-              <li>
-                <a class=report-button href="">Report</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </article>
+      </section>
     </main>
   </div>
+  <script src="lib/js/eventNet.js" charset="utf-8"></script>
+  <script src="lib/js/feed.js" charset="utf-8"></script>
 </body>
 
 </html>
