@@ -25,14 +25,25 @@ traits:
       required: false
       example: 10
       default: 0
-
+- geolocatable:
+  queryParameters:
+    latitude:
+      description: The latitude of the geolocation
+      type: number
+      required: true
+      example: 0.0
+    longitude:
+      description: The longitude of the geolocation
+      type: number
+      required: true
+      example: 0.0
 
 /networks:
   description: A collection of networks
   get:
     description: Return list of all networks
     is : [
-      formatable
+      formatable,
       pagable
     ]
     queryParameters:
@@ -43,15 +54,121 @@ traits:
         example: true
         default: false
   post:
-    description: Create a new networks
+    description: Create a new network
+    is: [
+      geolocatable
+    ]
     queryParameters:
       networkName:
         description: Name of the networkName
         type: string
         required: true
         example: O2 Arena
-      networkLocation:
-        description: Location that the network was created from
+/{networkID}/:
+  description: A item in the collection of networks. Contains a collection of posts
+  get:
+    description: Return a list of posts
+    is: [
+      formatable,
+      pagable
+    ]
+    commentsToLoad:
+      description: The number of comments to load per post
+      type: integer
+      required: false
+      example: 10
+      default: 5
+  post:
+    description: Post a post in this network
+    is: [
+      geolocatable
+    ]
+    queryParameters:
+      userId:
+        description: The User ID that created this post
+        type: integer
+        required: true
+        example: 12345
+      postContent:
+        description: The content of the post
         type: string
         required: true
-        
+        example: Test post, please ignore
+  delete:
+    description: Delete this network
+  /{postId}/:
+    description: An item in the collection of posts.
+    get:
+      description: Return the post
+    post:
+      description: Replace the post content with new content
+      queryParameters:
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    put:
+      description: Replace the post content with new content
+      queryParameters:
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    delete:
+      description: Deletes this post
+    /comments/:
+      description:  A collection of comments
+      get:
+        description: Return a list of comments
+        is: [
+          formatable,
+          pagable
+        ]
+      post:
+        description: Create a new comment
+        is: [
+          geolocatable
+        ]
+        queryParameters:
+          userId:
+            description: The User ID that created this comment
+            type: integer
+            required: true
+            example: 12345
+          postContent:
+            description: The content of the comment
+            type: string
+            required: true
+            example: Test comment, please ignore
+      /{commentId}/:
+        description: An item in the collection of comments.
+        get:
+          description: Return the comment
+        post:
+          description: Replace the post content with new content
+          queryParameters:
+            postContent:
+              description: The content of the post
+              type: string
+              required: true
+              example: Test post, please ignore
+        put:
+          description: Replace the post content with new content
+          queryParameters:
+            postContent:
+              description: The content of the post
+              type: string
+              required: true
+              example: Test post, please ignore
+        delete:
+          description: Deletes this comment
+
+/reset:
+  description: Clear the databases
+
+/init:
+  description: Initializes the databases
+  get:
+    description: Initializes the databases structure
