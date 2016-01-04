@@ -1,0 +1,174 @@
+#%RAML 0.8
+title: EventNet
+version: v1
+baseUri: http://eventNet.com/api/v1/
+mediaType: application/json
+traits:
+- formatable:
+  queryParameters:
+    format:
+      description: Force the format to be returned as the format requested here. 'JSON' is only currently implemented format.
+      type: string
+      required: false
+      example: format=json
+- pagable:
+  queryParameters:
+    offset:
+      description: Start index of elements to put in response.
+      type: integer
+      required: false
+      example: 20
+      default: 0
+    limit:
+      description: Number of elements in the response
+      type: integer
+      required: false
+      example: 10
+      default: 0
+- geolocatable:
+  queryParameters:
+    latitude:
+      description: The latitude of the geolocation
+      type: number
+      required: true
+      example: 0.0
+    longitude:
+      description: The longitude of the geolocation
+      type: number
+      required: true
+      example: 0.0
+
+/networks:
+  description: A collection of networks
+  get:
+    description: Return list of all networks
+    is : [
+      formatable,
+      pagable
+    ]
+    queryParameters:
+      archived:
+        description: Include achieved networks
+        type: boolean
+        required: false
+        example: true
+        default: false
+  post:
+    description: Create a new network
+    is: [
+      geolocatable
+    ]
+    queryParameters:
+      networkName:
+        description: Name of the networkName
+        type: string
+        required: true
+        example: O2 Arena
+  /{networkID}/posts:
+    description: A item in the collection of networks. Contains a collection of posts
+    get:
+      description: Return a list of posts
+      is: [
+        formatable,
+        pagable
+      ]
+      commentsToLoad:
+        description: The number of comments to load per post
+        type: integer
+        required: false
+        example: 10
+        default: 5
+    post:
+      description: Post a post in this network
+      is: [
+        geolocatable
+      ]
+      queryParameters:
+        userId:
+          description: The User ID that created this post
+          type: integer
+          required: true
+          example: 12345
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    delete:
+      description: Delete this network
+    /{postId}/:
+      description: An item in the collection of posts.
+      get:
+        description: Return the post
+      post:
+        description: Replace the post content with new content
+        queryParameters:
+          postContent:
+            description: The content of the post
+            type: string
+            required: true
+            example: Test post, please ignore
+      put:
+        description: Replace the post content with new content
+        queryParameters:
+          postContent:
+            description: The content of the post
+            type: string
+            required: true
+            example: Test post, please ignore
+      delete:
+        description: Deletes this post
+      /comments/:
+        description:  A collection of comments
+        get:
+          description: Return a list of comments
+          is: [
+            formatable,
+            pagable
+          ]
+        post:
+          description: Create a new comment
+          is: [
+            geolocatable
+          ]
+          queryParameters:
+            userId:
+              description: The User ID that created this comment
+              type: integer
+              required: true
+              example: 12345
+            postContent:
+              description: The content of the comment
+              type: string
+              required: true
+              example: Test comment, please ignore
+        /{commentId}/:
+          description: An item in the collection of comments.
+          get:
+            description: Return the comment
+          post:
+            description: Replace the post content with new content
+            queryParameters:
+              postContent:
+                description: The content of the post
+                type: string
+                required: true
+                example: Test post, please ignore
+          put:
+            description: Replace the post content with new content
+            queryParameters:
+              postContent:
+                description: The content of the post
+                type: string
+                required: true
+                example: Test post, please ignore
+          delete:
+            description: Deletes this comment
+
+/reset:
+  description: Clear the databases
+
+/init:
+  description: Initializes the databases
+  get:
+    description: Initializes the databases structure
