@@ -14,10 +14,6 @@ class DB {
     );
   }
 
-  private function buildDatabase() {
-
-  }
-
   public function __construct() {
     // CONNECT TO THE DATABASE SERVER
     $dsn = 'mysql:'.DATABASE_HOST.';dbname='. DATABASE_NAME .';';
@@ -31,6 +27,25 @@ class DB {
     } catch (PDOException $e) {
          DB::throwException("Connect failed during construct");
     }
+  }
+
+  public function close() {
+    $this->pdo = null;
+  }
+
+  public function query($query) {
+    try {
+      $result = $this->pdo->query($query);
+
+      if (strpos($query, 'select') !== false) {
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+      }
+
+      return $result->rowCount();
+    } catch (Exception $e) {
+
+    }
+
   }
 
 }
