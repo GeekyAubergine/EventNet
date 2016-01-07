@@ -8,12 +8,16 @@ body {
   overflow-y: scroll;
   background-color: #F1F1F0;
 }
+.float-container {
+  float: left;
+  width: 100%;
+}
 .width-container {
   max-width: 60em;
   margin: 0 auto;
 }
 header {
-  position: absolute;
+  position: fixed;
   top: 0;
   overflow: hidden;
   width: 100%;
@@ -57,7 +61,7 @@ nav a:hover {
   border-width: 0.25em;
 }
 main {
-  margin-top: 4em;
+  margin-top: 3em;
 }
 
 .hidden {
