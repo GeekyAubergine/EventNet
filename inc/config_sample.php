@@ -5,6 +5,8 @@ const DATABASE_NAME = 'eventnet';
 const DATABASE_USERNAME = 'default';
 const DATABASE_PASSWORD = 'default';
 
+const DEBUGGING = false;
+
 /** Do not edit below**/
 define("TABLE_NETWORK_INIT", 'CREATE TABLE IF NOT EXISTS network (
   network_id BIGINT NOT NULL AUTO_INCREMENT,

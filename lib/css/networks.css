@@ -32,3 +32,6 @@
 #map {
   height: 50vh;
 }
+#new-network-container {
+  border-top: 0.1em solid #ddd;
+}

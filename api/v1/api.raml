@@ -24,7 +24,7 @@ traits:
       type: integer
       required: false
       example: 10
-      default: 0
+      default: 25
 - geolocatable:
   queryParameters:
     latitude:
@@ -64,7 +64,7 @@ traits:
         type: string
         required: true
         example: O2 Arena
-  /{networkID}/posts:
+  /{networkID}/:
     description: A item in the collection of networks. Contains a collection of posts
     get:
       description: Return a list of posts
