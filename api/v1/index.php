@@ -1,6 +1,6 @@
-<? php
+<?php
 
-include __DIR__.'/../../inc/app.php';
+include __DIR__.'/../../inc/all.php';
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -39,4 +39,3 @@ if (__DEBUGGING__) {
 }
 
 sendResults($results);
-varDump($results);

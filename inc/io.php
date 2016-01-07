@@ -53,19 +53,19 @@ function getNetworks($args) {
       $limit = abs(intval($args["limit"]));
     }
 
-    $query = "select * from network limit " . $limit . " offset " + $offset . ";";
+    $query = "select * from network limit " . $limit . " offset " . $offset . ";";
 
-    $result = $DB->query($query);
+    $queryOut = $DB->query($query);
 
-    $result["data"] = $result;
-    $result["meta"]["ok"] = true;
+    $results["data"] = $queryOut;
+    $results["meta"]["ok"] = true;
     if (__DEBUGGING__) {
       $results["meta"]["query"] = $query;
       $results["meta"]["offset"] = $offset;
       $results["meta"]["limit"] = $limit;
       $results["meta"]["count"] = count($rows);
     }
-    
+
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
