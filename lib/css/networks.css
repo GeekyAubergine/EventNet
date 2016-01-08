@@ -45,13 +45,10 @@
   float: left;
   width: 100%;
   border-bottom: 0.1em solid #ddd;
-  padding: 0 0.5em;
+  padding: 0 0.5em 0.5em 0.5em;
 }
 #networks-list h4 {
   float: left;
-  width: 50%;
+  width: 100%;
   color: #888;
-}
-h4.number-of-posts {
-  text-align: right;
 }
