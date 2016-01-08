@@ -41,7 +41,19 @@
   float: left;
   width: 100%;
   border-bottom: 0.1em solid #ddd;
+  border-left: 0em solid #888;
   padding: 0.5em;
+  transition: 250ms border-width;
+}
+#networks-list li:first-of-type {
+  border-left: none;
+}
+#networks-list li:hover {
+  border-left-width: 0.25em;
+}
+#networks-list li.selected {
+  border-left-width: 0.25em;
+  border-left-color: lawngreen;
 }
 #networks-list h4 {
   float: left;
