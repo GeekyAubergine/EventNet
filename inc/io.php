@@ -53,7 +53,7 @@ function getNetworks($args) {
       $limit = abs(intval($args["limit"]));
     }
 
-    $query = "select * from network limit " . $limit . " offset " . $offset . ";";
+    $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id limit " . $limit . " offset " . $offset . ";";
 
     $queryOut = $DB->query($query);
 
