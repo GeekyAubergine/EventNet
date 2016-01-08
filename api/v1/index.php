@@ -32,7 +32,7 @@ switch ($path[0]) {
     $results["meta"]["ok"] = false;
 }
 
-if (__DEBUGGING__) {
+if (DEBUGGING) {
   $results["meta"]["request"] = $in;
   $results["meta"]["verb"] = $verb;
   $results["meta"]["path"] = $path;

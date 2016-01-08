@@ -17,10 +17,10 @@ function sendResults($results) {
 
   if (isset($result["meta"]["ok"]) && $results["meta"]["ok"] === false) { //Check for error
     $status = isset($results["meta"]["status"]) ? $results["meta"]["status"] : 599;
-    $status = isset($results["meta"]["message"]) ? $results["meta"]["message"] : "An unknown error has occured";
+    $message = isset($results["meta"]["message"]) ? $results["meta"]["message"] : "An unknown error has occured";
   } else {
     $status = isset($results["meta"]["status"]) ? $results["meta"]["status"] : 200;
-    $status = isset($results["meta"]["message"]) ? $results["meta"]["message"] : "OK";
+    $message = isset($results["meta"]["message"]) ? $results["meta"]["message"] : "OK";
   }
 
   header("HTTP/1.1" . $status . $message);
@@ -59,17 +59,17 @@ function getNetworks($args) {
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
-    if (__DEBUGGING__) {
+    if (DEBUGGING) {
       $results["meta"]["query"] = $query;
       $results["meta"]["offset"] = $offset;
       $results["meta"]["limit"] = $limit;
-      $results["meta"]["count"] = count($rows);
+      $results["meta"]["count"] = count($queryOut);
     }
 
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (__DEBUGGING__) {
+    if (DEBUGGING) {
       $results["meta"]["exception"] = $e;
     }
   }
