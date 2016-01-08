@@ -15,7 +15,6 @@
 }
 #map-and-list-container {
   float: left;
-  height: 50vh;
   align-items: stretch;
   border-top: 0.1em solid #ddd;
 }
@@ -29,12 +28,12 @@
   border-left: 0.1em solid #ddd;
 }
 #map {
-  height: 50vh;
+  height: calc(100vh - 6.1em);
 }
 #networks-list {
   float: left;
   width: 100%;
-  height: 50vh;
+  height: calc(100vh - 6.1em);
   overflow: hidden;
   overflow-y: auto;
 }
@@ -42,36 +41,39 @@
   float: left;
   width: 100%;
   border-bottom: 0.1em solid #ddd;
-  padding: 0 0.5em 0.5em 0.5em;
+  padding: 0.5em;
 }
 #networks-list h4 {
   float: left;
   width: 100%;
   color: #888;
 }
-#new-network-container {
-  padding: 0 20%;
-  border-top: 0.1em solid #ddd;
-}
-#new-network-container input, .button {
+#new-network h3 {
   float: left;
-  margin: 0 25%;
-  width: 50%;
+  height: 1.5em;
+  width: 100%;
   text-align: center;
+  color: deepskyblue;
+  text-transform: capitalize;
+}
+#new-network input, .button {
+  float: left;
+  width: 95%;
+  margin: 0 2.5%;
   padding: 0.5em;
   border-radius: 0.5em;
   border: 0.1em solid #888;
   background-color: #fff;
 }
-#new-network-container .button {
+#new-network .button {
   float: left;
-  width: 40%;
-  margin: 0 30%;
-  margin-top: 1em;
+  margin-top: 0.5em;
+  padding: 0.25em;
+  text-align: center;
   border: 0.1em solid deepskyblue;
   transition: 250ms all;
 }
-#new-network-container .button:hover {
+#new-network .button:hover {
   background-color: deepskyblue;
   color: white;
 }

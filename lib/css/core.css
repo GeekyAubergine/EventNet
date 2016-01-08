@@ -67,3 +67,6 @@ main {
 .hidden {
   display: none !important;
 }
+input.error {
+  border-color: tomatored;
+}
