@@ -20,16 +20,16 @@
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/chat">Chat</a>
+            <a href="/chat.html">Chat</a>
           </li>
           <li>
-            <a href="/home">Map</a>
+            <a href="/home.html">Map</a>
           </li>
           <li>
-            <a href="/networks">Networks</a>
+            <a href="/networks.html">Networks</a>
           </li>
           <li>
-            <a href="/settings">Settings</a>
+            <a href="/settings.html">Settings</a>
           </li>
         </ul>
       </nav>
@@ -38,10 +38,10 @@
   <div class=width-container>
     <main>
       <div id=networks-container>
-        <div class=float-container>
+        <div class=container>
           <h2>Networks near you</h2>
         </div>
-        <div id=map-and-list-container class=float-container>
+        <div id=map-and-list-container class=container>
           <section id=map-container>
             <div id="map"></div>
           </section>
@@ -49,7 +49,10 @@
             <ul id=networks-list></ul>
           </section>
         </div>
-        <div id=new-network-container class=float-container>
+        <div id=new-network-container class=container>
+          <h2>Create a new network</h2>
+          <input id=new-network-name type=text placeholder="Network Name"></input>
+          <div class=button>Create</div>
         </div>
       </div>
     </main>

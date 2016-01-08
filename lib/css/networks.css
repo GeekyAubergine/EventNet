@@ -31,9 +31,6 @@
 #map {
   height: 50vh;
 }
-#new-network-container {
-  border-top: 0.1em solid #ddd;
-}
 #networks-list {
   float: left;
   width: 100%;
@@ -51,4 +48,30 @@
   float: left;
   width: 100%;
   color: #888;
+}
+#new-network-container {
+  padding: 0 20%;
+  border-top: 0.1em solid #ddd;
+}
+#new-network-container input, .button {
+  float: left;
+  margin: 0 25%;
+  width: 50%;
+  text-align: center;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  border: 0.1em solid #888;
+  background-color: #fff;
+}
+#new-network-container .button {
+  float: left;
+  width: 40%;
+  margin: 0 30%;
+  margin-top: 1em;
+  border: 0.1em solid deepskyblue;
+  transition: 250ms all;
+}
+#new-network-container .button:hover {
+  background-color: deepskyblue;
+  color: white;
 }
