@@ -90,3 +90,37 @@ function getNetworks($args) {
   }
   return $results;
 }
+
+function createNetwork($args) {
+  $DB = new DB();
+
+  if (!isset($args["networkName"])) {
+    return badRequest("Network name was missing", $args);
+  }
+  if (!isset($args["latitude"])) {
+    return badRequest("Latitude was missing", $args);
+  }
+  if (!isset($args["networkName"])) {
+    return badRequest("Longitude was missing", $args);
+  }
+
+  $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+
+  $result = $DB->query($query);
+
+  $results = [];
+  if (count($result) > 0) {
+    $results["meta"]["ok"] = true;
+    $results["meta"]["status"] = 201;
+    $results["meta"]["message"] = "Network was created";
+  }
+  else if (DEBUGGING) {
+    $results["meta"]["query"] = $query;
+  }
+
+  // $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id limit " . $limit . " offset " . $offset . ";";
+  //
+  // $results["data"] = $DB->query($query);
+
+  return $results;
+}

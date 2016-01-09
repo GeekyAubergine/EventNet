@@ -68,5 +68,5 @@ main {
   display: none !important;
 }
 input.error {
-  border-color: tomatored;
+  border-color: red !important;
 }
