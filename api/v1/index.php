@@ -19,20 +19,40 @@ $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
 
 switch ($path[0]) {
   case "networks":
-    switch ($verb) {
-      case "GET":
-        if (isset($path[1]) && trim($path[1]) != "") {
-          $args["id"] = $path[1];
+    //Determine what's being called via path length
+    switch (count($path)) {
+      case 1: // /networks
+      case 2: // /networks/{networkID}
+        switch ($verb) {
+          case "GET":
+            if (isset($path[1]) && trim($path[1]) != "") {
+              $args["id"] = $path[1];
+            }
+            $results = getNetworks($args);
+            break;
+          case "POST":
+            $results = createNetwork($args);
+            break;
+          default:
+            break;
         }
-        $results = getNetworks($args);
         break;
-      case "POST":
-        $results = createNetwork($args);
+      case 3: // /networks/{networkId}/posts
+      case 4: // /networks/{networkId}/posts/{postID}
+        switch ($verb) {
+          case "GET":
+            if (isset($path[1]) && trim($path[1]) != "") {
+              $args["id"] = $path[1];
+            }
+            $results = getPosts($args);
+            break;
+          default:
+            break;
+        }
         break;
       default:
-        break;
+        $results["meta"]["ok"] = false;
     }
-    break;
   default:
     $results["meta"]["ok"] = false;
 }

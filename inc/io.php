@@ -136,3 +136,52 @@ function createNetwork($args) {
 
   return $results;
 }
+
+// ---- POSTS ----- //
+function getPosts($args) {
+  $results = [];
+  try {
+    $DB = new DB();
+
+    $offset = 0;
+    $limit = 25;
+
+    if (isset($args["offset"])) {
+      $offset = abs(intval($args["offset"]));
+    }
+
+    if (isset($args["limit"])) {
+      $limit = abs(intval($args["limit"]));
+    }
+
+    $clause = "";
+
+    if (isset($args["id"])) {
+      $clause = "WHERE network_id = " . abs(intval($args["id"]));
+    }
+
+    $query = "select * from post join user using(user_id) " .
+     $clause .
+     " ORDER BY post_timestamp asc limit " . $limit . " offset " . $offset . ";";
+
+
+    $queryOut = $DB->query($query);
+
+    $results["data"] = $queryOut;
+    $results["meta"]["ok"] = true;
+    if (DEBUGGING) {
+      $results["debug"]["query"] = $query;
+      $results["debug"]["offset"] = $offset;
+      $results["debug"]["limit"] = $limit;
+      $results["debug"]["count"] = count($queryOut);
+    }
+
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    if (DEBUGGING) {
+      $results["debug"]["exception"] = $e;
+    }
+  }
+  return $results;
+}
