@@ -118,9 +118,9 @@ function createNetwork($args) {
     $results["meta"]["query"] = $query;
   }
 
-  // $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id limit " . $limit . " offset " . $offset . ";";
-  //
-  // $results["data"] = $DB->query($query);
+  $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
+
+  $results["data"] = $DB->query($query);
 
   return $results;
 }
