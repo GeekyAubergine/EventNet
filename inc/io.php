@@ -40,6 +40,16 @@ function sendResults($results) {
   }
 }
 
+function badRequest($message, $args) {
+  $results = [];
+  $results["meta"]["ok"] = false;
+  $results["meta"]["status"] = 400;
+  $results["meta"]["message"] = $message;
+  if (DEBUGGING) {
+    $results["meta"]["request"] = $args;
+  }
+  return $results;
+}
 
 // ---- NETWORKS ----- //
 function getNetworks($args) {
