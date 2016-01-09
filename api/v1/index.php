@@ -10,7 +10,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
     $in = extractVariables(INPUT_POST);
     break;
   default:
-    $in = extractVariables();
+    $in = extractVariables(INPUT_GET);
 }
 
 $results = [];
@@ -24,6 +24,9 @@ switch ($path[0]) {
 
         $results = getNetworks($in);
         break;
+      case "POST":
+        $results = createNetwork($in);
+        break;
       default:
         break;
     }
@@ -36,6 +39,10 @@ if (DEBUGGING) {
   $results["meta"]["request"] = $in;
   $results["meta"]["verb"] = $verb;
   $results["meta"]["path"] = $path;
+  $results["debug"]["in"] = $in;
+  $results["debug"]["INPUT_GET"] = extractVariables();
+  $results["debug"]["INPUT_POST"] = extractVariables(INPUT_POST);
+  $results["debug"]["request"] = $_REQUEST;
 }
 
 sendResults($results);
