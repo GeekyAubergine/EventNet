@@ -3,7 +3,12 @@
 function extractVariables($method = INPUT_GET) {
   $variables = array();
   foreach ($_REQUEST as $key => $value) {
-    $variables[$key] = stripslashes(strip_tags(urlencode(filter_input($method, $key, FILTER_SANITIZE_STRING))));
+    $string = filter_input($method, $key, FILTER_SANITIZE_STRING);
+    //Only encode if GET
+    if ($method == INPUT_GET) {
+      $string = urlencode($string);
+    }
+    $variables[$key] = stripslashes(strip_tags($string));
   }
   return $variables;
 }
