@@ -46,7 +46,7 @@ function badRequest($message, $args) {
   $results["meta"]["status"] = 400;
   $results["meta"]["message"] = $message;
   if (DEBUGGING) {
-    $results["meta"]["request"] = $args;
+    $results["debug"]["request"] = $args;
   }
   return $results;
 }
@@ -68,24 +68,36 @@ function getNetworks($args) {
       $limit = abs(intval($args["limit"]));
     }
 
-    $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id limit " . $limit . " offset " . $offset . ";";
+    $clause = "";
+
+    if (isset($args["id"])) {
+      $clause = "WHERE network.network_id = " . abs(intval($args["id"]));
+    }
+
+    $query = "select network.network_id, network.network_name, network.network_latitude, network.network_longitude, network.network_timestamp, info.number_of_posts, info.most_recent_post " .
+     "FROM network " .
+     "LEFT JOIN (".
+     "select network_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY network_id) AS info ON info.network_id = network.network_id " .
+     $clause .
+     " ORDER BY network.network_timestamp limit " . $limit . " offset " . $offset . ";";
+
 
     $queryOut = $DB->query($query);
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
     if (DEBUGGING) {
-      $results["meta"]["query"] = $query;
-      $results["meta"]["offset"] = $offset;
-      $results["meta"]["limit"] = $limit;
-      $results["meta"]["count"] = count($queryOut);
+      $results["debug"]["query"] = $query;
+      $results["debug"]["offset"] = $offset;
+      $results["debug"]["limit"] = $limit;
+      $results["debug"]["count"] = count($queryOut);
     }
 
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
     if (DEBUGGING) {
-      $results["meta"]["exception"] = $e;
+      $results["debug"]["exception"] = $e;
     }
   }
   return $results;
@@ -115,7 +127,7 @@ function createNetwork($args) {
     $results["meta"]["message"] = "Network was created";
   }
   else if (DEBUGGING) {
-    $results["meta"]["query"] = $query;
+    $results["debug"]["query"] = $query;
   }
 
   $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";

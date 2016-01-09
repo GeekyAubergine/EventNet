@@ -7,10 +7,10 @@ $verb = $_SERVER['REQUEST_METHOD'];
 switch ($_SERVER['REQUEST_METHOD']) {
   case "POST":
   case "PUT":
-    $in = extractVariables(INPUT_POST);
+    $args = extractVariables(INPUT_POST);
     break;
   default:
-    $in = extractVariables(INPUT_GET);
+    $args = extractVariables(INPUT_GET);
 }
 
 $results = [];
@@ -21,11 +21,13 @@ switch ($path[0]) {
   case "networks":
     switch ($verb) {
       case "GET":
-
-        $results = getNetworks($in);
+        if (isset($path[1]) && trim($path[1]) != "") {
+          $args["id"] = $path[1];
+        }
+        $results = getNetworks($args);
         break;
       case "POST":
-        $results = createNetwork($in);
+        $results = createNetwork($args);
         break;
       default:
         break;
@@ -35,14 +37,16 @@ switch ($path[0]) {
     $results["meta"]["ok"] = false;
 }
 
-if (DEBUGGING) {
-  $results["meta"]["request"] = $in;
-  $results["meta"]["verb"] = $verb;
-  $results["meta"]["path"] = $path;
-  $results["debug"]["in"] = $in;
-  $results["debug"]["INPUT_GET"] = extractVariables();
-  $results["debug"]["INPUT_POST"] = extractVariables(INPUT_POST);
-  $results["debug"]["request"] = $_REQUEST;
+$results["debug"]["request"] = $args;
+$results["debug"]["verb"] = $verb;
+$results["debug"]["path"] = $path;
+$results["debug"]["in"] = $args;
+$results["debug"]["INPUT_GET"] = extractVariables();
+$results["debug"]["INPUT_POST"] = extractVariables(INPUT_POST);
+$results["debug"]["request"] = $_REQUEST;
+
+if (!DEBUGGING) {
+  unset($results["debug"]);
 }
 
 sendResults($results);
