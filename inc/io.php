@@ -70,8 +70,8 @@ function getNetworks($args) {
 
     $clause = "";
 
-    if (isset($args["id"])) {
-      $clause = "WHERE network.network_id = " . abs(intval($args["id"]));
+    if (isset($args["networkId"])) {
+      $clause = "WHERE network.network_id = " . abs(intval($args["networkId"]));
     }
 
     $query = "select network.network_id, network.network_name, network.network_latitude, network.network_longitude, network.network_timestamp, info.number_of_posts, info.most_recent_post " .
@@ -156,11 +156,22 @@ function getPosts($args) {
 
     $clause = "";
 
-    if (isset($args["id"])) {
-      $clause = "WHERE network_id = " . abs(intval($args["id"]));
+    if (isset($args["postId"])) {
+      $clause = "AND post_id = " . abs(intval($args["postId"]));
+    }
+    else if (isset($args["before"])) {
+      $clause = "AND post_timestamp > '" . $args["before"] ."'";
+    }
+    else if (isset($args["after"])) {
+      $clause = "AND post_timestamp < '" . $args["after"] ."'";
     }
 
+    $toReplace = array("+", "%3A");
+    $replaceWith = array(" ", ":");
+    $clause = str_replace($toReplace, $replaceWith, $clause);
+
     $query = "select * from post join user using(user_id) " .
+     "WHERE network_id = " . $args["networkId"] . " " .
      $clause .
      " ORDER BY post_timestamp asc limit " . $limit . " offset " . $offset . ";";
 

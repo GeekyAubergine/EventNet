@@ -26,7 +26,7 @@ switch ($path[0]) {
         switch ($verb) {
           case "GET":
             if (isset($path[1]) && trim($path[1]) != "") {
-              $args["id"] = $path[1];
+              $args["networkId"] = $path[1];
             }
             $results = getNetworks($args);
             break;
@@ -42,7 +42,7 @@ switch ($path[0]) {
         switch ($verb) {
           case "GET":
             if (isset($path[1]) && trim($path[1]) != "") {
-              $args["id"] = $path[1];
+              $args["networkId"] = $path[1];
             }
             $results = getPosts($args);
             break;
