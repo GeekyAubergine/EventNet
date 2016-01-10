@@ -104,36 +104,45 @@ function getNetworks($args) {
 }
 
 function createNetwork($args) {
-  $DB = new DB();
-
-  if (!isset($args["networkName"])) {
-    return badRequest("Network name was missing", $args);
-  }
-  if (!isset($args["latitude"])) {
-    return badRequest("Latitude was missing", $args);
-  }
-  if (!isset($args["networkName"])) {
-    return badRequest("Longitude was missing", $args);
-  }
-
-  $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
-
-  $result = $DB->query($query);
-
   $results = [];
-  if (count($result) > 0) {
-    $results["meta"]["ok"] = true;
-    $results["meta"]["status"] = 201;
-    $results["meta"]["message"] = "Network was created";
+  try {
+    $DB = new DB();
+
+    if (!isset($args["networkName"])) {
+      return badRequest("Network name was missing", $args);
+    }
+    if (!isset($args["latitude"])) {
+      return badRequest("Latitude was missing", $args);
+    }
+    if (!isset($args["longitude"])) {
+      return badRequest("Longitude was missing", $args);
+    }
+
+    $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+
+    $result = $DB->query($query);
+
+    $results = [];
+    if (count($result) > 0) {
+      $results["meta"]["ok"] = true;
+      $results["meta"]["status"] = 201;
+      $results["meta"]["message"] = "Network was created";
+    }
+    else if (DEBUGGING) {
+      $results["debug"]["query"] = $query;
+    }
+
+    $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
+
+    $results["data"] = $DB->query($query);
+
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    if (DEBUGGING) {
+      $results["debug"]["exception"] = $e;
+    }
   }
-  else if (DEBUGGING) {
-    $results["debug"]["query"] = $query;
-  }
-
-  $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
-
-  $results["data"] = $DB->query($query);
-
   return $results;
 }
 
@@ -185,6 +194,49 @@ function getPosts($args) {
       $results["debug"]["offset"] = $offset;
       $results["debug"]["limit"] = $limit;
       $results["debug"]["count"] = count($queryOut);
+    }
+
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    if (DEBUGGING) {
+      $results["debug"]["exception"] = $e;
+    }
+  }
+  return $results;
+}
+
+function createPost($args) {
+  $results = [];
+  try {
+    $DB = new DB();
+
+    if (!isset($args["userId"])) {
+      return badRequest("User ID was missing", $args);
+    }
+    if (!isset($args["postContent"])) {
+      return badRequest("Post content was missing", $args);
+    }
+    if (!isset($args["latitude"])) {
+      return badRequest("Latitude was missing", $args);
+    }
+    if (!isset($args["longitude"])) {
+      return badRequest("Longitude was missing", $args);
+    }
+
+    $query = "insert into post (user_id, network_id, post_content, post_latitude, post_longitude, post_timestamp) values " .
+     "(". $args["userId"] . "," . $args["networkId"] . ",'" . $args["postContent"] . "'," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+
+    $result = $DB->query($query);
+
+    $results = [];
+    if (count($result) > 0) {
+      $results["meta"]["ok"] = true;
+      $results["meta"]["status"] = 201;
+      $results["meta"]["message"] = "Post was created";
+    }
+    else if (DEBUGGING) {
+      $results["debug"]["query"] = $query;
     }
 
   } catch (DBException $e) {

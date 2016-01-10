@@ -19,42 +19,54 @@ $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
 
 switch ($path[0]) {
   case "networks":
-    //Determine what's being called via path length
-    switch (count($path)) {
-      case 1: // /networks
-      case 2: // /networks/{networkID}
-        switch ($verb) {
-          case "GET":
-            if (isset($path[1]) && trim($path[1]) != "") {
-              $args["networkId"] = $path[1];
-            }
-            $results = getNetworks($args);
-            break;
-          case "POST":
-            $results = createNetwork($args);
-            break;
-          default:
-            break;
-        }
-        break;
-      case 3: // /networks/{networkId}/posts
-      case 4: // /networks/{networkId}/posts/{postID}
-        switch ($verb) {
-          case "GET":
-            if (isset($path[1]) && trim($path[1]) != "") {
-              $args["networkId"] = $path[1];
-            }
-            $results = getPosts($args);
-            break;
-          default:
-            break;
-        }
-        break;
-      default:
-        $results["meta"]["ok"] = false;
+    //Get networkId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["networkId"] = $path[1];
     }
+    //Determine if this is the stopping level
+    if (count($path) <= 2) {
+      switch ($verb) {
+        case "GET":
+          $results = getNetworks($args);
+          break;
+        case "POST":
+          $results = createNetwork($args);
+          break;
+        default:
+          $results["meta"]["ok"] = false;
+          break;
+      }
+    } else {
+      switch ($path[2]) {
+        case "posts":
+          //Get postId
+          if (isset($path[3]) && trim($path[3]) != "") {
+            $args["postId"] = $path[3];
+          }
+          //Determine if this is the stopping level
+          if (count($path) <= 4) {
+            switch ($verb) {
+              case "GET":
+                $results = getPosts($args);
+                break;
+              case "POST":
+                $results = createPost($args);
+                break;
+              default:
+                $results["meta"]["ok"] = false;
+                break;
+            }
+          }
+          break;
+        default:
+          $results["meta"]["ok"] = false;
+          break;
+      }
+    }
+    break;
   default:
     $results["meta"]["ok"] = false;
+    break;
 }
 
 $results["debug"]["request"] = $args;
