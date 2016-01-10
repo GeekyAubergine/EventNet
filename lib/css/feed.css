@@ -7,9 +7,6 @@
   margin: 2em 0;
 }
 #posts ul {
-  flex: 1 1 100%;
-  display: flex;
-  flex-wrap: wrap;
   list-style: none;
 }
 .post {
@@ -28,9 +25,12 @@
 .post:last-child {
   border-bottom: none;
 }
-.post .user-icon-container img {
+.user-icon-container img {
   width: 4em;
   margin-right: 0.5em;
+}
+.button-container {
+  flex: 1 100%;
 }
 
 /* Everything else in post */
@@ -70,26 +70,14 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
 }
-.post .controls a {
-  display: block;
-  padding: 0.25em 0.5em;
-  margin: 0 0.25em;
-  border-radius: 0.25em;
-  border: 0.1em solid #DDD;
-  text-decoration: none;
-  color: black;
+.post .button-container {
+  margin-top: 0.5em;
 }
-.post .controls a:first-of-type {
+.post .button-container a:first-child {
   margin-left: 0;
 }
-.post .controls a.view-comments-button:hover {
-  border-color: deepskyblue;
-}
-.post .controls a.comment-button:hover {
-  border-color: deepskyblue;
-}
-.post .controls a.report-button:hover {
-  border-color: red;
+.post .button-container a.report-button:hover {
+  background-color: red;
 }
 
 /* Comments */
@@ -104,4 +92,35 @@
 }
 .comments .user-icon-container {
   margin-left: -0.25em;
+}
+
+/* New post */
+
+#new-post textarea {
+  flex: 1 100%;
+  height: 9em;
+  margin-top: 0.4em;
+  padding: 0.75em 0.5em;
+  resize: none;
+  transition: all 250ms;
+  overflow: hidden;
+}
+#new-post.collapsed textarea {
+  height: 3.3em;
+}
+#new-post.collapsed .button-container {
+  height: 0;
+  transition: all 250ms;
+  overflow: hidden;
+}
+#new-post a.button {
+  transition: all 250ms;
+  margin-top: 0.5em;
+}
+#new-post-media-button {
+  margin-left: 0;
+}
+#new-post-post-button {
+  float: right;
+  margin-right: 0;
 }
