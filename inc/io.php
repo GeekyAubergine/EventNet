@@ -187,7 +187,7 @@ function getPosts($args) {
     $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_id, user.user_display_name, info.number_of_comments " .
     "FROM post join user using(user_id) " .
     "LEFT JOIN (".
-    "select post_id, COUNT(*) AS number_of_comments FROM post GROUP BY post_id) AS info ON info.post_id = post.post_id " .
+    "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
     $clause .
     " ORDER BY post.post_timestamp asc limit " . $limit . " offset " . $offset . ";";
 
