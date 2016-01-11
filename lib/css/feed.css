@@ -7,6 +7,7 @@
   margin: 2em 0;
 }
 #posts ul {
+  flex: 1 1 100%;
   list-style: none;
 }
 .post {
@@ -88,6 +89,7 @@
 }
 .comments .post {
   padding-left: 0;
+  padding-right: 0;
   border-bottom: none;
 }
 .comments .user-icon-container {

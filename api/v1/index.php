@@ -56,6 +56,29 @@ switch ($path[0]) {
                 $results["meta"]["ok"] = false;
                 break;
             }
+          } else {
+            switch ($path[4]) {
+              case "comments":
+                //Get commentId
+                if (isset($path[5]) && trim($path[5]) != "") {
+                  $args["commentId"] = $path[5];
+                }
+                switch ($verb) {
+                  case "GET":
+                    $results = getComments($args);
+                    break;
+                  case "POST":
+                    $results = createComment($args);
+                    break;
+                  default:
+                    $results["meta"]["ok"] = false;
+                    break;
+                }
+                break;
+              default:
+                $results["meta"]["ok"] = false;
+                break;
+            }
           }
           break;
         default:
