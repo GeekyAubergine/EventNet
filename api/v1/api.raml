@@ -63,7 +63,7 @@ traits:
         type: string
         required: true
         example: O2 Arena
-  /{networkID}/:
+  /{networkID}:
     description: A item in the collection of networks.
     get:
       description: Returns information about this network.
@@ -80,12 +80,6 @@ traits:
           formatable,
           pagable
         ]
-        commentsToLoad:
-          description: The number of comments to load per post
-          type: integer
-          required: false
-          example: 10
-          default: 5
         before:
           description: Load posts before than this date
           type: date
@@ -112,7 +106,7 @@ traits:
             type: string
             required: true
             example: Test post, please ignore
-      /{postId}/:
+      /{postId}:
         description: An item in the collection of posts.
         get:
           description: Return the post
@@ -134,7 +128,7 @@ traits:
               example: Test post, please ignore
         delete:
           description: Deletes this post
-        /comments/:
+        /comments:
           description:  A collection of comments
           get:
             description: Return a list of comments
@@ -158,7 +152,7 @@ traits:
                 type: string
                 required: true
                 example: Test comment, please ignore
-          /{commentId}/:
+          /{commentId}:
             description: An item in the collection of comments.
             get:
               description: Return the comment

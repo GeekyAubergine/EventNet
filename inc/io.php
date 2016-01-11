@@ -184,6 +184,14 @@ function getPosts($args) {
      $clause .
      " ORDER BY post_timestamp asc limit " . $limit . " offset " . $offset . ";";
 
+    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, info.number_of_comments " .
+    "FROM post join user using(user_id) " .
+    "LEFT JOIN (".
+    "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
+    "WHERE network_id = " . $args["networkId"] . " " .
+    $clause .
+    " ORDER BY post.post_timestamp asc limit " . $limit . " offset " . $offset . ";";
+
 
     $queryOut = $DB->query($query);
 
@@ -237,6 +245,50 @@ function createPost($args) {
     }
     else if (DEBUGGING) {
       $results["debug"]["query"] = $query;
+    }
+
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    if (DEBUGGING) {
+      $results["debug"]["exception"] = $e;
+    }
+  }
+  return $results;
+}
+
+// ---- COMMENTS ----- //
+function getComments($args) {
+  $results = [];
+  try {
+    $DB = new DB();
+
+    $offset = 0;
+    $limit = 25;
+
+    if (isset($args["offset"])) {
+      $offset = abs(intval($args["offset"]));
+    }
+
+    if (isset($args["limit"])) {
+      $limit = abs(intval($args["limit"]));
+    }
+
+    $query = "select user_display_name, comment_id, comment_content, comment_timestamp from comment " .
+    "join user using(user_id) join post using(post_id) ".
+    "WHERE post_id = " . $args["postId"] . " " .
+    "ORDER BY comment_timestamp asc limit " . $limit . " offset " . $offset . ";";
+
+
+    $queryOut = $DB->query($query);
+
+    $results["data"] = $queryOut;
+    $results["meta"]["ok"] = true;
+    if (DEBUGGING) {
+      $results["debug"]["query"] = $query;
+      $results["debug"]["offset"] = $offset;
+      $results["debug"]["limit"] = $limit;
+      $results["debug"]["count"] = count($queryOut);
     }
 
   } catch (DBException $e) {
