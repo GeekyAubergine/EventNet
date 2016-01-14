@@ -300,3 +300,49 @@ function getComments($args) {
   }
   return $results;
 }
+
+function createComment($args) {
+  $results = [];
+  try {
+    $DB = new DB();
+
+    if (!isset($args["userId"])) {
+      return badRequest("User ID was missing", $args);
+    }
+    if (!isset($args["postId"])) {
+      return badRequest("Post ID was missing", $args);
+    }
+    if (!isset($args["commentContent"])) {
+      return badRequest("Comment content was missing", $args);
+    }
+    if (!isset($args["latitude"])) {
+      return badRequest("Latitude was missing", $args);
+    }
+    if (!isset($args["longitude"])) {
+      return badRequest("Longitude was missing", $args);
+    }
+
+    $query = "insert into comment (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values " .
+     "(". $args["userId"] . "," . $args["postId"] . ",'" . $args["commentContent"] . "'," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+
+    $result = $DB->query($query);
+
+    $results = [];
+    if (count($result) > 0) {
+      $results["meta"]["ok"] = true;
+      $results["meta"]["status"] = 201;
+      $results["meta"]["message"] = "Post was created";
+    }
+    else if (DEBUGGING) {
+      $results["debug"]["query"] = $query;
+    }
+
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    if (DEBUGGING) {
+      $results["debug"]["exception"] = $e;
+    }
+  }
+  return $results;
+}
