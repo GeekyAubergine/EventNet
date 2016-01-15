@@ -274,7 +274,7 @@ function getComments($args) {
       $limit = abs(intval($args["limit"]));
     }
 
-    $query = "select user_display_name, comment_id, comment_content, comment_timestamp from comment " .
+    $query = "select user_display_name, comment_id, comment_content, comment_timestamp, post_id from comment " .
     "join user using(user_id) join post using(post_id) ".
     "WHERE post_id = " . $args["postId"] . " " .
     "ORDER BY comment_timestamp asc limit " . $limit . " offset " . $offset . ";";
