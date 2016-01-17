@@ -87,6 +87,23 @@ switch ($path[0]) {
       }
     }
     break;
+  case "users":
+    //Get networkId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["userId"] = $path[1];
+    }
+    switch ($verb) {
+      case "GET":
+        $results = getUsers($args);
+        break;
+      case "POST":
+        $results = createUser($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
   default:
     $results["meta"]["ok"] = false;
     break;

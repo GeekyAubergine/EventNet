@@ -174,3 +174,60 @@ traits:
                   example: Test post, please ignore
             delete:
               description: Deletes this comment
+
+/users:
+  description: A collection of users
+  get:
+    description: Return list of all users
+    is : [
+      formatable,
+      pagable
+    ]
+    queryParameters:
+      facebookId:
+        description: Facebook ID of user
+        type: integer
+        required: false
+        example: 1
+      googleId:
+        description: Google ID of user
+        type: integer
+        required: false
+        example: 1
+      twitterId:
+        description: Twitter ID of user
+        type: integer
+        required: false
+        example: 1
+  post:
+    description: Create new user with parameters
+    queryParameters:
+      queryParameters:
+        displayName:
+          description: User Display name
+          type: string
+          required: true
+          example: Joe
+        icon:
+          description: User icon
+          type: string
+          required: true
+        facebookId:
+          description: Facebook ID of user
+          type: integer
+          required: false
+          example: 1
+        googleId:
+          description: Google ID of user
+          type: integer
+          required: false
+          example: 1
+        twitterId:
+          description: Twitter ID of user
+          type: integer
+          required: false
+          example: 1
+  /{userId}:
+    description: An item in the collection of users.
+    get:
+      description: Return the users

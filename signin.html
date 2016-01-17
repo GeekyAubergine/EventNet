@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EventNet</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+  <meta name="google-signin-client_id" content="742741150395-03gn9452camd85skn1rr310s8gnnulvr.apps.googleusercontent.com">
+  <link rel="stylesheet" href="lib/css/core.css">
+  <link rel="stylesheet" href="lib/css/signin.css">
+</head>
+
+<body>
+  <header>
+    <div class=width-container>
+      <h1>EventNet</h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/chat.html">Chat</a>
+          </li>
+          <li>
+            <a href="/home.html">Map</a>
+          </li>
+          <li>
+            <a href="/networks.html">Networks</a>
+          </li>
+          <li>
+            <a href="/settings.html">Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class=width-container>
+    <section id=signed-in class=hidden>
+      <h2>Signed In</h2>
+    </section>
+    <section id=sign-in>
+      <article>
+        <h2>Sign In</h2>
+        <p>Please sign in before using EventNet</p>
+      </article>
+      <article>
+        <a id=fb-login-button class=button>
+          <img src=res/icons/fb_logo.png></img>
+          <p>Log in with Facebook</p>
+        </a>
+      </article>
+    </section>
+  </main>
+  <script src="https://apis.google.com/js/platform.js"></script>
+  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script src="lib/js/xhr.js" charset="utf-8"></script>
+  <script src="lib/js/eventNet.js" charset="utf-8"></script>
+  <script src="lib/js/signin.js" charset="utf-8"></script>
+</body>
+
+</html>
