@@ -35,130 +35,19 @@
     </div>
   </header>
   <main class=width-container>
-    <section>
-      <div id=new-post class="post collapsed">
-        <div class=user-icon-container>
+    <section id=post-creator>
+      <div class=container>
+        <div class=user-icon>
           <img src="res/icons/default_user.svg" alt="">
         </div>
-        <div class=content-container>
-          <textarea id=new-post-textarea placeholder="What's happening?"></textarea>
-          <div class=button-container>
-            <a class="button media-button" id=new-post-media-button>Media</a>
-            <a class="button post-button" id=new-post-post-button>Post</a>
-          </div>
-        </div>
+        <textarea id=post-creator-textarea placeholder="What's happening?"></textarea>
       </div>
-      <ul id=posts>
-        <!-- <li class=post>
-          <div class=user-icon-container>
-            <img src="res/icons/default_user.svg" alt="">
-          </div>
-          <div class=content-container>
-            <div class=post-information>
-              <h3 class=user-name>Test user 2</h3>
-              <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
-            </div>
-            <div class=content>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus maximus
-                quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna arcu in
-                nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna, pharetra eget
-                lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-            </div>
-            <div class=button-container>
-              <a class="button comment-button" href="">Comment</a>
-              <a class="button report-button" href="">Report</a>
-            </div>
-            <div class="post comment-creator">
-              <div class=user-icon-container>
-                <img src="res/icons/default_user.svg" alt="">
-              </div>
-              <div class=content-container>
-                <textarea id=new-post-textarea placeholder="Write a comment"></textarea>
-                <div class=button-container>
-                  <a class="button comment-button">Comment</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class=post>
-          <div class=user-icon-container>
-            <img src="res/icons/default_user.svg" alt="">
-          </div>
-          <div class=content-container>
-            <div class=post-information>
-              <h3 class=user-name>Test user 2</h3>
-              <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
-            </div>
-            <div class=content>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus maximus
-                quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna arcu in
-                nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna, pharetra eget
-                lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-              <img src="res/images/demo_image_1.jpg" alt="">
-            </div>
-            <div class=button-container>
-              <a class="button view-comments-button" href="">View Comments</a>
-              <a class="button comment-button" href="">Comment</a>
-              <a class="button report-button" href="">Report</a>
-            </div>
-            <ul class="comments">
-              <li class=post>
-                <div class=user-icon-container>
-                  <img src="res/icons/default_user.svg" alt="">
-                </div>
-                <div class=content-container>
-                  <div class=post-information>
-                    <h3 class=user-name>Test user 2</h3>
-                    <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
-                  </div>
-                  <div class=content>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                  </div>
-                </div>
-              </li>
-              <li class=post>
-                <div class=user-icon-container>
-                  <img src="res/icons/default_user.svg" alt="">
-                </div>
-                <div class=content-container>
-                  <div class=post-information>
-                    <h3 class=user-name>Test user 2</h3>
-                    <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
-                  </div>
-                  <div class=content>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus
-                      maximus quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis
-                      magna arcu in nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor
-                      urna, pharetra eget lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class=post>
-          <div class=user-icon-container>
-            <img src="res/icons/default_user.svg" alt="">
-          </div>
-          <div class=content-container>
-            <div class=post-information>
-              <h3 class=user-name>Test user 2</h3>
-              <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
-            </div>
-            <div class=content>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tellus mauris, ullamcorper id aliquet ut, dignissim et dui. Nam neque justo, egestas at consectetur eu, vestibulum non magna. Donec urna nisi, mollis eu ex vitae, faucibus maximus
-                quam. Aliquam suscipit velit eros, at lacinia quam commodo et. Sed pellentesque massa sed elit dignissim sodales non vitae ligula. Nullam euismod, nunc quis pharetra ullamcorper, arcu ante ultricies dolor, quis facilisis magna arcu in
-                nisl. Nunc dictum nisl at dolor pellentesque, a cursus erat eleifend. Morbi non vestibulum elit. Morbi rhoncus, ipsum eget pulvinar sodales, est ligula efficitur ante, eget tincidunt felis leo ac erat. Phasellus dolor urna, pharetra eget
-                lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
-            </div>
-            <div class=button-container>
-              <a class="button comment-button" href="">Comment</a>
-              <a class="button report-button" href="">Report</a>
-            </div>
-          </div>
-        </li> -->
-      </ul>
+      <div class=controls>
+        <a class="button media-button" href="">Add media</a>
+        <a id=post-creator-post-button class="button post-button" href="">Post</a>
+      </div>
+    </section>
+    <section id=posts>
     </section>
   </main>
   <script src="lib/js/xhr.js" charset="utf-8"></script>

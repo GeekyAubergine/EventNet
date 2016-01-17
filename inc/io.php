@@ -274,18 +274,17 @@ function getComments($args) {
       $limit = abs(intval($args["limit"]));
     }
 
-    $query = "select user_display_name, comment_id, comment_content, comment_timestamp from comment " .
+    $query = "select user.user_display_name, comment.comment_id, comment.comment_content, comment.comment_timestamp, comment.post_id, info.number_of_comments from comment " .
     "join user using(user_id) join post using(post_id) ".
-    "WHERE post_id = " . $args["postId"] . " " .
+    "join (select post_id, count(*) as number_of_comments from comment group by post_id) as info on info.post_id = comment.post_id ".
+    "WHERE comment.post_id = " . $args["postId"] . " " .
     "ORDER BY comment_timestamp asc limit " . $limit . " offset " . $offset . ";";
-
 
     $queryOut = $DB->query($query);
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
     if (DEBUGGING) {
-      $results["debug"]["query"] = $query;
       $results["debug"]["offset"] = $offset;
       $results["debug"]["limit"] = $limit;
       $results["debug"]["count"] = count($queryOut);

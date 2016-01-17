@@ -6,11 +6,11 @@
 }
 body {
   overflow-y: scroll;
-  background-color: #F1F1F0;
+  background-color: #D8D8D8;
 }
 .container {
-  float: left;
-  width: 100%;
+  flex: 1 100%;
+  display: flex;
 }
 .width-container {
   max-width: 60em;
@@ -74,7 +74,7 @@ p {
 a.button {
   float: left;
   display: block;
-  padding: 0.25em 0.5em;
+  padding: 0.125em 0.25em;
   margin: 0 0.25em;
   border-radius: 0.25em;
   border: 0.1em solid #DDD;
