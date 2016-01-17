@@ -280,13 +280,11 @@ function getComments($args) {
     "WHERE comment.post_id = " . $args["postId"] . " " .
     "ORDER BY comment_timestamp asc limit " . $limit . " offset " . $offset . ";";
 
-
     $queryOut = $DB->query($query);
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
     if (DEBUGGING) {
-      $results["debug"]["query"] = $query;
       $results["debug"]["offset"] = $offset;
       $results["debug"]["limit"] = $limit;
       $results["debug"]["count"] = count($queryOut);
