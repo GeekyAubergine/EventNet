@@ -35,8 +35,81 @@
     </div>
   </header>
   <main class=width-container>
-    <section>
-      <div id=new-post class="post collapsed">
+    <section id=post-creator>
+      <div class=container>
+        <div class=user-icon>
+          <img src="res/icons/default_user.svg" alt="">
+        </div>
+        <textarea id=post-creator-textarea placeholder="What's happening?"></textarea>
+      </div>
+      <div class=controls>
+        <a class="button media-button" href="">Add media</a>
+        <a id=post-creator-post-button class="button post-button" href="">Post</a>
+      </div>
+    </section>
+    <section id=posts>
+      <!-- <article class=post>
+        <div class=meta>
+          <div class=user-icon>
+            <img src="res/icons/default_user.svg" alt="">
+          </div>
+          <div class=info>
+            <h3>User A</h3>
+            <p>
+              <time datetime="2015.01.16 20:35">Time</time>, n m away</p>
+          </div>
+        </div>
+        <div class=content>
+          <p>T She's a bitch</p>
+        </div>
+        <div class=controls>
+          <a class="button comment-button" href="">View Comments</a>
+          <a class="button comment-button" href="">Comment</a>
+          <a class="button report-button" href="">Report</a>
+        </div>
+        <ul class=comments>
+          <li class=comment>
+            <div class=meta>
+              <div class=user-icon>
+                <img src="res/icons/default_user.svg" alt="">
+              </div>
+              <div class=info>
+                <h3>User A</h3>
+                <p>
+                  <time datetime="2015.01.16 20:35">Time</time>, n m away</p>
+              </div>
+            </div>
+            <div class=content>
+              <p>THis is a babanannana</p>
+            </div>
+          </li>
+          <li class=comment>
+            <div class=meta>
+              <div class=user-icon>
+                <img src="res/icons/default_user.svg" alt="">
+              </div>
+              <div class=info>
+                <h3>User A</h3>
+                  <time datetime="2015.01.16 20:35">Time</time>
+                  <p>, n m away</p>
+              </div>
+            </div>
+            <div class=content>
+              <p>THis is a babanannana</p>
+            </div>
+          </li>
+          <li class=load-more-comments-button>
+            Load more comments
+          </li>
+        </ul>
+        <div class=comment-creation>
+          <div class=user-icon>
+            <img src="res/icons/default_user.svg" alt="">
+          </div>
+          <textarea id=comment-creation-id placeholder="Write a comment"></textarea>
+        </div>
+      </article> -->
+      <!-- <div id=new-post class="post collapsed">
         <div class=user-icon-container>
           <img src="res/icons/default_user.svg" alt="">
         </div>
@@ -47,14 +120,14 @@
             <a class="button post-button" id=new-post-post-button>Post</a>
           </div>
         </div>
-      </div>
-      <ul id=posts>
-        <!-- <li class=post>
+      </div> -->
+      <!--<ul id=posts>
+         <li class=post>
           <div class=user-icon-container>
             <img src="res/icons/default_user.svg" alt="">
           </div>
           <div class=content-container>
-            <div class=post-information>
+            <div class=information>
               <h3 class=user-name>Test user 2</h3>
               <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
             </div>
@@ -65,8 +138,6 @@
                 lacus varius, rutrum commodo elit. Vivamus tristique nec nulla eu tempus.</p>
             </div>
             <div class=button-container>
-              <a class="button comment-button" href="">Comment</a>
-              <a class="button report-button" href="">Report</a>
             </div>
             <div class="post comment-creator">
               <div class=user-icon-container>
@@ -86,7 +157,7 @@
             <img src="res/icons/default_user.svg" alt="">
           </div>
           <div class=content-container>
-            <div class=post-information>
+            <div class=information>
               <h3 class=user-name>Test user 2</h3>
               <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
             </div>
@@ -108,7 +179,7 @@
                   <img src="res/icons/default_user.svg" alt="">
                 </div>
                 <div class=content-container>
-                  <div class=post-information>
+                  <div class=information>
                     <h3 class=user-name>Test user 2</h3>
                     <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
                   </div>
@@ -122,7 +193,7 @@
                   <img src="res/icons/default_user.svg" alt="">
                 </div>
                 <div class=content-container>
-                  <div class=post-information>
+                  <div class=information>
                     <h3 class=user-name>Test user 2</h3>
                     <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
                   </div>
@@ -142,7 +213,7 @@
             <img src="res/icons/default_user.svg" alt="">
           </div>
           <div class=content-container>
-            <div class=post-information>
+            <div class=information>
               <h3 class=user-name>Test user 2</h3>
               <time datetime="2015-11-10 08:01">08:01 - 10.11.2015</time>
             </div>
@@ -157,8 +228,8 @@
               <a class="button report-button" href="">Report</a>
             </div>
           </div>
-        </li> -->
-      </ul>
+        </li>
+      </ul> -->
     </section>
   </main>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
