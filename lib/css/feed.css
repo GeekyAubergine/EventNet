@@ -37,6 +37,7 @@ textarea {
   flex-wrap: wrap;
   margin-top: 1em;
   background-color: white;
+  border: 0.1em solid #CCC;
 }
 .post .content {
   flex: 1 100%;
