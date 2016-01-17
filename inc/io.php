@@ -174,7 +174,7 @@ function getPosts($args) {
      $clause .
      " ORDER BY post_timestamp asc limit " . $limit . " offset " . $offset . ";";
 
-    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, info.number_of_comments " .
+    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
     "FROM post join user using(user_id) " .
     "LEFT JOIN (".
     "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
@@ -254,7 +254,7 @@ function getComments($args) {
       $limit = abs(intval($args["limit"]));
     }
 
-    $query = "select user.user_display_name, comment.comment_id, comment.comment_content, comment.comment_timestamp, comment.post_id, info.number_of_comments from comment " .
+    $query = "select user.user_display_name, user.user_icon, comment.comment_id, comment.comment_content, comment.comment_timestamp, comment.post_id, info.number_of_comments from comment " .
     "join user using(user_id) join post using(post_id) ".
     "join (select post_id, count(*) as number_of_comments from comment group by post_id) as info on info.post_id = comment.post_id ".
     "WHERE comment.post_id = " . $args["postId"] . " " .
