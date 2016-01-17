@@ -24,10 +24,10 @@ a.button p {
   margin-top: 0.25em;
   margin-left: 0.5em;
 }
-#google-login-button {
+#google-logout-button {
   background-color: white;
 }
-#google-login-button p {
+#google-logout-button p {
   color: gray;
 }
 #fb-logout-button {
