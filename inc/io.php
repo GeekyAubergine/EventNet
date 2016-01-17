@@ -45,9 +45,7 @@ function badRequest($message, $args) {
   $results["meta"]["ok"] = false;
   $results["meta"]["status"] = 400;
   $results["meta"]["message"] = $message;
-  if (DEBUGGING) {
-    $results["debug"]["request"] = $args;
-  }
+  $results["debug"]["request"] = $args;
   return $results;
 }
 
@@ -86,19 +84,15 @@ function getNetworks($args) {
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
-    if (DEBUGGING) {
       $results["debug"]["query"] = $query;
       $results["debug"]["offset"] = $offset;
       $results["debug"]["limit"] = $limit;
       $results["debug"]["count"] = count($queryOut);
-    }
 
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (DEBUGGING) {
       $results["debug"]["exception"] = $e;
-    }
   }
   return $results;
 }
@@ -128,9 +122,7 @@ function createNetwork($args) {
       $results["meta"]["status"] = 201;
       $results["meta"]["message"] = "Network was created";
     }
-    else if (DEBUGGING) {
-      $results["debug"]["query"] = $query;
-    }
+    $results["debug"]["query"] = $query;
 
     $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
 
@@ -139,9 +131,7 @@ function createNetwork($args) {
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (DEBUGGING) {
       $results["debug"]["exception"] = $e;
-    }
   }
   return $results;
 }
@@ -197,19 +187,14 @@ function getPosts($args) {
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
-    if (DEBUGGING) {
-      $results["debug"]["query"] = $query;
-      $results["debug"]["offset"] = $offset;
-      $results["debug"]["limit"] = $limit;
-      $results["debug"]["count"] = count($queryOut);
-    }
-
+    $results["debug"]["query"] = $query;
+    $results["debug"]["offset"] = $offset;
+    $results["debug"]["limit"] = $limit;
+    $results["debug"]["count"] = count($queryOut);
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (DEBUGGING) {
-      $results["debug"]["exception"] = $e;
-    }
+    $results["debug"]["exception"] = $e;
   }
   return $results;
 }
@@ -243,16 +228,11 @@ function createPost($args) {
       $results["meta"]["status"] = 201;
       $results["meta"]["message"] = "Post was created";
     }
-    else if (DEBUGGING) {
-      $results["debug"]["query"] = $query;
-    }
-
+    $results["debug"]["query"] = $query;
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (DEBUGGING) {
-      $results["debug"]["exception"] = $e;
-    }
+    $results["debug"]["exception"] = $e;
   }
   return $results;
 }
@@ -284,18 +264,14 @@ function getComments($args) {
 
     $results["data"] = $queryOut;
     $results["meta"]["ok"] = true;
-    if (DEBUGGING) {
-      $results["debug"]["offset"] = $offset;
-      $results["debug"]["limit"] = $limit;
-      $results["debug"]["count"] = count($queryOut);
-    }
-
+    $results["debug"]["query"] = $query;
+    $results["debug"]["offset"] = $offset;
+    $results["debug"]["limit"] = $limit;
+    $results["debug"]["count"] = count($queryOut);
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (DEBUGGING) {
-      $results["debug"]["exception"] = $e;
-    }
+    $results["debug"]["exception"] = $e;
   }
   return $results;
 }
@@ -332,16 +308,109 @@ function createComment($args) {
       $results["meta"]["status"] = 201;
       $results["meta"]["message"] = "Post was created";
     }
-    else if (DEBUGGING) {
-      $results["debug"]["query"] = $query;
+    $results["debug"]["query"] = $query;
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    $results["debug"]["exception"] = $e;
+  }
+  return $results;
+}
+
+// ---- USERS ----- //
+function getUsers($args) {
+  $results = [];
+  try {
+    $DB = new DB();
+
+    $offset = 0;
+    $limit = 25;
+
+    if (isset($args["offset"])) {
+      $offset = abs(intval($args["offset"]));
     }
+
+    if (isset($args["limit"])) {
+      $limit = abs(intval($args["limit"]));
+    }
+
+    $clause = "";
+
+    if (isset($args["facebookId"])) {
+      $clause = "where user_facebook_id = " . $args["facebookId"];
+    }
+    else if (isset($args["googleId"])) {
+      $clause = "where user_google_id = " . $args["googleId"];
+    }
+    else if (isset($args["twitterId"])) {
+      $clause = "where user_twitter_id = " . $args["twitterId"];
+    }
+    else if (isset($args["userId"])) {
+      $clause = "where user_id = " . $args["userId"];
+    }
+
+    $query = "select * from user ".
+    $clause . " " .
+    "limit " . $limit . " offset " . $offset . ";";
+
+    $queryOut = $DB->query($query);
+
+    $results["data"] = $queryOut;
+    $results["meta"]["ok"] = true;
+    $results["debug"]["query"] = $query;
+    $results["debug"]["offset"] = $offset;
+    $results["debug"]["limit"] = $limit;
+    $results["debug"]["count"] = count($queryOut);
+  } catch (DBException $e) {
+    error_log($e);
+    $results["meta"]["ok"] = false;
+    $results["debug"]["exception"] = $e;
+  }
+  return $results;
+}
+
+function createUser($args) {
+  $results = [];
+  try {
+    $DB = new DB();
+
+    $facebookId = 0;
+    $googleId = 0;
+    $twitterId = 0;
+
+    if (!isset($args["displayName"])) {
+      return badRequest("Display was missing", $args);
+    }
+    if (!isset($args["icon"])) {
+      return badRequest("Icon was missing", $args);
+    }
+    if (isset($args["facebookId"])) {
+      $facebookId = $args["facebookId"];
+    }
+    if (isset($args["googleId"])) {
+      $googleId = $args["googleId"];
+    }
+    if (isset($args["twitterId"])) {
+      $twitterId = $args["twitterId"];
+    }
+
+    $query = "insert into user (user_display_name, user_icon, user_facebook_id, user_google_id, user_twitter_id) values " .
+     "('". $args["displayName"] . "','" . $args["icon"] . "'," . $facebookId . "," . $googleId . "," . $twitterId . ");";
+
+    $result = $DB->query($query);
+
+    $results = [];
+    if (count($result) > 0) {
+      $results["meta"]["ok"] = true;
+      $results["meta"]["status"] = 201;
+      $results["meta"]["message"] = "Post was created";
+    }
+    $results["debug"]["query"] = $query;
 
   } catch (DBException $e) {
     error_log($e);
     $results["meta"]["ok"] = false;
-    if (DEBUGGING) {
-      $results["debug"]["exception"] = $e;
-    }
+    $results["debug"]["exception"] = $e;
   }
   return $results;
 }
