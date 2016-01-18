@@ -21,13 +21,21 @@ function emit(messageHeader, messageBody) {
 }
 
 function onUserPosted(data) {
-  log(data);
+  log("User posted");
   emit("newPost");
+}
+
+function onUserCommented(data) {
+  log("User commented");
+  emit("newComment", data);
 }
 
 io.on('connection', function(client) {
   log('Client connected from: ' + client.handshake.address);
+
   client.on("userPosted", onUserPosted);
+  client.on("userCommented", onUserCommented);
+
   client.on('disconnect', function() {
     log('Client disconnected from: ' + client.handshake.address);
   });
