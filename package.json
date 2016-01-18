@@ -1,0 +1,21 @@
+{
+  "name": "eventnet-websocket-server",
+  "version": "0.0.1",
+  "private": true,
+  "maintainers": [
+    {
+      "name": "732536",
+      "email": "up732536@myport.ac.uk",
+      "web": ""
+    }
+  ],
+  "dependencies": {
+    "socket.io": "latest"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/GeekyAubergine/EventNet.git"
+    }
+  ]
+}

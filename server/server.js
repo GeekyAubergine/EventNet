@@ -2,8 +2,7 @@ log("EventNet Server starting");
 
 var
   webPort = 8081,
-  server = require("http").createServer(serverHandler).listen(webPort),
-  io = require("socket.io").listen(server);
+  io = require("socket.io").listen(webPort);
 
 function log(string) {
   console.log("NodeJS: " + string);
