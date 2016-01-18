@@ -20,8 +20,14 @@ function emit(messageHeader, messageBody) {
   io.emit(messageHeader, messageBody);
 }
 
+function onUserPosted(data) {
+  log(data);
+  emit("newPost");
+}
+
 io.on('connection', function(client) {
   log('Client connected from: ' + client.handshake.address);
+  client.on("userPosted", onUserPosted);
   client.on('disconnect', function() {
     log('Client disconnected from: ' + client.handshake.address);
   });
