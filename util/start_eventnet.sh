@@ -1,5 +1,12 @@
-!#/bin/bash
+#!/bin/bash
 
-echo "Starting EventNet Node.js Server"
+pkill php
+pkill nodejs
 
-cd server
+echo "Starting Node.js server on port 8081"
+
+nodejs server/server.js &
+
+echo "Starting PHP Server on port 8080"
+
+php -S 0:8080 -t . &

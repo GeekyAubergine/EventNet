@@ -1,17 +1,28 @@
-console.log("EventNet Server starting");
+log("EventNet Server starting");
 
 var
   webPort = 8081,
-  app = require("http").createServer(serverHandler),
-  io = require("socket.io").listen(app);
+  server = require("http").createServer(serverHandler).listen(webPort),
+  io = require("socket.io").listen(server);
 
-function serverHandler(request, response) {
+function log(string) {
+  console.log("NodeJS: " + string);
 }
 
-io.sockets.on('connection', function(client) {
+function serverHandler(request, response) {
+  response.writeHead(401, {
+    'Content-Type': 'text/html'
+  });
+  response.end();
+}
+
+function emit(messageHeader, messageBody) {
+  io.emit(messageHeader, messageBody);
+}
+
+io.on('connection', function(client) {
   log('Client connected from: ' + client.handshake.address);
   client.on('disconnect', function() {
-    serverStats.clients -= 1;
     log('Client disconnected from: ' + client.handshake.address);
   });
 });
