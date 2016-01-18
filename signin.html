@@ -5,8 +5,9 @@
   <meta charset="UTF-8">
   <title>EventNet</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+  <meta name="google-signin-client_id" content="742741150395-03gn9452camd85skn1rr310s8gnnulvr.apps.googleusercontent.com">
   <link rel="stylesheet" href="lib/css/core.css">
-  <link rel="stylesheet" href="lib/css/feed.css">
+  <link rel="stylesheet" href="lib/css/signin.css">
 </head>
 
 <body>
@@ -35,25 +36,32 @@
     </div>
   </header>
   <main class=width-container>
-    <section id=post-creator>
-      <div class=container>
-        <div class=user-icon>
-          <img id=user-icon src="res/icons/default_user.svg" alt="">
-        </div>
-        <textarea id=post-creator-textarea placeholder="What's happening?"></textarea>
-      </div>
-      <div class=controls>
-        <a class="button media-button" href="">Add media</a>
-        <a id=post-creator-post-button class="button post-button" href="">Post</a>
-      </div>
+    <section id=signed-in class=hidden>
+      <h2>Signed In</h2>
     </section>
-    <section id=posts>
+    <section id=sign-in>
+      <article>
+        <h2>Sign In</h2>
+        <p>Please sign in before using EventNet</p>
+      </article>
+      <article>
+        <a id=google-login-button class=button>
+          <img src=res/icons/google_signin_logo.svg></img>
+          <p>Log in with Google</p>
+        </a>
+        <a id=fb-login-button class=button>
+          <img src=res/icons/fb_logo.png></img>
+          <p>Log in with Facebook</p>
+        </a>
+      </article>
     </section>
   </main>
+  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
-  <script src="lib/js/feed.js" charset="utf-8"></script>
+  <script src="lib/js/signin.js" charset="utf-8"></script>
 </body>
 
 </html>

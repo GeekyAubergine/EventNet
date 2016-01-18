@@ -1,0 +1,35 @@
+main {
+  margin-top: 5em;
+}
+article {
+  float: left;
+  width: 50%;
+}
+a.button {
+  float: left;
+  width: 100%;
+  font-size: 200%;
+  margin: 0;
+  margin-bottom: 1em;
+  border: none;
+}
+a.button img {
+  float: left;
+  width: 1.5em;
+  margin: 0.25em 0;
+}
+a.button p {
+  float: left;
+  color: white;
+  margin-top: 0.25em;
+  margin-left: 0.5em;
+}
+#google-logout-button {
+  background-color: white;
+}
+#google-logout-button p {
+  color: gray;
+}
+#fb-logout-button {
+  background-color: #3b5998;
+}
