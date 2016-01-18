@@ -1,4 +1,4 @@
-#!/bin/bash
+!#/bin/bash
 
 echo "Please enter the IP address for eventnet"
 
