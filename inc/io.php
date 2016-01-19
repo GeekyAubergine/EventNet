@@ -161,6 +161,8 @@ function createNetwork($args) {
 
   $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
 
+  queryDB($args, $query);
+
   $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
 
   $results = queryDB($args, $query);
