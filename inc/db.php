@@ -33,19 +33,18 @@ class DB {
     $this->pdo = null;
   }
 
-  public function query($query) {
-    try {
+  public function query($query, $bindings = null) {
+    if (isset($bindings)) {
+      $result = $this->pdo->prepare($query);
+      $result->execute($bindings);
+    } else {
       $result = $this->pdo->query($query);
-
-      if (strpos($query, 'select') !== false) {
-        return $result->fetchAll(PDO::FETCH_ASSOC);
-      }
-
-      return $result->rowCount();
-    } catch (Exception $e) {
-
     }
 
-  }
+    if (strpos($query, 'select') !== false) {
+      return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    return $result->rowCount();
+  }
 }
