@@ -139,7 +139,7 @@ function getNetworks($args) {
   "FROM network " .
   "LEFT JOIN (".
   "select network_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY network_id) AS info ON info.network_id = network.network_id " .
-  $clause . " ORDER BY distance_from_user, network.network_timestamp";
+  $clause . " ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
 
   $query = str_replace("\/", "/", $query);
 
