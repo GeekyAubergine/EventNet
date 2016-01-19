@@ -21,6 +21,10 @@ define("TABLE_NETWORK_INIT", 'CREATE TABLE IF NOT EXISTS network (
 define("USER_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   user_display_name VARCHAR(128) NOT NULL,
+  user_icon VARCHAR(512) NOT NULL,
+  user_facebook_id VARCHAR(64),
+  user_google_id VARCHAR(64),
+  user_twitter_id VARCHAR(64),
   PRIMARY KEY (user_id))
   ENGINE = InnoDB;'
 );
@@ -63,5 +67,11 @@ define("COMMENT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS comment (
   ENGINE = InnoDB;
 ');
 
+define("DEFAULT_DATA",   "insert into user
+  (user_display_name, user_icon)
+  values
+  ('Anonymous', '/res/icons/default_user.svg');"
+);
+
 define("DATABASE_INIT", TABLE_NETWORK_INIT . USER_TABLE_INIT .
-  POST_TABLE_INIT . MEDIA_TABLE_INIT . COMMENT_TABLE_INIT);
+  POST_TABLE_INIT . MEDIA_TABLE_INIT . COMMENT_TABLE_INIT . DEFAULT_DATA);
