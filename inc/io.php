@@ -139,7 +139,7 @@ function getNetworks($args) {
   "FROM network " .
   "LEFT JOIN (".
   "select network_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY network_id) AS info ON info.network_id = network.network_id " .
-  $clause . " ORDER BY distance_from_user, network.network_timestamp";
+  $clause . " ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
 
   $query = str_replace("\/", "/", $query);
 
@@ -160,6 +160,8 @@ function createNetwork($args) {
   }
 
   $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+
+  queryDB($args, $query);
 
   $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
 
