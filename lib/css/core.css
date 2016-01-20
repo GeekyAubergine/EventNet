@@ -9,7 +9,7 @@ body {
   background-color: #D8D8D8;
 }
 .container {
-  flex: 1 100%;
+  flex: 100%;
   display: flex;
 }
 .width-container {
@@ -88,11 +88,13 @@ a.button {
 }
 input[type=text], textarea {
   padding: 0.5em;
-  border-radius: 0.25em;
   border: 0.1em solid #888;
   background-color: #fff;
   font-size: 100%;
   line-height: 150%;
+}
+textarea {
+  border-radius: 0.25em;
 }
 input.error {
   border-color: red;

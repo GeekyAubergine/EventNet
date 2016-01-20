@@ -39,19 +39,34 @@
     <main>
       <div id=networks-container>
         <div class=container>
-          <h2>Networks near you</h2>
+          <h2>Networks</h2>
         </div>
-        <div id=map-and-list-container class=container>
-          <section id=map-container>
-            <div id="map"></div>
-          </section>
-          <section id=list-container>
+        <div class=container>
+          <section id="map"></section>
+          <section id=networks-list>
             <div id=new-network>
-              <h3>Create a new network</h3>
-              <input id=new-network-name type=text placeholder="Network Name"></input>
+              <input id=new-network-name type=text placeholder="Find a network"></input>
               <a id=new-network-button class=button>Create</a>
             </div>
-            <ul id=networks-list>
+            <ul id=networks>
+              <li class=selected>
+                <h3>Network 1</h3>
+                <ul>
+                  <li class=distance>50m away</li>
+                  <li>
+                    <time class=timestamp>50m away</time>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <h3>Network 1</h3>
+                <ul>
+                  <li class=distance>50m away</li>
+                  <li>
+                    <time class=timestamp>50m away</time>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </section>
         </div>

@@ -92,54 +92,60 @@ function queryDB($args, $query, $bindings = null) {
 
 // ---- NETWORKS ----- //
 function getNetworks($args) {
-  if (!isset($args["latitude"])) {
-    return badRequest("Latitude was missing", $args);
-  }
-  if (!isset($args["longitude"])) {
-    return badRequest("Longitude was missing", $args);
-  }
-
-  $clause = "";
+  $query = "";
 
   if (isset($args["networkId"])) {
     $clause = "WHERE network.network_id = " . abs(intval($args["networkId"]));
-  }
 
-  $query = "select network.network_id, network.network_name, network.network_latitude, network.network_longitude, network.network_timestamp, info.number_of_posts, info.most_recent_post, " .
-  /*Formula for calculating distance between two lat lngs, originally in JavScript
-    var R = 6371; // Radius of the earth in km
-    var dLat = degreesToRadains(lat2 - lat1); // degreesToRadains below
-    var dLon = degreesToRadains(lon2 - lon1);
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(degreesToRadains(lat1)) * Math.cos(degreesToRadains(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-  */
-  "(" .
-  "6371 * 2 * ATAN2(" .
-  "SQRT(" .
-  //a
-  "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) * " .
-  "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) + " .
-  "COS(RADIANS(network.network_latitude)) * COS(RADIANS(" . $args["latitude"] . ")) * " .
-  "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2) * " .
-  "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2)" .
-  "), " .
-  "SQRT(1 - " .
-  //a
-  "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) * " .
-  "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) + " .
-  "COS(RADIANS(network.network_latitude)) * COS(RADIANS(" . $args["latitude"] . ")) * " .
-  "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2) * " .
-  "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2)" .
-  "))".
-  ") as distance_from_user " .
-  "FROM network " .
-  "LEFT JOIN (".
-  "select network_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY network_id) AS info ON info.network_id = network.network_id " .
-  $clause . " ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
+    $query = "select network.network_id, network.network_name, network.network_latitude, network.network_longitude, network.network_timestamp, info.number_of_posts, info.most_recent_post " .
+    "FROM network " .
+    "LEFT JOIN (".
+    "select network_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY network_id) AS info ON info.network_id = network.network_id " .
+    "WHERE network.network_id = " . abs(intval($args["networkId"]));
+  } else {
+    if (!isset($args["latitude"])) {
+      return badRequest("Latitude was missing", $args);
+    }
+    if (!isset($args["longitude"])) {
+      return badRequest("Longitude was missing", $args);
+    }
+
+    $query = "select network.network_id, network.network_name, network.network_latitude, network.network_longitude, network.network_timestamp, info.number_of_posts, info.most_recent_post, " .
+    /*Formula for calculating distance between two lat lngs, originally in JavScript
+      var R = 6371; // Radius of the earth in km
+      var dLat = degreesToRadains(lat2 - lat1); // degreesToRadains below
+      var dLon = degreesToRadains(lon2 - lon1);
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(degreesToRadains(lat1)) * Math.cos(degreesToRadains(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c; // Distance in km
+    */
+    "(" .
+    "6371 * 2 * ATAN2(" .
+    "SQRT(" .
+    //a
+    "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) * " .
+    "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) + " .
+    "COS(RADIANS(network.network_latitude)) * COS(RADIANS(" . $args["latitude"] . ")) * " .
+    "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2) * " .
+    "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2)" .
+    "), " .
+    "SQRT(1 - " .
+    //a
+    "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) * " .
+    "SIN(RADIANS(network.network_latitude - " . $args["latitude"] . ") / 2) + " .
+    "COS(RADIANS(network.network_latitude)) * COS(RADIANS(" . $args["latitude"] . ")) * " .
+    "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2) * " .
+    "SIN(RADIANS(network.network_longitude - " . $args["longitude"] . ") / 2)" .
+    "))".
+    ") as distance_from_user " .
+    "FROM network " .
+    "LEFT JOIN (".
+    "select network_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY network_id) AS info ON info.network_id = network.network_id " .
+    "ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
+  }
 
   $query = str_replace("\/", "/", $query);
 
@@ -160,10 +166,6 @@ function createNetwork($args) {
   }
 
   $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
-
-  queryDB($args, $query);
-
-  $query = "select network_id, network_name, network_latitude, network_longitude, network_timestamp, count(*) as \"number_of_posts\" from network left join post using(network_id) group by network_id;";
 
   $results = queryDB($args, $query);
 
