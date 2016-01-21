@@ -241,3 +241,61 @@ traits:
     description: An item in the collection of users.
     get:
       description: Return the users
+
+/messages:
+  description:  A collection of message
+  get:
+    description: Return a list of messages
+    is: [
+      formatable,
+      pagable
+    ]
+    queryParameters:
+      networkId:
+        description: The Network ID to load networks from
+        type: integer
+        required: true
+        example: 1
+  post:
+    description: Create a new message
+    is: [
+      geolocatable
+    ]
+    queryParameters:
+      networkId:
+        description: The network ID that message was created on
+        type: integer
+        required: true
+        example: 1
+      userId:
+        description: The User ID that created this message
+        type: integer
+        required: true
+        example: 12345
+      messageContent:
+        description: The content of the message
+        type: string
+        required: true
+        example: Test message, please ignore
+  /{messageId}:
+    description: An item in the collection of messages.
+    get:
+      description: Return the message
+    post:
+      description: Replace the message content with new content
+      queryParameters:
+        postContent:
+          description: The content of the message
+          type: string
+          required: true
+          example: Test message, please ignore
+    put:
+      description: Replace the message content with new content
+      queryParameters:
+        postContent:
+          description: The content of the message
+          type: string
+          required: true
+          example: Test message, please ignore
+    delete:
+      description: Deletes this message
