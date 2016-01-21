@@ -29,11 +29,17 @@ function onUserCommented(data) {
   emit("newComment", data);
 }
 
+function onUserMessage(data) {
+  log("User messaged");
+  emit("newMessage", data);
+}
+
 io.on('connection', function(client) {
   log('Client connected from: ' + client.handshake.address);
 
   client.on("userPosted", onUserPosted);
   client.on("userCommented", onUserCommented);
+  client.on("userMessaged", onUserMessage);
 
   client.on('disconnect', function() {
     log('Client disconnected from: ' + client.handshake.address);

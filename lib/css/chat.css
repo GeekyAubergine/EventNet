@@ -1,0 +1,64 @@
+/* ---- General styling ---- */
+
+.user-icon img {
+  margin: 0.25em 0 0 0.25em;
+  padding: 0.25em;
+  width: 3.5em;
+}
+/* ---- Message and Comment Meta Info ---- */
+
+.meta {
+  flex: 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.meta .info {
+  padding: 0.25em 0.25em;
+}
+.meta .info h3, time, p {
+  width: 100%;
+}
+
+/* ---- messages ---- */
+
+#messages {
+  flex: 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.message {
+  flex: 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+  border: 0.1em solid #CCC;
+}
+.message .content {
+  flex: 1 100%;
+  padding: 0 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* ---- message creation ---- */
+
+#message-creator {
+  flex: 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-self: flex-end;
+  background-color: white;
+}
+#message-creator textarea {
+  flex: 1 100%;
+  height: 3em;
+  margin: 0.5em;
+  margin-left: 0.25em;
+  overflow: hidden;
+  resize: none;
+}
+#message-creator .controls {
+  flex: 1 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0.25em 0.5em 0;
+}

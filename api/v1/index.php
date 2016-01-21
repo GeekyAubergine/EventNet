@@ -104,6 +104,23 @@ switch ($path[0]) {
         break;
     }
     break;
+  case "messages":
+    //Get networkId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["messageId"] = $path[1];
+    }
+    switch ($verb) {
+      case "GET":
+        $results = getMessages($args);
+        break;
+      case "POST":
+        $results = createMessage($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
   default:
     $results["meta"]["ok"] = false;
     break;

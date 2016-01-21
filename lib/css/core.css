@@ -93,9 +93,6 @@ input[type=text], textarea {
   font-size: 100%;
   line-height: 150%;
 }
-textarea {
-  border-radius: 0.25em;
-}
 input.error {
   border-color: red;
 }
