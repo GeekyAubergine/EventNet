@@ -63,7 +63,7 @@ define("COMMENT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS comment (
   comment_timestamp DATETIME NOT NULL,
   PRIMARY KEY (comment_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
-  FOREIGN KEY (post_id) REFERENCES network(post_id) ON DELETE NO ACTION)
+  FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;
 ');
 
@@ -77,7 +77,7 @@ define("MESSAGE_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS message (
   message_timestamp DATETIME NOT NULL,
   PRIMARY KEY (message_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
-  FOREIGN KEY (network_id) REFERENCES post(network_id) ON DELETE NO ACTION)
+  FOREIGN KEY (network_id) REFERENCES network(network_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;
 ');
 
