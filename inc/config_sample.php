@@ -63,7 +63,7 @@ define("COMMENT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS comment (
   comment_timestamp DATETIME NOT NULL,
   PRIMARY KEY (comment_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
-  FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE NO ACTION)
+  FOREIGN KEY (post_id) REFERENCES network(post_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;
 ');
 
