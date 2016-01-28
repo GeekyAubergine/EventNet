@@ -16,16 +16,21 @@ class DB {
 
   public function __construct() {
     // CONNECT TO THE DATABASE SERVER
-    $dsn = 'mysql:'.DATABASE_HOST.';dbname='. DATABASE_NAME .';';
+    $dsn = 'mysql:'.DATABASE_HOST.';';
     $option = array(
     	PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     	PDO::ATTR_PERSISTENT => true
     );
     try {
         $this->pdo = new PDO($dsn, DATABASE_USERNAME, DATABASE_PASSWORD, $option);
-        $this->pdo->query("use eventnet;");
     } catch (PDOException $e) {
          DB::throwException("Connect failed during construct");
+    }
+    try {
+      $this->pdo->query("use " . DATABASE_NAME . ";");
+    } catch (PDOException $e) {
+      $this->pdo->query("create database " . DATABASE_NAME . "; use " . DATABASE_NAME . ";");
+      $this->pdo->query(DATABASE_INIT);
     }
   }
 
