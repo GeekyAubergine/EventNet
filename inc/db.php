@@ -34,22 +34,38 @@ class DB {
     }
   }
 
-  public function close() {
-    $this->pdo = null;
+  public function query($query, $bindings = null) {
+    $results = [];
+
+    $isSelectQuery = strpos($query, 'select') !== false;
+
+    try {
+      if (isset($bindings)) {
+        $result = $this->pdo->prepare($query);
+        $result->execute($bindings);
+      } else {
+        $result = $this->pdo->query($query);
+      }
+
+      if ($isSelectQuery) {
+        $result = $result->fetchAll(PDO::FETCH_ASSOC);
+      } else {
+        $result = $result->rowCount();
+      }
+    } catch (Exception $e) {
+       error_log($e);
+       $results["meta"]["ok"] = false;
+       $results["debug"]["dbException"] = $e->getMessage();
+    }
+
+    $results["data"] = $result;
+    $results["meta"]["ok"] = true;
+    $results["debug"]["count"] = count($result);
+
+    return $results;
   }
 
-  public function query($query, $bindings = null) {
-    if (isset($bindings)) {
-      $result = $this->pdo->prepare($query);
-      $result->execute($bindings);
-    } else {
-      $result = $this->pdo->query($query);
-    }
-
-    if (strpos($query, 'select') !== false) {
-      return $result->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    return $result->rowCount();
+  public function close() {
+    $this->pdo = null;
   }
 }

@@ -50,40 +50,31 @@ function badRequest($message, $args) {
 }
 
 function queryDB($args, $query, $bindings = null) {
-  $results = [];
-  try {
-    $DB = new DB();
+  $DB = new DB();
 
-    $offset = 0;
-    $limit = 25;
+  $offset = 0;
+  $limit = 25;
 
-    if (isset($args["offset"])) {
-      $offset = abs(intval($args["offset"]));
-    }
-
-    if (isset($args["limit"])) {
-      $limit = abs(intval($args["limit"]));
-    }
-
-    if (strpos($query, 'select') !== false) {
-      $query .= " limit " . $limit . " offset " . $offset;
-    }
-
-    $query .= ";";
-
-    $queryOut = $DB->query($query, $bindings);
-
-    $results["data"] = $queryOut;
-    $results["meta"]["ok"] = true;
-    $results["debug"]["offset"] = $offset;
-    $results["debug"]["limit"] = $limit;
-    $results["debug"]["count"] = count($queryOut);
-  } catch (Exception $e) {
-    error_log($e);
-    $results["meta"]["ok"] = false;
-    $results["debug"]["dbException"] = $e->getMessage();
+  if (isset($args["offset"])) {
+    $offset = abs(intval($args["offset"]));
   }
 
+  if (isset($args["limit"])) {
+    $limit = abs(intval($args["limit"]));
+  }
+
+  $isSelectQuery = strpos($query, 'select') !== false;
+
+  if ($isSelectQuery) {
+    $query .= " limit " . $limit . " offset " . $offset;
+  }
+
+  $query .= ";";
+
+  $results = $DB->query($args, $query, $bindings);
+
+  $results["debug"]["offset"] = $offset;
+  $results["debug"]["limit"] = $limit;
   $results["debug"]["query"] = $query;
   $results["debug"]["bindings"] = $bindings;
 
