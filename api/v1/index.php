@@ -2,15 +2,17 @@
 
 include __DIR__.'/../../inc/all.php';
 
+$io = new IO();
+
 $verb = $_SERVER['REQUEST_METHOD'];
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case "POST":
   case "PUT":
-    $args = extractVariables(INPUT_POST);
+    $args = $io->extractVariables(INPUT_POST);
     break;
   default:
-    $args = extractVariables(INPUT_GET);
+    $args = $io->extractVariables(INPUT_GET);
 }
 
 $results = [];
@@ -130,12 +132,12 @@ $results["debug"]["request"] = $args;
 $results["debug"]["verb"] = $verb;
 $results["debug"]["path"] = $path;
 $results["debug"]["in"] = $args;
-$results["debug"]["INPUT_GET"] = extractVariables();
-$results["debug"]["INPUT_POST"] = extractVariables(INPUT_POST);
+$results["debug"]["INPUT_GET"] = $io->extractVariables();
+$results["debug"]["INPUT_POST"] = $io->extractVariables(INPUT_POST);
 $results["debug"]["request"] = $_REQUEST;
 
 if (!DEBUGGING) {
   unset($results["debug"]);
 }
 
-sendResults($results);
+$io->sendResults($results);
