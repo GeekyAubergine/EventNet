@@ -113,6 +113,11 @@ traits:
       geolocatable
     ]
     queryParameters:
+      networkId:
+        description: The network id to load posts from
+        type: integer
+        required: true
+        example: 1
       userId:
         description: The User ID that created this post
         type: integer
@@ -159,6 +164,11 @@ traits:
       geolocatable
     ]
     queryParameters:
+      postId:
+        description: The post id to load comments from
+        type: integer
+        required: true
+        example: 1
       userId:
         description: The User ID that created this comment
         type: integer
