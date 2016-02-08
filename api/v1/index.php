@@ -2,15 +2,22 @@
 
 include __DIR__.'/../../inc/all.php';
 
+$io = new IO();
+$network = new Network($io);
+$post = new Post($io);
+$comment = new Comment($io);
+$userIO = new UserIO($io);
+$messageIO = new MessageIO($io);
+
 $verb = $_SERVER['REQUEST_METHOD'];
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case "POST":
   case "PUT":
-    $args = extractVariables(INPUT_POST);
+    $args = $io->extractVariables(INPUT_POST);
     break;
   default:
-    $args = extractVariables(INPUT_GET);
+    $args = $io->extractVariables(INPUT_GET);
 }
 
 $results = [];
@@ -24,67 +31,50 @@ switch ($path[0]) {
       $args["networkId"] = $path[1];
     }
     //Determine if this is the stopping level
-    if (count($path) <= 2) {
-      switch ($verb) {
-        case "GET":
-          $results = getNetworks($args);
-          break;
-        case "POST":
-          $results = createNetwork($args);
-          break;
-        default:
-          $results["meta"]["ok"] = false;
-          break;
-      }
-    } else {
-      switch ($path[2]) {
-        case "posts":
-          //Get postId
-          if (isset($path[3]) && trim($path[3]) != "") {
-            $args["postId"] = $path[3];
-          }
-          //Determine if this is the stopping level
-          if (count($path) <= 4) {
-            switch ($verb) {
-              case "GET":
-                $results = getPosts($args);
-                break;
-              case "POST":
-                $results = createPost($args);
-                break;
-              default:
-                $results["meta"]["ok"] = false;
-                break;
-            }
-          } else {
-            switch ($path[4]) {
-              case "comments":
-                //Get commentId
-                if (isset($path[5]) && trim($path[5]) != "") {
-                  $args["commentId"] = $path[5];
-                }
-                switch ($verb) {
-                  case "GET":
-                    $results = getComments($args);
-                    break;
-                  case "POST":
-                    $results = createComment($args);
-                    break;
-                  default:
-                    $results["meta"]["ok"] = false;
-                    break;
-                }
-                break;
-              default:
-                $results["meta"]["ok"] = false;
-                break;
-            }
-          }
-          break;
-        default:
-          $results["meta"]["ok"] = false;
-          break;
-      }
+    switch ($verb) {
+      case "GET":
+        $results = $network->getNetworks($args);
+        break;
+      case "POST":
+        $results = $network->createNetwork($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
+  case "posts":
+    //Get postId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["postId"] = $path[1];
+    }
+    switch ($verb) {
+      case "GET":
+        $results = $post->getPosts($args);
+        break;
+      case "POST":
+        $results = $post->createPost($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
+  case "comments":
+    //Get commentId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["commentId"] = $path[1];
+    }
+    switch ($verb) {
+      case "GET":
+        $results = $comment->getComments($args);
+        break;
+      case "POST":
+        $results = $comment->createComment($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
     }
     break;
   case "users":
@@ -94,10 +84,10 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = getUsers($args);
+        $results = $userIO->getUsers($args);
         break;
       case "POST":
-        $results = createUser($args);
+        $results = $userIO->createUser($args);
         break;
       default:
         $results["meta"]["ok"] = false;
@@ -111,10 +101,10 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = getMessages($args);
+        $results = $messageIO->getMessages($args);
         break;
       case "POST":
-        $results = createMessage($args);
+        $results = $messageIO->createMessage($args);
         break;
       default:
         $results["meta"]["ok"] = false;
@@ -130,12 +120,12 @@ $results["debug"]["request"] = $args;
 $results["debug"]["verb"] = $verb;
 $results["debug"]["path"] = $path;
 $results["debug"]["in"] = $args;
-$results["debug"]["INPUT_GET"] = extractVariables();
-$results["debug"]["INPUT_POST"] = extractVariables(INPUT_POST);
+$results["debug"]["INPUT_GET"] = $io->extractVariables();
+$results["debug"]["INPUT_POST"] = $io->extractVariables(INPUT_POST);
 $results["debug"]["request"] = $_REQUEST;
 
 if (!DEBUGGING) {
   unset($results["debug"]);
 }
 
-sendResults($results);
+$io->sendResults($results);
