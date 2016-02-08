@@ -3,6 +3,7 @@
 include __DIR__.'/../../inc/all.php';
 
 $io = new IO();
+$network = new Network($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -29,10 +30,10 @@ switch ($path[0]) {
     if (count($path) <= 2) {
       switch ($verb) {
         case "GET":
-          $results = getNetworks($args);
+          $results = network->getNetworks($args);
           break;
         case "POST":
-          $results = createNetwork($args);
+          $results = network->createNetwork($args);
           break;
         default:
           $results["meta"]["ok"] = false;

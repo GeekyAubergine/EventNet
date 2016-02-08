@@ -85,4 +85,9 @@ class IO {
 
     return $results;
   }
+
+  public function close() {
+    $this->database = null;
+  }
+
 }
