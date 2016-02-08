@@ -4,6 +4,7 @@ include __DIR__.'/../../inc/all.php';
 
 $io = new IO();
 $network = new Network($io);
+$post = new Post($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -50,10 +51,10 @@ switch ($path[0]) {
           if (count($path) <= 4) {
             switch ($verb) {
               case "GET":
-                $results = getPosts($args);
+                $results = $post->getPosts($args);
                 break;
               case "POST":
-                $results = createPost($args);
+                $results = $post->createPost($args);
                 break;
               default:
                 $results["meta"]["ok"] = false;

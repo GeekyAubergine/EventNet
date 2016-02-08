@@ -78,8 +78,6 @@ class Network {
   }
 
   public function createNetwork($args) {
-    $io = new IO();
-
     if (!isset($args["networkName"])) {
       return $io->badRequest("Network name was missing", $args);
     }
@@ -92,7 +90,12 @@ class Network {
 
     $query = "insert into network (network_name, network_latitude, network_longitude, network_timestamp) values (\"". $args["networkName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
 
-    $results = $io->queryDB($args, $query);
+    $results = $this->io->queryDB($args, $query);
+
+    if ($results["data"] > 0) {
+      $results["meta"]["status"] = 201;
+      $results["meta"]["message"] = "Network was created";
+    }
 
     return $results;
   }
