@@ -76,6 +76,9 @@ class Post {
   }
 
   public function createPost($args) {
+    if (!isset($args["networkId"])) {
+      return $this->io->badRequest("Network ID was missing", $args);
+    }
     if (!isset($args["userId"])) {
       return $this->io->badRequest("User ID was missing", $args);
     }

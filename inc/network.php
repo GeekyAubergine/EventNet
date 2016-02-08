@@ -12,7 +12,7 @@ class Network {
     if (isset($args["networkId"])) {
       $networkId = intval($args["networkId"]);
 
-      return $this->getNetworkById($networkId);
+      return $this->getNetworkById($args, $networkId);
     }
 
     if (isset($args["latitude"]) && isset($args["longitude"])) {
