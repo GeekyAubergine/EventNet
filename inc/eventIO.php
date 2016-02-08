@@ -8,24 +8,24 @@ class EventIO {
     $this->io = $io;
   }
 
-  public function getNetworks($args) {
+  public function getEvents($args) {
     if (isset($args["eventID"])) {
       $eventID = intval($args["eventID"]);
 
-      return $this->getNetworkById($args, $eventID);
+      return $this->getEventById($args, $eventID);
     }
 
     if (isset($args["latitude"]) && isset($args["longitude"])) {
       $latitude = $args["latitude"];
       $longitude = $args["longitude"];
 
-      return $this->getNetworksSortedByDistance($args, $latitude, $longitude);
+      return $this->getEventsSortedByDistance($args, $latitude, $longitude);
     }
 
     return $this->io-badRequest("Not valid event request", $args);
   }
 
-  private function getNetworkById($args, $eventID) {
+  private function getEventById($args, $eventID) {
     $clause = "WHERE event.event_id = " . abs(intval($args["eventID"]));
 
     $query = "select event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post " .
@@ -37,7 +37,7 @@ class EventIO {
     return $this->io->queryDB($args, $query);
   }
 
-  private function getNetworksSortedByDistance($args, $latitude, $longitude) {
+  private function getEventsSortedByDistance($args, $latitude, $longitude) {
     /*Formula for calculating distance between two lat lngs, originally in JavaScript
       var R = 6371; // Radius of the earth in km
       var dLat = degreesToRadains(lat2 - lat1); // degreesToRadains below
@@ -77,15 +77,15 @@ class EventIO {
     return $this->io->queryDB($args, $query);
   }
 
-  public function createNetwork($args) {
+  public function createEvent($args) {
     if (!isset($args["eventName"])) {
-      return $io->badRequest("Network name was missing", $args);
+      return $this->io->badRequest("Event name was missing", $args);
     }
     if (!isset($args["latitude"])) {
-      return $io->badRequest("Latitude was missing", $args);
+      return $this->io->badRequest("Latitude was missing", $args);
     }
     if (!isset($args["longitude"])) {
-      return $io->badRequest("Longitude was missing", $args);
+      return $this->io->badRequest("Longitude was missing", $args);
     }
 
     $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (\"". $args["eventName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
@@ -94,7 +94,7 @@ class EventIO {
 
     if ($results["data"] > 0) {
       $results["meta"]["status"] = 201;
-      $results["meta"]["message"] = "Network was created";
+      $results["meta"]["message"] = "Event was created";
     }
 
     return $results;

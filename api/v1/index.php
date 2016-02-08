@@ -3,8 +3,8 @@
 include __DIR__.'/../../inc/all.php';
 
 $io = new IO();
-$eventIO = new Network($io);
-$post = new Post($io);
+$eventIO = new EventIO($io);
+$postIO = new PostIO($io);
 $comment = new Comment($io);
 $userIO = new UserIO($io);
 $messageIO = new MessageIO($io);
@@ -25,7 +25,7 @@ $results["meta"]["ok"] = true;
 $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
 
 switch ($path[0]) {
-  case "networks":
+  case "events":
     //Get networkId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["eventId"] = $path[1];
@@ -33,10 +33,10 @@ switch ($path[0]) {
     //Determine if this is the stopping level
     switch ($verb) {
       case "GET":
-        $results = $eventIO->getNetworks($args);
+        $results = $eventIO->getEvents($args);
         break;
       case "POST":
-        $results = $eventIO->createNetwork($args);
+        $results = $eventIO->createEvent($args);
         break;
       default:
         $results["meta"]["ok"] = false;
@@ -50,10 +50,10 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = $post->getPosts($args);
+        $results = $postIO->getPosts($args);
         break;
       case "POST":
-        $results = $post->createPost($args);
+        $results = $postIO->createPost($args);
         break;
       default:
         $results["meta"]["ok"] = false;
