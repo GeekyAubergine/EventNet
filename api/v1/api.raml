@@ -82,108 +82,110 @@ traits:
       ]
     delete:
       description: Delete this network
-    /posts:
-      description: A collection of posts
-      get:
-        description: Return a list of posts
-        is: [
-          formatable,
-          pagable
-        ]
-        before:
-          description: Load posts before than this date
-          type: date
-          required: false
-          example: 2015-12-31 23:59:00
-        after:
-          description: Load posts after than this date
-          type: date
-          required: false
-          example: 2015-12-31 23:59:00
-      post:
-        description: Post a post in this network
-        is: [
-          geolocatable
-        ]
-        queryParameters:
-          userId:
-            description: The User ID that created this post
-            type: integer
-            required: true
-            example: 12345
-          postContent:
-            description: The content of the post
-            type: string
-            required: true
-            example: Test post, please ignore
-      /{postId}:
-        description: An item in the collection of posts.
-        get:
-          description: Return the post
-        post:
-          description: Replace the post content with new content
-          queryParameters:
-            postContent:
-              description: The content of the post
-              type: string
-              required: true
-              example: Test post, please ignore
-        put:
-          description: Replace the post content with new content
-          queryParameters:
-            postContent:
-              description: The content of the post
-              type: string
-              required: true
-              example: Test post, please ignore
-        delete:
-          description: Deletes this post
-        /comments:
-          description:  A collection of comments
-          get:
-            description: Return a list of comments
-            is: [
-              formatable,
-              pagable
-            ]
-          post:
-            description: Create a new comment
-            is: [
-              geolocatable
-            ]
-            queryParameters:
-              userId:
-                description: The User ID that created this comment
-                type: integer
-                required: true
-                example: 12345
-              commentContent:
-                description: The content of the comment
-                type: string
-                required: true
-                example: Test comment, please ignore
-          /{commentId}:
-            description: An item in the collection of comments.
-            get:
-              description: Return the comment
-            post:
-              description: Replace the post content with new content
-              queryParameters:
-                postContent:
-                  description: The content of the post
-                  type: string
-                  required: true
-                  example: Test post, please ignore
-            put:
-              description: Replace the post content with new content
-              queryParameters:
-                postContent:
-                  description: The content of the post
-                  type: string
-                  required: true
-                  example: Test post, please ignore
-            delete:
-              description: Deletes this comment
+
+/posts:
+  description: A collection of posts
+  get:
+    description: Return a list of posts
+    is: [
+      formatable,
+      pagable
+    ]
+    before:
+      description: Load posts before than this date
+      type: date
+      required: false
+      example: 2015-12-31 23:59:00
+    after:
+      description: Load posts after than this date
+      type: date
+      required: false
+      example: 2015-12-31 23:59:00
+  post:
+    description: Post a post in this network
+    is: [
+      geolocatable
+    ]
+    queryParameters:
+      userId:
+        description: The User ID that created this post
+        type: integer
+        required: true
+        example: 12345
+      postContent:
+        description: The content of the post
+        type: string
+        required: true
+        example: Test post, please ignore
+  /{postId}:
+    description: An item in the collection of posts.
+    get:
+      description: Return the post
+    post:
+      description: Replace the post content with new content
+      queryParameters:
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    put:
+      description: Replace the post content with new content
+      queryParameters:
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    delete:
+      description: Deletes this post
+
+/comments:
+  description:  A collection of comments
+  get:
+    description: Return a list of comments
+    is: [
+      formatable,
+      pagable
+    ]
+  post:
+    description: Create a new comment
+    is: [
+      geolocatable
+    ]
+    queryParameters:
+      userId:
+        description: The User ID that created this comment
+        type: integer
+        required: true
+        example: 12345
+      commentContent:
+        description: The content of the comment
+        type: string
+        required: true
+        example: Test comment, please ignore
+  /{commentId}:
+    description: An item in the collection of comments.
+    get:
+      description: Return the comment
+    post:
+      description: Replace the post content with new content
+      queryParameters:
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    put:
+      description: Replace the post content with new content
+      queryParameters:
+        postContent:
+          description: The content of the post
+          type: string
+          required: true
+          example: Test post, please ignore
+    delete:
+      description: Deletes this comment
 
 /users:
   description: A collection of users
