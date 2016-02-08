@@ -1,6 +1,6 @@
 <?php
 
-class Post {
+class PostIO {
 
   private $io;
 
