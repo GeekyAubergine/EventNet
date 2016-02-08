@@ -5,6 +5,7 @@ include __DIR__.'/../../inc/all.php';
 $io = new IO();
 $network = new Network($io);
 $post = new Post($io);
+$comment = new Comment($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -69,10 +70,10 @@ switch ($path[0]) {
                 }
                 switch ($verb) {
                   case "GET":
-                    $results = getComments($args);
+                    $results = $comment->getComments($args);
                     break;
                   case "POST":
-                    $results = createComment($args);
+                    $results = $comment->createComment($args);
                     break;
                   default:
                     $results["meta"]["ok"] = false;

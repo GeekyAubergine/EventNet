@@ -11,8 +11,6 @@ class Post {
   public function getPosts($args) {
     if (isset($args["networkId"])) {
       $networkId = $args["networkId"];
-    } else {
-      return $this->io->badRequest("Network Id was not set", $args);
     }
 
     if (isset($args["postId"])) {
@@ -28,19 +26,27 @@ class Post {
     }
 
     return $this->getPostsWithNetworkId($args, $networkId);
-
   }
 
   private function getPostById($args, $networkId, $postId) {
-    $query = "select * from post join user using(user_id) " .
-     "where network_id = " . $networkId . " and post_id = " . $post_id;
+    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
+    "FROM post join user using(user_id) " .
+    "LEFT JOIN (".
+    "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
+    "WHERE network_id = " . $networkId . " " .
+    " and post_id = " . $post_id .
+    " ORDER BY post.post_timestamp asc ";
 
    return $this->io->queryDB($args, $query);
   }
 
   public function getPostsWithNetworkId($args, $networkId) {
-    $query = "select * from post join user using(user_id) " .
-     "where network_id = " . $networkId;
+    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
+    "FROM post join user using(user_id) " .
+    "LEFT JOIN (".
+    "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
+    "WHERE network_id = " . $networkId . " " .
+    " ORDER BY post.post_timestamp asc ";
 
     return $this->io->queryDB($args, $query);
   }
