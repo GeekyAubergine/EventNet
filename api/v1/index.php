@@ -7,6 +7,7 @@ $network = new Network($io);
 $post = new Post($io);
 $comment = new Comment($io);
 $userIO = new UserIO($io);
+$messageIO = new MessageIO($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -117,10 +118,10 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = getMessages($args);
+        $results = $messageIO->getMessages($args);
         break;
       case "POST":
-        $results = createMessage($args);
+        $results = $messageIO->createMessage($args);
         break;
       default:
         $results["meta"]["ok"] = false;
