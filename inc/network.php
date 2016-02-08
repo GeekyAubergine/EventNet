@@ -12,13 +12,14 @@ class Network {
     if (isset($args["networkId"])) {
       $networkId = intval($args["networkId"]);
 
-      return getNetworkById($networkId);
+      return $this->getNetworkById($networkId);
     }
-    if (isset($args["latitude"] && isset($args["longitude"])) {
-      $latitude = isset($args["latitude"];
-      $longitude = isset($args["longitude"];
 
-      return getNetworksSortedByDistance($args, $latitude, $longitude);
+    if (isset($args["latitude"]) && isset($args["longitude"])) {
+      $latitude = isset($args["latitude"]);
+      $longitude = isset($args["longitude"]);
+
+      return $this->getNetworksSortedByDistance($args, $latitude, $longitude);
     }
 
     return $this->io-badRequest("Not valid network request", $args);

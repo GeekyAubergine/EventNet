@@ -30,10 +30,10 @@ switch ($path[0]) {
     if (count($path) <= 2) {
       switch ($verb) {
         case "GET":
-          $results = network->getNetworks($args);
+          $results = $network->getNetworks($args);
           break;
         case "POST":
-          $results = network->createNetwork($args);
+          $results = $network->createNetwork($args);
           break;
         default:
           $results["meta"]["ok"] = false;
