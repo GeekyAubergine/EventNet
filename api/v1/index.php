@@ -6,6 +6,7 @@ $io = new IO();
 $network = new Network($io);
 $post = new Post($io);
 $comment = new Comment($io);
+$userIO = new UserIO($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -99,10 +100,10 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = getUsers($args);
+        $results = $userIO->getUsers($args);
         break;
       case "POST":
-        $results = createUser($args);
+        $results = $userIO->createUser($args);
         break;
       default:
         $results["meta"]["ok"] = false;
