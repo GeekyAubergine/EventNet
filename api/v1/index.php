@@ -31,67 +31,50 @@ switch ($path[0]) {
       $args["networkId"] = $path[1];
     }
     //Determine if this is the stopping level
-    if (count($path) <= 2) {
-      switch ($verb) {
-        case "GET":
-          $results = $network->getNetworks($args);
-          break;
-        case "POST":
-          $results = $network->createNetwork($args);
-          break;
-        default:
-          $results["meta"]["ok"] = false;
-          break;
-      }
-    } else {
-      switch ($path[2]) {
-        case "posts":
-          //Get postId
-          if (isset($path[3]) && trim($path[3]) != "") {
-            $args["postId"] = $path[3];
-          }
-          //Determine if this is the stopping level
-          if (count($path) <= 4) {
-            switch ($verb) {
-              case "GET":
-                $results = $post->getPosts($args);
-                break;
-              case "POST":
-                $results = $post->createPost($args);
-                break;
-              default:
-                $results["meta"]["ok"] = false;
-                break;
-            }
-          } else {
-            switch ($path[4]) {
-              case "comments":
-                //Get commentId
-                if (isset($path[5]) && trim($path[5]) != "") {
-                  $args["commentId"] = $path[5];
-                }
-                switch ($verb) {
-                  case "GET":
-                    $results = $comment->getComments($args);
-                    break;
-                  case "POST":
-                    $results = $comment->createComment($args);
-                    break;
-                  default:
-                    $results["meta"]["ok"] = false;
-                    break;
-                }
-                break;
-              default:
-                $results["meta"]["ok"] = false;
-                break;
-            }
-          }
-          break;
-        default:
-          $results["meta"]["ok"] = false;
-          break;
-      }
+    switch ($verb) {
+      case "GET":
+        $results = $network->getNetworks($args);
+        break;
+      case "POST":
+        $results = $network->createNetwork($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
+  case "posts":
+    //Get postId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["postId"] = $path[1];
+    }
+    switch ($verb) {
+      case "GET":
+        $results = $post->getPosts($args);
+        break;
+      case "POST":
+        $results = $post->createPost($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
+  case "comments":
+    //Get commentId
+    if (isset($path[1]) && trim($path[1]) != "") {
+      $args["commentId"] = $path[1];
+    }
+    switch ($verb) {
+      case "GET":
+        $results = $comment->getComments($args);
+        break;
+      case "POST":
+        $results = $comment->createComment($args);
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
     }
     break;
   case "users":
