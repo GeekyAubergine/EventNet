@@ -16,8 +16,8 @@ class Network {
     }
 
     if (isset($args["latitude"]) && isset($args["longitude"])) {
-      $latitude = isset($args["latitude"]);
-      $longitude = isset($args["longitude"]);
+      $latitude = $args["latitude"];
+      $longitude = $args["longitude"];
 
       return $this->getNetworksSortedByDistance($args, $latitude, $longitude);
     }
