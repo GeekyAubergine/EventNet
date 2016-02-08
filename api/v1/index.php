@@ -3,7 +3,7 @@
 include __DIR__.'/../../inc/all.php';
 
 $io = new IO();
-$network = new Network($io);
+$eventIO = new Network($io);
 $post = new Post($io);
 $comment = new Comment($io);
 $userIO = new UserIO($io);
@@ -28,15 +28,15 @@ switch ($path[0]) {
   case "networks":
     //Get networkId
     if (isset($path[1]) && trim($path[1]) != "") {
-      $args["networkId"] = $path[1];
+      $args["eventId"] = $path[1];
     }
     //Determine if this is the stopping level
     switch ($verb) {
       case "GET":
-        $results = $network->getNetworks($args);
+        $results = $eventIO->getNetworks($args);
         break;
       case "POST":
-        $results = $network->createNetwork($args);
+        $results = $eventIO->createNetwork($args);
         break;
       default:
         $results["meta"]["ok"] = false;

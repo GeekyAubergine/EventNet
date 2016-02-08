@@ -1,0 +1,103 @@
+<?php
+
+class EventIO {
+
+  private $io;
+
+  public function __construct($io) {
+    $this->io = $io;
+  }
+
+  public function getNetworks($args) {
+    if (isset($args["eventID"])) {
+      $eventID = intval($args["eventID"]);
+
+      return $this->getNetworkById($args, $eventID);
+    }
+
+    if (isset($args["latitude"]) && isset($args["longitude"])) {
+      $latitude = $args["latitude"];
+      $longitude = $args["longitude"];
+
+      return $this->getNetworksSortedByDistance($args, $latitude, $longitude);
+    }
+
+    return $this->io-badRequest("Not valid event request", $args);
+  }
+
+  private function getNetworkById($args, $eventID) {
+    $clause = "WHERE event.event_id = " . abs(intval($args["eventID"]));
+
+    $query = "select event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post " .
+    "FROM event " .
+    "LEFT JOIN (".
+    "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
+    "WHERE event.event_id = " . $eventID;
+
+    return $this->io->queryDB($args, $query);
+  }
+
+  private function getNetworksSortedByDistance($args, $latitude, $longitude) {
+    /*Formula for calculating distance between two lat lngs, originally in JavaScript
+      var R = 6371; // Radius of the earth in km
+      var dLat = degreesToRadains(lat2 - lat1); // degreesToRadains below
+      var dLon = degreesToRadains(lon2 - lon1);
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(degreesToRadains(lat1)) * Math.cos(degreesToRadains(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c; // Distance in km
+    */
+    $query = "select event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post, " .
+    "(" .
+    "6371 * 2 * ATAN2(" .
+    "SQRT(" .
+    //a
+    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) * " .
+    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) + " .
+    "COS(RADIANS(event.event_latitude)) * COS(RADIANS(" . $latitude . ")) * " .
+    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2) * " .
+    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2)" .
+    "), " .
+    "SQRT(1 - " .
+    //a
+    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) * " .
+    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) + " .
+    "COS(RADIANS(event.event_latitude)) * COS(RADIANS(" . $latitude . ")) * " .
+    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2) * " .
+    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2)" .
+    "))".
+    ") as distance_from_user " .
+    "FROM event " .
+    "LEFT JOIN (".
+    "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
+    "ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
+
+    return $this->io->queryDB($args, $query);
+  }
+
+  public function createNetwork($args) {
+    if (!isset($args["eventName"])) {
+      return $io->badRequest("Network name was missing", $args);
+    }
+    if (!isset($args["latitude"])) {
+      return $io->badRequest("Latitude was missing", $args);
+    }
+    if (!isset($args["longitude"])) {
+      return $io->badRequest("Longitude was missing", $args);
+    }
+
+    $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (\"". $args["eventName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+
+    $results = $this->io->queryDB($args, $query);
+
+    if ($results["data"] > 0) {
+      $results["meta"]["status"] = 201;
+      $results["meta"]["message"] = "Network was created";
+    }
+
+    return $results;
+  }
+
+}
