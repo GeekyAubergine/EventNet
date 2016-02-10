@@ -6,7 +6,7 @@
   <title>EventNet | Networks</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="lib/css/core.css">
-  <link rel="stylesheet" href="lib/css/networks.css">
+  <link rel="stylesheet" href="lib/css/event.css">
   <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" /> -->
 </head>
 
@@ -26,7 +26,7 @@
             <a href="/home.html">Map</a>
           </li>
           <li>
-            <a href="/networks.html">Networks</a>
+            <a href="/events.html">Events</a>
           </li>
           <li>
             <a href="/settings.html">Settings</a>
@@ -39,13 +39,13 @@
     <main>
       <div id=networks-container>
         <div class=container>
-          <h2>Networks</h2>
+          <h2>Events</h2>
         </div>
         <div class=container>
           <section id="map"></section>
           <section id=networks-list>
             <div id=new-network>
-              <input id=new-network-name type=text placeholder="Find a network"></input>
+              <input id=new-network-name type=text placeholder="Find an event"></input>
               <a id=new-network-button class=button>Create</a>
             </div>
             <ul id=networks
@@ -59,7 +59,7 @@
   <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
-  <script src="lib/js/networks.js" charset="utf-8"></script>
+  <script src="lib/js/event.js" charset="utf-8"></script>
   </script>
 </body>
 

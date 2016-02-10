@@ -8,13 +8,13 @@ const DATABASE_PASSWORD = 'default';
 const DEBUGGING = false;
 
 /** Do not edit below**/
-define("TABLE_NETWORK_INIT", 'CREATE TABLE IF NOT EXISTS network (
-  network_id BIGINT NOT NULL AUTO_INCREMENT,
-  network_name VARCHAR(256) NOT NULL,
-  network_latitude DOUBLE NOT NULL,
-  network_longitude DOUBLE NOT NULL,
-  network_timestamp DATETIME NOT NULL,
-  PRIMARY KEY (network_id))
+define("TABLE_NETWORK_INIT", 'CREATE TABLE IF NOT EXISTS event (
+  event_id BIGINT NOT NULL AUTO_INCREMENT,
+  event_name VARCHAR(256) NOT NULL,
+  event_latitude DOUBLE NOT NULL,
+  event_longitude DOUBLE NOT NULL,
+  event_timestamp DATETIME NOT NULL,
+  PRIMARY KEY (event_id))
   ENGINE = InnoDB;
   ');
 
@@ -30,14 +30,14 @@ define("USER_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS user (
 define("POST_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post (
   post_id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
-  network_id BIGINT NOT NULL,
+  event_id BIGINT NOT NULL,
   post_content MEDIUMTEXT NOT NULL,
   post_latitude DOUBLE NOT NULL,
   post_longitude DOUBLE NOT NULL,
   post_timestamp DATETIME NOT NULL,
   PRIMARY KEY (post_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
-  FOREIGN KEY (network_id) REFERENCES network(network_id) ON DELETE NO ACTION)
+  FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;'
 );
 
@@ -70,14 +70,14 @@ define("COMMENT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS comment (
 define("MESSAGE_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS message (
   message_id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
-  network_id BIGINT NOT NULL,
+  event_id BIGINT NOT NULL,
   message_content MEDIUMTEXT NOT NULL,
   message_latitude DOUBLE NOT NULL,
   message_longitude DOUBLE NOT NULL,
   message_timestamp DATETIME NOT NULL,
   PRIMARY KEY (message_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
-  FOREIGN KEY (network_id) REFERENCES network(network_id) ON DELETE NO ACTION)
+  FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;
 ');
 

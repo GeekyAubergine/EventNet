@@ -59,7 +59,9 @@ class DB {
     }
 
     $results["data"] = $result;
-    $results["meta"]["ok"] = true;
+    if (!isset($results["meta"]["ok"])) {
+      $results["meta"]["ok"] = true;
+    }
     $results["debug"]["count"] = count($result);
 
     return $results;

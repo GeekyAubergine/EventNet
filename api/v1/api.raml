@@ -45,10 +45,10 @@ traits:
         required: false
         example: Siverstone
 
-/networks:
-  description: A collection of networks
+/events:
+  description: A collection of events
   get:
-    description: Return list of all networks
+    description: Return list of all events
     is : [
       formatable,
       geolocatable,
@@ -56,31 +56,31 @@ traits:
     ]
     queryParameters:
       archived:
-        description: Include achieved networks
+        description: Include achieved events
         type: boolean
         required: false
         example: true
         default: false
   post:
-    description: Create a new network
+    description: Create a new event
     is: [
       geolocatable
     ]
     queryParameters:
-      networkName:
-        description: Name of the networkName
+      eventName:
+        description: Name of the eventName
         type: string
         required: true
         example: O2 Arena
-  /{networkID}:
-    description: A item in the collection of networks.
+  /{eventID}:
+    description: A item in the collection of events.
     get:
-      description: Returns information about this network.
+      description: Returns information about this event.
       is: [
         geolocatable
       ]
     delete:
-      description: Delete this network
+      description: Delete this event
 
 /posts:
   description: A collection of posts
@@ -92,8 +92,8 @@ traits:
       searchable
     ]
     queryParameters:
-      networkId:
-        description: The network id to load posts from
+      eventId:
+        description: The event id to load posts from
         type: integer
         required: false
         example: 1
@@ -108,13 +108,13 @@ traits:
         required: false
         example: 2015-12-31 23:59:00
   post:
-    description: Post a post in this network
+    description: Post a post in this event
     is: [
       geolocatable
     ]
     queryParameters:
-      networkId:
-        description: The network id to load posts from
+      eventId:
+        description: The event id to load posts from
         type: integer
         required: true
         example: 1
@@ -261,8 +261,8 @@ traits:
       pagable
     ]
     queryParameters:
-      networkId:
-        description: The Network ID to load networks from
+      eventId:
+        description: The Network ID to load events from
         type: integer
         required: true
         example: 1
@@ -272,8 +272,8 @@ traits:
       geolocatable
     ]
     queryParameters:
-      networkId:
-        description: The network ID that message was created on
+      eventId:
+        description: The event ID that message was created on
         type: integer
         required: true
         example: 1

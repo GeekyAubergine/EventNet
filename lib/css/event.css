@@ -14,11 +14,11 @@
   text-transform: capitalize;
 }
 #map {
-  flex: 1 0;
+  flex: 100%;
   height: calc(100vh - 6em);
 }
 #networks-list {
-  flex: 0 1 10em;
+  flex: 20em;
   display: flex;
   flex-wrap: wrap;
   align-self: flex-start;
@@ -31,7 +31,7 @@
   display: flex;
   flex-wrap: wrap;
   align-self: flex-start;
-  max-height: calc(100vh - 10.5em);
+  max-height: calc(100vh - 10.7em);
   overflow: hidden;
   overflow-y: auto;
 }
@@ -74,7 +74,7 @@
   flex: 100%;
   display: flex;
   flex-wrap: wrap;
-  height: 4.5em;
+  height: 4.8em;
   border-bottom: 0.1em solid #ddd;
 }
 #new-network input {
