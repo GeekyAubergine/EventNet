@@ -10,7 +10,7 @@ class MessageIO {
 
   public function getMessages($args) {
         if (!isset($args["eventId"])) {
-      return badRequest("Network ID was missing", $args);
+      return $this->io->badRequest("Network ID was missing", $args);
     }
     $query = "select * from message join user using(user_id) " .
     "WHERE event_id = " . $args["eventId"] .
@@ -20,19 +20,19 @@ class MessageIO {
 
   public function createMessage($args) {
     if (!isset($args["eventId"])) {
-      return badRequest("Network ID was missing", $args);
+      return $this->io->badRequest("Network ID was missing", $args);
     }
     if (!isset($args["userId"])) {
-      return badRequest("User ID was missing", $args);
+      return $this->io->badRequest("User ID was missing", $args);
     }
     if (!isset($args["messageContent"])) {
-      return badRequest("Message content was missing", $args);
+      return $this->io->badRequest("Message content was missing", $args);
     }
     if (!isset($args["latitude"])) {
-      return badRequest("Latitude was missing", $args);
+      return $this->io->badRequest("Latitude was missing", $args);
     }
     if (!isset($args["longitude"])) {
-      return badRequest("Longitude was missing", $args);
+      return $this->io->badRequest("Longitude was missing", $args);
     }
     $query = "insert into message (user_id, event_id, message_content, message_latitude, message_longitude, message_timestamp) values " .
      "('". $args["userId"] . "','" . $args["eventId"] . "','" . $args["messageContent"] . "','" . $args["latitude"] . "','" . $args["longitude"] . "', NOW());";

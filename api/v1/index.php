@@ -26,7 +26,7 @@ $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
 
 switch ($path[0]) {
   case "events":
-    //Get networkId
+    //Get eventId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["eventId"] = $path[1];
     }

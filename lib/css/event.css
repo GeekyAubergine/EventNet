@@ -1,10 +1,10 @@
-#networks-container {
+#events-container {
   flex: 1;
   display: flex;
   flex-wrap: wrap;
   background-color: white;
 }
-#networks-container h2 {
+#events-container h2 {
   flex: 100%;
   height: 1.5em;
   width: 100%;
@@ -17,7 +17,7 @@
   flex: 100%;
   height: calc(100vh - 6em);
 }
-#networks-list {
+#events-list {
   flex: 20em;
   display: flex;
   flex-wrap: wrap;
@@ -26,7 +26,7 @@
   border-top: 0.1em solid #ddd;
   overflow: hidden;
 }
-#networks-list > ul {
+#events-list > ul {
   flex: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +35,7 @@
   overflow: hidden;
   overflow-y: auto;
 }
-#networks-list > ul > li {
+#events-list > ul > li {
   flex: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -45,45 +45,45 @@
   border-left: 0em solid #888;
   transition: 250ms border-width;
 }
-#networks-list > ul > li > ul {
+#events-list > ul > li > ul {
   flex: 1 100%;
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
 }
-#networks-list > ul > li > ul > li {
+#events-list > ul > li > ul > li {
   flex: 1 100%;
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
 }
-#networks-list > ul > li > ul > li.distance {
+#events-list > ul > li > ul > li.distance {
   width: 100%;
 }
-#networks-list > ul > li > ul > li.time {
+#events-list > ul > li > ul > li.time {
   width: 100%;
 }
-#networks-list > ul > li:hover {
+#events-list > ul > li:hover {
   border-left-width: 0.25em;
 }
-#networks-list > ul > li.selected {
+#events-list > ul > li.selected {
   border-left-width: 0.25em;
   border-left-color: lawngreen;
 }
-#new-network {
+#new-event {
   flex: 100%;
   display: flex;
   flex-wrap: wrap;
   height: 4.8em;
   border-bottom: 0.1em solid #ddd;
 }
-#new-network input {
+#new-event input {
   flex: 1 95%;
   margin: 2.5%;
   padding: 0.5em;
   height: 2em;
 }
-#new-network a.button {
+#new-event a.button {
   flex: 1 95%;
   margin: 2.5%;
   margin-top: 0;
@@ -92,7 +92,7 @@
   border: 0.1em solid deepskyblue;
   border-radius: 0;
 }
-#new-network .button:hover {
+#new-event .button:hover {
   background-color: deepskyblue;
   color: white;
 }
