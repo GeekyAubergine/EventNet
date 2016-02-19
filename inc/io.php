@@ -10,12 +10,7 @@ class IO {
   public function extractVariables($method = INPUT_GET) {
     $variables = array();
     foreach ($_REQUEST as $key => $value) {
-      $string = filter_input($method, $key, FILTER_SANITIZE_STRING);
-      //Only encode if GET
-      if ($method == INPUT_GET) {
-        $string = urlencode($string);
-      }
-      $variables[$key] = stripslashes(strip_tags($string));
+      $variables[$key] = stripslashes(strip_tags(urldecode(filter_input($method, $key, FILTER_SANITIZE_STRING))));
     }
     return $variables;
   }
@@ -65,7 +60,7 @@ class IO {
     }
 
     if (isset($args["limit"])) {
-      $limit = abs(intval($args["limit"]));
+      $limit = min(abs(intval($args["limit"])), 1000); //Max 1000 rows
     }
 
     $isSelectQuery = strpos($query, 'select') !== false;
