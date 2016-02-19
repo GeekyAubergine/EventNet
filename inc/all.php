@@ -5,10 +5,10 @@ if (!file_exists(__DIR__.'/config.php')) {
 }
 
 include __DIR__.'/config.php';
-include __DIR__.'/db.php';
-include __DIR__.'/io.php';
-include __DIR__.'/eventIO.php';
-include __DIR__.'/postIO.php';
-include __DIR__.'/comment.php';
-include __DIR__.'/userIO.php';
-include __DIR__.'/messageIO.php';
+include __DIR__.'/DB.php';
+include __DIR__.'/IO.php';
+include __DIR__.'/EventIO.php';
+include __DIR__.'/PostIO.php';
+include __DIR__.'/Comment.php';
+include __DIR__.'/UserIO.php';
+include __DIR__.'/MessageIO.php';
