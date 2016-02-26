@@ -15,7 +15,7 @@ class Comment {
   }
 
   private function getCommentsForPostId($args, $postId) {
-    $query = "select user.user_display_name, user.user_icon, comment.comment_id, comment.comment_content, comment.comment_timestamp, comment.post_id, info.number_of_comments from comment " .
+    $query = "select user.user_display_name, user.user_icon, comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, info.number_of_comments from comment " .
     "join user using(user_id) join post using(post_id) ".
     "join (select post_id, count(*) as number_of_comments from comment group by post_id) as info on info.post_id = comment.post_id ".
     "WHERE comment.post_id = " . $postId . " " .

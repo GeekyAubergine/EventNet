@@ -8,16 +8,22 @@
 /* ---- Message and Comment Meta Info ---- */
 
 .meta {
-  flex: 1 100%;
+  flex: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row nowrap;
+  margin-left: 4em;
+  padding-left: 0.25em;
+  list-style-type: none;
 }
-.meta .info {
-  padding: 0.25em 0.25em;
+.meta li {
+  margin-right: 1em;
+  transition: all 250ms;
 }
-.meta .info h3, time, p {
-  width: 100%;
+.meta li.clickable:hover {
+  color: skyblue;
+  cursor: pointer;
 }
+
 
 /* ---- messages ---- */
 
@@ -35,7 +41,7 @@
 }
 .message .content {
   flex: 1 100%;
-  padding: 0 0.5em;
+  padding: 0.25em 0.5em;
   margin-bottom: 0.5em;
 }
 
