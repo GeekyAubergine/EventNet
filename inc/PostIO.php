@@ -29,7 +29,7 @@ class PostIO {
   }
 
   private function getPostById($args, $eventId, $postId) {
-    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
+    $query = "select post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
     "FROM post join user using(user_id) " .
     "LEFT JOIN (".
     "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
@@ -41,7 +41,7 @@ class PostIO {
   }
 
   public function getPostsWithNetworkId($args, $eventId) {
-    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
+    $query = "select post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
     "FROM post join user using(user_id) " .
     "LEFT JOIN (".
     "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
@@ -52,7 +52,7 @@ class PostIO {
   }
 
   private function getPostBeforeTime($args, $eventId, $time) {
-    $query = "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
+    $query = "select post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
     "FROM post join user using(user_id) " .
     "LEFT JOIN (".
     "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
@@ -64,7 +64,7 @@ class PostIO {
   }
 
   private function getPostAfterTime($args, $eventId, $time) {
-    $query =  "select post.post_id, post.post_content, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
+    $query =  "select post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
     "FROM post join user using(user_id) " .
     "LEFT JOIN (".
     "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
