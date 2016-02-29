@@ -118,8 +118,8 @@ textarea {
 .comment .user-icon img {
   width: 3em;
 }
-.comment .meta {
-  margin-left: 3.5em;
+.comment .content {
+  margin-left: 0.5em;
 }
 .comments .load-more-comments-button {
   flex: 1 100%;
