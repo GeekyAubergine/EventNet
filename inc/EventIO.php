@@ -38,6 +38,10 @@ class EventIO {
   }
 
   private function getEventsSortedByDistance($args, $latitude, $longitude) {
+    $name = "";
+    if (isset($args["name"])) {
+      $name = $args["name"];
+    }
     /*Formula for calculating distance between two lat lngs, originally in JavaScript
       var R = 6371; // Radius of the earth in km
       var dLat = degreesToRadains(lat2 - lat1); // degreesToRadains below
@@ -72,6 +76,7 @@ class EventIO {
     "FROM event " .
     "LEFT JOIN (".
     "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
+    "WHERE event.event_name LIKE '%" . $name . "%' " .
     "ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
 
     return $this->io->queryDB($args, $query);
