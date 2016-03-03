@@ -78,16 +78,20 @@ switch ($path[0]) {
     }
     break;
   case "users":
-    //Get networkId
+    //Get renewToken
     if (isset($path[1]) && trim($path[1]) != "") {
-      $args["userId"] = $path[1];
+      $args["renewToken"] = $path[1];
     }
     switch ($verb) {
       case "GET":
-        $results = $userIO->getUsers($args);
+        $results = $userIO->getUser($args);
         break;
       case "POST":
-        $results = $userIO->createUser($args);
+        if (isset($args["renewToken"])) {
+          $results = $userIO->renewToken($args);
+        } else {
+          $results = $userIO->createUser($args);
+        }
         break;
       default:
         $results["meta"]["ok"] = false;

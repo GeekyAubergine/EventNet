@@ -25,9 +25,6 @@ class Comment {
   }
 
   public function createComment($args) {
-    if (!isset($args["userId"])) {
-      return $io->badRequest("User ID was missing", $args);
-    }
     if (!isset($args["postId"])) {
       return $io->badRequest("Post ID was missing", $args);
     }
@@ -41,10 +38,16 @@ class Comment {
       return $io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into comment (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values " .
-     "(". $args["userId"] . "," . $args["postId"] . ",'" . $args["commentContent"] . "'," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+    $query = "insert into post (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values (:user, :post, :content, :lat, :lon, now())";
+    $bindings = [];
 
-    $results = $this->io->queryDB($args, $query);
+    $bindings[":user"] = $this->io->getUserId($args);;
+    $bindings[":post"] = $args["postId"];
+    $bindings[":content"] = $args["postContent"];
+    $bindings[":lat"] = $args["latitude"];
+    $bindings[":lon"] = $args["longitude"];
+
+    $results = $this->io->queryDB($args, $query, $bindings);
 
     if ($results["data"] > 0) {
       $results["meta"]["status"] = 201;

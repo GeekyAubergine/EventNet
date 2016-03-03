@@ -44,6 +44,13 @@ traits:
         type: string
         required: false
         example: Siverstone
+- userCreated:
+  queryParameters:
+    accessToken:
+      description: The access token given to the client
+      type: string
+      required: true
+      example: 554afa93a916a3e62a5412c81c0456aa
 
 /events:
   description: A collection of events
@@ -112,10 +119,16 @@ traits:
         type: date
         required: false
         example: 2015-12-31 23:59:00
+      accessToken:
+        description: The access token given to the client
+        type: string
+        required: false
+        example: 554afa93a916a3e62a5412c81c0456aa
   post:
     description: Post a post in this event
     is: [
-      geolocatable
+      geolocatable,
+      userCreated
     ]
     queryParameters:
       eventId:
@@ -123,11 +136,6 @@ traits:
         type: integer
         required: true
         example: 1
-      userId:
-        description: The User ID that created this post
-        type: integer
-        required: true
-        example: 12345
       postContent:
         description: The content of the post
         type: string
@@ -155,8 +163,8 @@ traits:
     is: [
       formatable,
       pagable,
+      searchable
     ]
-    searchable
     queryParameters:
       postId:
         description: The post id to load comments from
@@ -166,7 +174,8 @@ traits:
   post:
     description: Create a new comment
     is: [
-      geolocatable
+      geolocatable,
+      userCreated
     ]
     queryParameters:
       postId:
@@ -174,11 +183,6 @@ traits:
         type: integer
         required: true
         example: 1
-      userId:
-        description: The User ID that created this comment
-        type: integer
-        required: true
-        example: 12345
       commentContent:
         description: The content of the comment
         type: string
@@ -202,18 +206,25 @@ traits:
 /users:
   description: A collection of users
   get:
-    description: Return list of all users
-    is : [
-      formatable,
-      pagable,
-      searchable
-    ]
+    description: Returns whether or not the current access token is valid
     queryParameters:
-      facebookId:
-        description: Facebook ID of user
-        type: integer
-        required: false
-        example: 1
+      accessToken:
+        description: User access token
+        type: string
+        required: true
+        example: 1243
+  post:
+    description: Create new user with parameters
+    queryParameters:
+      displayName:
+        description: User Display name
+        type: string
+        required: true
+        example: Joe
+      icon:
+        description: User icon
+        type: string
+        required: true
       googleId:
         description: Google ID of user
         type: integer
@@ -224,38 +235,9 @@ traits:
         type: integer
         required: false
         example: 1
-  post:
-    description: Create new user with parameters
-    queryParameters:
-      queryParameters:
-        displayName:
-          description: User Display name
-          type: string
-          required: true
-          example: Joe
-        icon:
-          description: User icon
-          type: string
-          required: true
-        facebookId:
-          description: Facebook ID of user
-          type: integer
-          required: false
-          example: 1
-        googleId:
-          description: Google ID of user
-          type: integer
-          required: false
-          example: 1
-        twitterId:
-          description: Twitter ID of user
-          type: integer
-          required: false
-          example: 1
-  /{userId}:
-    description: An item in the collection of users.
-    get:
-      description: Return the users
+  /{renewToken}:
+    post:
+      description: Request new access token
 
 /messages:
   description:  A collection of message
@@ -274,7 +256,8 @@ traits:
   post:
     description: Create a new message
     is: [
-      geolocatable
+      geolocatable,
+      userCreated
     ]
     queryParameters:
       eventId:
@@ -282,11 +265,6 @@ traits:
         type: integer
         required: true
         example: 1
-      userId:
-        description: The User ID that created this message
-        type: integer
-        required: true
-        example: 12345
       messageContent:
         description: The content of the message
         type: string

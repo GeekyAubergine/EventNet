@@ -5,6 +5,7 @@ if (!file_exists(__DIR__.'/config.php')) {
 }
 
 include __DIR__.'/config.php';
+include __DIR__.'/DBInit.php';
 include __DIR__.'/DB.php';
 include __DIR__.'/IO.php';
 include __DIR__.'/EventIO.php';
