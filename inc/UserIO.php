@@ -18,30 +18,30 @@ class UserIO {
     }
   }
 
-  public function accessTokenValid($token) {
-    if (!isset($token)) {
+  public function accessTokenValid($accessToken) {
+    if (!isset($accessToken)) {
       return $this->io->badRequest("Access token missing");
     }
 
     $query = "SELECT user_id FROM user where user_access_token = :token";
-    $bindings[":token"] = $token;
+    $bindings[":token"] = $accessToken;
 
     $results = $this->io->queryDB([], $query, $bindings);
 
     return count($results) == 1;
   }
 
-  public function getUserIdForAccessToken($token) {
-    if (!isset($token)) {
+  public function getUserIdForAccessToken($accessToken) {
+    if (!isset($accessToken)) {
       return $this->io->badRequest("Access token missing");
     }
 
-    if (!$this->accessTokenValid($token)) {
+    if (!$this->accessTokenValid($accessToken)) {
       return 0;
     }
 
     $query = "SELECT user_id FROM user where user_access_token = :token";
-    $bindings[":token"] = $token;
+    $bindings[":token"] = $accessToken;
 
     $results = $this->io->queryDB([], $query, $bindings);
 
@@ -72,14 +72,20 @@ class UserIO {
       $twitterId = $args["twitterId"];
     }
 
-    $query = "SELECT user_access_token FROM user WHERE user_google_id = :google OR user_twitter_id = :twitter";
+    $query = "SELECT user_access_token, user_renew_token, user_access_token_expire FROM user WHERE user_google_id = :google OR user_twitter_id = :twitter";
     $bindings = [];
     $bindings[":google"] = $googleId;
     $bindings[":twitter"] = $twitterId;
 
     $results = $this->io->queryDB($args, $query, $bindings);
     if (count($results["data"]) == 1) {
-      $results["data"] = $results["data"][0]["user_access_token"];
+      $data = [];
+      $data["accessToken"] = $results["data"][0]["user_access_token"];
+      $data["renewToken"] = $results["data"][0]["user_renew_token"];
+      $data["tokenExpire"] = $results["data"][0]["user_access_token_expire"];
+
+      $results["data"] = $data;
+
       return $results;
     }
 
@@ -87,31 +93,47 @@ class UserIO {
   }
 
   private function addUserToDatabase($displayName, $icon,  $googleId, $twitterId) {
-    $query = "INSERT INTO user (user_display_name, user_icon, user_google_id, user_twitter_id, user_access_token) VALUES (:name, :icon, :google, :twitter, :token)";
+    $query = "INSERT INTO user (user_display_name, user_icon, user_google_id, user_twitter_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:name, :icon, :google, :twitter, :token, :renew, :refresh)";
 
-    $token = $this->generateToken($displayName);
+    $accessToken = $this->generateAccessToken($displayName);
+    $renewToken = $this->generateRenewToken($displayName);
+    $refreshTime = $this->getNextRefreshDate();
 
     $bindings = [];
     $bindings[":name"] = $displayName;
     $bindings[":icon"] = $icon;
     $bindings[":google"] = $googleId;
     $bindings[":twitter"] = $twitterId;
-    $bindings[":token"] = $token;
+    $bindings[":token"] = $accessToken;
+    $bindings[":renew"] = $renewToken;
+    $bindings[":refresh"] = $refreshTime;
 
-    $results = $this->io->queryDB($args, $query, $bindings);
+    $results = $this->io->queryDB([], $query, $bindings);
 
     if ($results["data"] > 0) {
      $results["meta"]["status"] = 201;
      $results["meta"]["message"] = "User was created";
     }
 
-    $results["data"] = $token;
+    $results["data"] = [];
+    $results["data"]["accessToken"] = $accessToken;
+    $results["data"]["renewToken"] = $renewToken;
+    $results["data"]["tokenExpire"] = $refreshTime;
 
     return $results;
   }
 
-  private function generateToken($userName) {
-    return md5($args["displayName"]) . md5(time());
+  private function generateAccessToken($userName) {
+    return md5(time());
+  }
+
+  private function generateRenewToken($userName) {
+    return md5(time() + $userName);
+  }
+
+  private function getNextRefreshDate() {
+    $day = 60 * 60 * 24;
+    return date("d-m-Y H:i:s", time() + $day);
   }
 
 }

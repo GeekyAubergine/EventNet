@@ -15,8 +15,8 @@ define("USER_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS user (
   user_icon VARCHAR(512) NOT NULL,
   user_google_id VARCHAR(64),
   user_twitter_id VARCHAR(64),
-  user_access_token VARCHAR(64) NOT NULL,
-  user_renew_token VARCHAR(64) NOT NULL,
+  user_access_token VARCHAR(32) NOT NULL,
+  user_renew_token VARCHAR(32) NOT NULL,
   user_access_token_expire DATETIME NOT NULL,
   PRIMARY KEY (user_id))
   ENGINE = InnoDB;'
