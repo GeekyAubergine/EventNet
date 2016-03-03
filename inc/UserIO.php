@@ -8,30 +8,8 @@ class UserIO {
     $this->io = $io;
   }
 
-  public function getUsers($args) {
-    $clause = "";
-
-    if (isset($args["facebookId"])) {
-      $clause = "where user_facebook_id = '" . $args["facebookId"] . "'";
-    }
-    else if (isset($args["googleId"])) {
-      $clause = "where user_google_id = '" . $args["googleId"] . "'";
-    }
-    else if (isset($args["twitterId"])) {
-      $clause = "where user_twitter_id = '" . $args["twitterId"] . "'";
-    }
-    else if (isset($args["userId"])) {
-      $clause = "where user_id = " . $args["userId"];
-    }
-
-    $query = "select * from user ".
-    $clause . " ";
-
-    return $this->io->queryDB($args, $query);
-  }
-
   function createUser($args) {
-      $io = new IO();
+    $io = new IO();
 
     $facebookId = 0;
     $googleId = 0;
@@ -43,9 +21,6 @@ class UserIO {
     if (!isset($args["icon"])) {
       return $io->badRequest("Icon was missing", $args);
     }
-    if (isset($args["facebookId"])) {
-      $facebookId = $args["facebookId"];
-    }
     if (isset($args["googleId"])) {
       $googleId = $args["googleId"];
     }
@@ -53,16 +28,52 @@ class UserIO {
       $twitterId = $args["twitterId"];
     }
 
-    $query = "insert into user (user_display_name, user_icon, user_facebook_id, user_google_id, user_twitter_id) values " .
-     "('". $args["displayName"] . "','" . $args["icon"] . "','" . $facebookId . "','" . $googleId . "','" . $twitterId . "');";
+    $token = md5($args["displayName"] . time());
 
-     $results = $io->queryDB($args, $query);
+    $query = "INSERT INTO user (user_display_name, user_icon, user_google_id, user_twitter_id, user_access_token) VALUES (:name, :icon, :google, :twitter, :token)";
 
-     if ($results["data"] > 0) {
-       $results["meta"]["status"] = 201;
-       $results["meta"]["message"] = "User was created";
-     }
+    $bindings = [];
+    $bindings[":name"] = $args["displayName"];
+    $bindings[":icon"] = $args["icon"];
+    $bindings[":google"] = $googleId;
+    $bindings[":twitter"] = $twitterId;
+    $bindings[":token"] = $token;
 
-     return $results;
+    $results = $this->io->queryDB($args, $query, $bindings);
+
+    if ($results["data"] > 0) {
+     $results["meta"]["status"] = 201;
+     $results["meta"]["message"] = "User was created";
+    }
+
+    $results["data"] = $token;
+
+    return $results;
+  }
+
+  public function accessTokenValid($token) {
+    if (!isset($token)) {
+      return $this->io->badRequest("Access token missing");
+    }
+
+    $query = "SELECT user_id FROM user where user_access_token = :token";
+    $bindings[":token"] = $token;
+
+    $results = $this->io->queryDB([], $query, $bindings);
+
+    return count($results["data"]) == 1;
+  }
+
+  public function getUserIdForAccessToken($token) {
+    if (!isset($token)) {
+      return $this->io->badRequest("Access token missing");
+    }
+
+    $query = "SELECT user_id FROM user where user_access_token = :token";
+    $bindings[":token"] = $token;
+
+    $results = $this->io->queryDB([], $query, $bindings);
+
+    return $results["data"][0]["user_id"];
   }
 }

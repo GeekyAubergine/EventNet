@@ -81,6 +81,22 @@ class IO {
     return $results;
   }
 
+  public function getUserID($args) {
+    if (!isset($args["accessToken"])) {
+      return -1;
+    }
+    $accessToken = $args["accessToken"];
+    $user = new UserIO($this);
+
+    if ($user->accessTokenValid($accessToken)) {
+      $userId = $user->getUserIdForAccessToken($accessToken);
+    } else {
+      $userId = 0;
+    }
+
+    return $userId;
+  }
+
   public function close() {
     $this->database = null;
   }
