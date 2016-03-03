@@ -10,17 +10,19 @@ class UserIO {
 
   public function getUser($args) {
     if (isset($args["renewToken"])) {
-    } else {
+      return $this->renewToken($args);
+    }
+    if (isset($args["accessToken"])){
       $valid = $this->accessTokenValid($args["accessToken"]);
       $results = [];
-      $results["data"] = count($results["data"]) == 1;
+      $results["data"] = $valid;
       return $results;
     }
   }
 
   public function accessTokenValid($accessToken) {
     if (!isset($accessToken)) {
-      return $this->io->badRequest("Access token missing");
+      return $this->io->badRequest("Access token missing", []);
     }
 
     $query = "SELECT user_id FROM user where user_access_token = :token";
@@ -28,12 +30,12 @@ class UserIO {
 
     $results = $this->io->queryDB([], $query, $bindings);
 
-    return count($results) == 1;
+    return count($results["data"]) == 1;
   }
 
   public function getUserIdForAccessToken($accessToken) {
     if (!isset($accessToken)) {
-      return $this->io->badRequest("Access token missing");
+      return $this->io->badRequest("Access token missing", []);
     }
 
     if (!$this->accessTokenValid($accessToken)) {
@@ -48,7 +50,28 @@ class UserIO {
     return $results["data"][0]["user_id"];
   }
 
-  function createUser($args) {
+  public function renewToken($args) {
+    $accessToken = $this->generateAccessToken($displayName);
+    $refreshTime = $this->getNextRefreshDate();
+
+    $query = "UPDATE user SET user_access_token = :token, user_access_token_expire = :expire WHERE user_renew_token = :renew";
+    $bindings = [];
+    $bindings[":renew"] = $args["renewToken"];
+    $bindings[":token"] = $accessToken;
+    $bindings[":expire"] = $refreshTime;
+
+    $results = $this->io->queryDB($args, $query, $bindings);
+
+    $data = [];
+    $data["accessToken"] = $accessToken;
+    $data["tokenExpire"] = $refreshTime;
+
+    $results["data"] = $data;
+
+    return $results;
+  }
+
+  public function createUser($args) {
     $io = new IO();
 
     $facebookId = 0;
@@ -128,12 +151,12 @@ class UserIO {
   }
 
   private function generateRenewToken($userName) {
-    return md5(time() + $userName);
+    return md5(time() . $userName);
   }
 
   private function getNextRefreshDate() {
-    $day = 60 * 60 * 24;
-    return date("d-m-Y H:i:s", time() + $day);
+    $timeDelta = 10;
+    return date('Y-m-d H:i:s', time() + $timeDelta);
   }
 
 }

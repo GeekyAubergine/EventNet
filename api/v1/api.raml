@@ -205,6 +205,14 @@ traits:
 
 /users:
   description: A collection of users
+  get:
+    description: Returns whether or not the current access token is valid
+    queryParameters:
+      accessToken:
+        description: User access token
+        type: string
+        required: true
+        example: 1243
   post:
     description: Create new user with parameters
     queryParameters:
@@ -227,6 +235,9 @@ traits:
         type: integer
         required: false
         example: 1
+  /{renewToken}:
+    post:
+      description: Request new access token
 
 /messages:
   description:  A collection of message
