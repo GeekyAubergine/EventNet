@@ -37,7 +37,7 @@ class DB {
   public function query($query, $bindings = null) {
     $results = [];
 
-    $isSelectQuery = strpos($query, 'select') !== false;
+    $isSelectQuery = strpos(strtolower($query), 'select') !== false;
 
     try {
       if (isset($bindings)) {
