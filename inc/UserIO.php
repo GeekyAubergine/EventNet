@@ -147,15 +147,15 @@ class UserIO {
   }
 
   private function generateAccessToken($userName) {
-    return md5(time());
+    return md5(time()) . md5($userName);
   }
 
   private function generateRenewToken($userName) {
-    return md5(time() . $userName);
+    return md5(time() . $userName) . md5($userName);
   }
 
   private function getNextRefreshDate() {
-    $timeDelta = 10;
+    $timeDelta = 60 * 60 * 24; //Expires every day
     return date('Y-m-d H:i:s', time() + $timeDelta);
   }
 
