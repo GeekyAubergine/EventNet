@@ -73,9 +73,9 @@ define("MESSAGE_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS message (
 ');
 //Default anonymous user
 define("DEFAULT_DATA",   "insert into user
-  (user_display_name, user_icon, user_access_token)
+  (user_display_name, user_icon, user_access_token, user_access_token_expire)
   values
-  ('Anonymous', '/res/icons/default_user.svg', '1');"
+  ('Anonymous', '/res/icons/default_user.svg', '1', '9999-12-31 23:59:59');"
 );
 define("DATABASE_INIT", TABLE_NETWORK_INIT . USER_TABLE_INIT .
   POST_TABLE_INIT . MEDIA_TABLE_INIT . COMMENT_TABLE_INIT . MESSAGE_TABLE_INIT . DEFAULT_DATA);
