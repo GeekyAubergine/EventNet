@@ -4,10 +4,12 @@ class PostIO {
 
   private $io;
   private $basePostQuery;
+  private $reportsWhereClause;
 
   public function __construct($io) {
     $this->io = $io;
-    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments, IF(post.user_id = :userId, 'true', 'false') as posted_by_user FROM post join user using(user_id) LEFT JOIN (select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id ";
+    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, IFNULL(info.number_of_comments, 0) as number_of_comments, reports.number_of_reports as number_of_reports, IF(post.user_id = :userId, 'true', 'false') as posted_by_user FROM post join user using(user_id) LEFT JOIN (select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id LEFT JOIN (select post_id, COUNT(*) AS number_of_reports FROM report GROUP BY post_id) AS reports ON reports.post_id = post.post_id ";
+    $this->reportsWhereClause = " (number_of_reports < :reportsLimit OR number_of_reports IS NULL) ";
   }
 
   public function getPosts($args) {
@@ -40,36 +42,32 @@ class PostIO {
   }
 
   public function getPostsWithEventId($args, $eventId) {
-    $query = $this->basePostQuery . "WHERE event_id = :eventId ORDER BY post.post_timestamp asc";
+    // AND reports.number_of_reports < :reportsLimit ORDER BY post.post_timestamp
+    $query = $this->basePostQuery . "WHERE event_id = :eventId AND " . $this->reportsWhereClause .  "ORDER BY post.post_timestamp asc";
     $bindings = [];
     $bindings[":userId"] = $this->io->getUserId($args);
     $bindings[":eventId"] = $eventId;
+    $bindings[":reportsLimit"] = REPORTS_BEFORE_HIDDING_CONTENT;
 
     return $this->io->queryDB($args, $query, $bindings);
   }
 
   private function getPostBeforeTime($args, $eventId, $time) {
-    $query = "select post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
-    "FROM post join user using(user_id) " .
-    "LEFT JOIN (".
-    "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
-    "WHERE event_id = " . $eventId . " " .
-    "AND post_timestamp > '" . $time ."'" .
-    " ORDER BY post.post_timestamp asc ";
+    $query = $this->basePostQuery . "WHERE event_id = :event ORDER BY post.post_timestamp asc ";
+    $bindings = [];
+    $bindings[":eventId"] = $eventId;
+    $bindings[":time"] = $time;
 
-    return $this->io->queryDB($args, $query);
+    return $this->io->queryDB($args, $query, $bindings);
   }
 
   private function getPostAfterTime($args, $eventId, $time) {
-    $query =  "select post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, info.number_of_comments " .
-    "FROM post join user using(user_id) " .
-    "LEFT JOIN (".
-    "select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id " .
-    "WHERE event_id = " . $eventId . " " .
-    "AND post_timestamp < '" . $time ."'".
-    " ORDER BY post.post_timestamp asc ";
+    $query = $this->basePostQuery . "WHERE event_id = :event ORDER BY post.post_timestamp asc ";
+    $bindings = [];
+    $bindings[":eventId"] = $eventId;
+    $bindings[":time"] = $time;
 
-    return $this->io->queryDB($args, $query);
+    return $this->io->queryDB($args, $query, $bindings);
   }
 
   public function createPost($args) {
