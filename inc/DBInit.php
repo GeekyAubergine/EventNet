@@ -61,11 +61,13 @@ define("COMMENT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS comment (
 define("REPORT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS report (
   report_id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
-  post_id BIGINT NOT NULL,
-  post_timestamp DATETIME NOT NULL,
+  post_id BIGINT,
+  comment_id BIGINT,
+  report_timestamp DATETIME NOT NULL,
   PRIMARY KEY (report_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
-  FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE NO ACTION)
+  FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE NO ACTION,
+  FOREIGN KEY (comment_id) REFERENCES comment(comment_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;'
 );
 define("MESSAGE_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS message (
