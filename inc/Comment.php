@@ -38,12 +38,12 @@ class Comment {
       return $io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into post (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values (:user, :post, :content, :lat, :lon, now())";
+    $query = "insert into comment (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values (:user, :post, :content, :lat, :lon, now())";
     $bindings = [];
 
     $bindings[":user"] = $this->io->getUserId($args);;
     $bindings[":post"] = $args["postId"];
-    $bindings[":content"] = $args["postContent"];
+    $bindings[":content"] = $args["commentContent"];
     $bindings[":lat"] = $args["latitude"];
     $bindings[":lon"] = $args["longitude"];
 

@@ -8,6 +8,7 @@ $postIO = new PostIO($io);
 $comment = new Comment($io);
 $userIO = new UserIO($io);
 $messageIO = new MessageIO($io);
+$reportIO = new ReportIO($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -92,6 +93,16 @@ switch ($path[0]) {
         } else {
           $results = $userIO->createUser($args);
         }
+        break;
+      default:
+        $results["meta"]["ok"] = false;
+        break;
+    }
+    break;
+  case "reports":
+    switch ($verb) {
+      case "POST":
+        $results = $reportIO->createReport($args);
         break;
       default:
         $results["meta"]["ok"] = false;
