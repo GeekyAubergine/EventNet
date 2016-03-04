@@ -25,7 +25,7 @@ class UserIO {
       return $this->io->badRequest("Access token missing", []);
     }
 
-    $query = "SELECT user_id FROM user where user_access_token = :token";
+    $query = "SELECT user_id FROM user WHERE user_access_token = :token AND user_access_token_expire > NOW()";
     $bindings[":token"] = $accessToken;
 
     $results = $this->io->queryDB([], $query, $bindings);
@@ -42,7 +42,7 @@ class UserIO {
       return 0;
     }
 
-    $query = "SELECT user_id FROM user where user_access_token = :token";
+    $query = "SELECT user_id FROM user where user_access_token = :token AND user_access_token_expire > NOW()";
     $bindings[":token"] = $accessToken;
 
     $results = $this->io->queryDB([], $query, $bindings);
@@ -51,18 +51,40 @@ class UserIO {
   }
 
   public function renewToken($args) {
+    $data = [];
+    $bindings = [];
+    $bindings[":renew"] = $args["renewToken"];
+
+    //Get refresh time
+    $query = "SELECT user_access_token, user_access_token_expire FROM user WHERE user_renew_token = :renew";
+
+    $results = $this->io->queryDB([], $query, $bindings);
+
+    $refresh =  $results["data"][0]["user_access_token_expire"];
+
+    //Determine if refresh needs to occur
+    $expire = strtotime($refresh);
+    $data["test"] = time() . " " . $expire . " " . ($expire - time());
+    $margin = 60; //One minute margin
+    if ($expire >= time() + $margin) {
+      $data["test2"] = "here";
+      $data["accessToken"] = $results["data"][0]["user_access_token"];
+      $data["tokenExpire"] = $results["data"][0]["user_access_token_expire"];
+
+      $results["data"] = $data;
+
+      return $results;
+    }
+
     $accessToken = $this->generateAccessToken($displayName);
     $refreshTime = $this->getNextRefreshDate();
 
     $query = "UPDATE user SET user_access_token = :token, user_access_token_expire = :expire WHERE user_renew_token = :renew";
-    $bindings = [];
-    $bindings[":renew"] = $args["renewToken"];
     $bindings[":token"] = $accessToken;
     $bindings[":expire"] = $refreshTime;
 
     $results = $this->io->queryDB($args, $query, $bindings);
 
-    $data = [];
     $data["accessToken"] = $accessToken;
     $data["tokenExpire"] = $refreshTime;
 
@@ -155,7 +177,7 @@ class UserIO {
   }
 
   private function getNextRefreshDate() {
-    $timeDelta = 60 * 60 * 24; //Expires every day
+    $timeDelta = 24 * 60 * 60; //Expires every day
     return date('Y-m-d H:i:s', time() + $timeDelta);
   }
 

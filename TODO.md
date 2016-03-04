@@ -1,5 +1,5 @@
 # TODO For mark scheme
-- [ ] Users can login with OAuth.
+- [x] Users can login with OAuth.
 - [x] Users can use the site anonymously without having to log in.
 - [x] Users can create an Event.
 - [x] Users can join an Event.
