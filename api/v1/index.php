@@ -5,7 +5,7 @@ include __DIR__.'/../../inc/all.php';
 $io = new IO();
 $eventIO = new EventIO($io);
 $postIO = new PostIO($io);
-$comment = new Comment($io);
+$commentIO = new CommentIO($io);
 $userIO = new UserIO($io);
 $messageIO = new MessageIO($io);
 $reportIO = new ReportIO($io);
@@ -68,10 +68,10 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = $comment->getComments($args);
+        $results = $commentIO->getComments($args);
         break;
       case "POST":
-        $results = $comment->createComment($args);
+        $results = $commentIO->createComment($args);
         break;
       default:
         $results["meta"]["ok"] = false;
