@@ -51,20 +51,20 @@ class IO {
     return $results;
   }
 
-  public function methodNowAllowed($message, $args) {
+  public function methodNotAllowed($args) {
     $results = [];
     $results["meta"]["ok"] = false;
     $results["meta"]["status"] = 405;
-    $results["meta"]["message"] = $message;
+    $results["meta"]["message"] = "Method now allowed";
     $results["debug"]["request"] = $args;
     return $results;
   }
 
-  public function methodNotImplemented($message, $args) {
+  public function methodNotImplemented($args) {
     $results = [];
     $results["meta"]["ok"] = false;
     $results["meta"]["status"] = 501;
-    $results["meta"]["message"] = $message;
+    $results["meta"]["message"] = "Method not implemented";
     $results["debug"]["request"] = $args;
     return $results;
   }
