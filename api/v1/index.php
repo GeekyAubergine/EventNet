@@ -40,7 +40,7 @@ switch ($path[0]) {
         $results = $eventIO->createEvent($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -57,7 +57,7 @@ switch ($path[0]) {
         $results = $postIO->createPost($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $$results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -74,7 +74,7 @@ switch ($path[0]) {
         $results = $commentIO->createComment($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -95,7 +95,7 @@ switch ($path[0]) {
         }
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -105,7 +105,7 @@ switch ($path[0]) {
         $results = $reportIO->createReport($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -122,12 +122,12 @@ switch ($path[0]) {
         $results = $messageIO->createMessage($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
   default:
-    $results["meta"]["ok"] = false;
+    $results = $io->methodNotAllowed($args);
     break;
 }
 
