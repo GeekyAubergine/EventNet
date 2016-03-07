@@ -18,6 +18,8 @@ class UserIO {
       $results["data"] = $valid;
       return $results;
     }
+
+    return $this->io->badRequest("Either the renew token or the access token must be set", $args);
   }
 
   public function accessTokenValid($accessToken) {

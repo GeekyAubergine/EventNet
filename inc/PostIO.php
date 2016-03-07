@@ -34,7 +34,7 @@ class PostIO {
       return $this->getPostsBetweenDates($args, $eventId, $before, $after);
     }
 
-    return $this->getPostsWithEventId($args, $eventId);
+    return $this->io-badRequest("Either the post id or the event id must be set", $args);
   }
 
   private function getPostById($args, $postId) {

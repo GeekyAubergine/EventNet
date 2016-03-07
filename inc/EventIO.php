@@ -22,7 +22,7 @@ class EventIO {
       return $this->getEventsSortedByDistance($args, $latitude, $longitude);
     }
 
-    return $this->io-badRequest("Not valid event request", $args);
+    return $this->io-badRequest("Either event id or latitude and longitude must be set", $args);
   }
 
   private function getEventById($args, $eventID) {

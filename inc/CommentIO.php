@@ -14,6 +14,8 @@ class CommentIO {
     if (isset($args["postId"])) {
       return $this->getCommentsForPostId($args, $args["postId"]);
     }
+
+    return $this->io->badRequest("Post id must be set", $args);
   }
 
   private function getCommentsForPostId($args, $postId) {

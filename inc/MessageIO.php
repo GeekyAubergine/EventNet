@@ -9,7 +9,7 @@ class MessageIO {
   }
 
   public function getMessages($args) {
-        if (!isset($args["eventId"])) {
+    if (!isset($args["eventId"])) {
       return $this->io->badRequest("Network ID was missing", $args);
     }
     $query = "select * from message join user using(user_id) " .
