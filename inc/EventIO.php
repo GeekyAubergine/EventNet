@@ -26,15 +26,11 @@ class EventIO {
   }
 
   private function getEventById($args, $eventID) {
-    $clause = "WHERE event.event_id = " . abs(intval($args["eventID"]));
+    $query = "SELECT event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post FROM event LEFT JOIN (SELECT event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id WHERE event.event_id = :event";
+    $bindings = [];
+    $bindings[":event"] = $eventID;
 
-    $query = "select event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post " .
-    "FROM event " .
-    "LEFT JOIN (".
-    "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
-    "WHERE event.event_id = " . $eventID;
-
-    return $this->io->queryDB($args, $query);
+    return $this->io->queryDB($args, $query, $bindings);
   }
 
   private function getEventsSortedByDistance($args, $latitude, $longitude) {
