@@ -51,6 +51,24 @@ class IO {
     return $results;
   }
 
+  public function methodNowAllowed($message, $args) {
+    $results = [];
+    $results["meta"]["ok"] = false;
+    $results["meta"]["status"] = 405;
+    $results["meta"]["message"] = $message;
+    $results["debug"]["request"] = $args;
+    return $results;
+  }
+
+  public function methodNotImplemented($message, $args) {
+    $results = [];
+    $results["meta"]["ok"] = false;
+    $results["meta"]["status"] = 501;
+    $results["meta"]["message"] = $message;
+    $results["debug"]["request"] = $args;
+    return $results;
+  }
+
   public function queryDB($args, $query, $bindings = null) {
     $limit = 25;
     $offset = 0;

@@ -31,6 +31,14 @@ textarea {
 
 /* ---- Posts ---- */
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 #posts {
   flex: 1 100%;
   display: flex;
@@ -43,6 +51,7 @@ textarea {
   margin-top: 1em;
   background-color: white;
   border: 0.1em solid #CCC;
+  animation: fadein 250ms;
 }
 .post .content {
   flex: 100%;

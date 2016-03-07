@@ -284,3 +284,22 @@ traits:
           example: Test message, please ignore
     delete:
       description: Deletes this message
+
+/reports:
+  description: A collect of reports
+  post:
+    description: Report a post or a comment
+    is: [
+      userCreated
+    ]
+    queryParameters:
+      postId:
+        description: The post ID to report
+        type: integer
+        required: false
+        example: 1
+      commentId:
+        description: The comment ID to report
+        type: string
+        required: true
+        example: Test post, please ignore
