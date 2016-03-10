@@ -24,13 +24,20 @@
   cursor: pointer;
 }
 
+#message-area-container {
+  position: absolute;
+  bottom: 0;
+  max-width: 60em;
+}
 
 /* ---- messages ---- */
-
 #messages {
-  flex: 1 100%;
+  flex: 1;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row-reverse wrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+  /*max-height: calc(100vh - 7em);*/
 }
 .message {
   flex: 1 100%;
