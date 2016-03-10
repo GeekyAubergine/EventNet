@@ -22,19 +22,15 @@ class EventIO {
       return $this->getEventsSortedByDistance($args, $latitude, $longitude);
     }
 
-    return $this->io-badRequest("Not valid event request", $args);
+    return $this->io-badRequest("Either event id or latitude and longitude must be set", $args);
   }
 
   private function getEventById($args, $eventID) {
-    $clause = "WHERE event.event_id = " . abs(intval($args["eventID"]));
+    $query = "SELECT event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post FROM event LEFT JOIN (SELECT event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id WHERE event.event_id = :event";
+    $bindings = [];
+    $bindings[":event"] = $eventID;
 
-    $query = "select event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post " .
-    "FROM event " .
-    "LEFT JOIN (".
-    "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
-    "WHERE event.event_id = " . $eventID;
-
-    return $this->io->queryDB($args, $query);
+    return $this->io->queryDB($args, $query, $bindings);
   }
 
   private function getEventsSortedByDistance($args, $latitude, $longitude) {
@@ -58,28 +54,33 @@ class EventIO {
     "6371 * 2 * ATAN2(" .
     "SQRT(" .
     //a
-    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) * " .
-    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) + " .
-    "COS(RADIANS(event.event_latitude)) * COS(RADIANS(" . $latitude . ")) * " .
-    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2) * " .
-    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2)" .
+    "SIN(RADIANS(event.event_latitude - :latitude) / 2) * " .
+    "SIN(RADIANS(event.event_latitude - :latitude) / 2) + " .
+    "COS(RADIANS(event.event_latitude)) * COS(RADIANS(:latitude)) * " .
+    "SIN(RADIANS(event.event_longitude - :longitude) / 2) * " .
+    "SIN(RADIANS(event.event_longitude - :longitude) / 2)" .
     "), " .
     "SQRT(1 - " .
     //a
-    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) * " .
-    "SIN(RADIANS(event.event_latitude - " . $latitude . ") / 2) + " .
-    "COS(RADIANS(event.event_latitude)) * COS(RADIANS(" . $latitude . ")) * " .
-    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2) * " .
-    "SIN(RADIANS(event.event_longitude - " . $longitude . ") / 2)" .
+    "SIN(RADIANS(event.event_latitude - :latitude) / 2) * " .
+    "SIN(RADIANS(event.event_latitude - :latitude) / 2) + " .
+    "COS(RADIANS(event.event_latitude)) * COS(RADIANS(:latitude)) * " .
+    "SIN(RADIANS(event.event_longitude - :longitude) / 2) * " .
+    "SIN(RADIANS(event.event_longitude - :longitude) / 2)" .
     "))".
     ") as distance_from_user " .
     "FROM event " .
     "LEFT JOIN (".
     "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
-    "WHERE event.event_name LIKE '%" . $name . "%' " .
+    "WHERE event.event_name LIKE :search " .
     "ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
 
-    return $this->io->queryDB($args, $query);
+    $bindings = [];
+    $bindings[":latitude"] = $latitude;
+    $bindings[":longitude"] = $longitude;
+    $bindings[":search"] = "%" . $name . "%";
+
+    return $this->io->queryDB($args, $query, $bindings);
   }
 
   public function createEvent($args) {
@@ -93,9 +94,13 @@ class EventIO {
       return $this->io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (\"". $args["eventName"] . "\"," . $args["latitude"] . "," . $args["longitude"] . ", now());";
+    $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (:event, :latitude, :longitude, now());";
+    $bindings = [];
+    $bindings[":event"] = $args["eventName"];
+    $bindings[":latitude"] = $args["latitude"];
+    $bindings[":longitude"] = $args["longitude"];
 
-    $results = $this->io->queryDB($args, $query);
+    $results = $this->io->queryDB($args, $query, $bindings);
 
     if ($results["data"] > 0) {
       $results["meta"]["status"] = 201;
