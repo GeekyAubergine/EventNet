@@ -9,7 +9,7 @@ define("TABLE_NETWORK_INIT", 'CREATE TABLE IF NOT EXISTS event (
   PRIMARY KEY (event_id))
   ENGINE = InnoDB;
   ');
-define("USER_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS user (
+define("USER_TABLE_INIT", "CREATE TABLE IF NOT EXISTS user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
   user_display_name VARCHAR(128) NOT NULL,
   user_icon VARCHAR(512) NOT NULL,
@@ -19,7 +19,11 @@ define("USER_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS user (
   user_renew_token VARCHAR(64) NOT NULL,
   user_access_token_expire DATETIME NOT NULL,
   PRIMARY KEY (user_id))
-  ENGINE = InnoDB;'
+  ENGINE = InnoDB;
+
+  INSERT INTO USER (user_display_name, user_icon, user_access_token, user_renew_token, user_access_token_expire)
+  values
+  ('Anonymous', '/res/icons/default_user.svg', '1', '1', '9999-12-31 23:59:59');"
 );
 define("POST_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post (
   post_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -70,7 +74,7 @@ define("REPORT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS report (
   FOREIGN KEY (comment_id) REFERENCES comment(comment_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;'
 );
-define("MESSAGE_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS message (
+define("MESSAGE_TABLE_INIT", "CREATE TABLE IF NOT EXISTS message (
   message_id BIGINT NOT NULL AUTO_INCREMENT,
   user_id BIGINT NOT NULL,
   event_id BIGINT NOT NULL,
@@ -82,12 +86,7 @@ define("MESSAGE_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS message (
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
   FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;
-');
-//Default anonymous user
-define("DEFAULT_DATA",   "insert into user
-  (user_display_name, user_icon, user_access_token, user_access_token_expire)
-  values
-  ('Anonymous', '/res/icons/default_user.svg', '1', '9999-12-31 23:59:59');"
-);
+");
+
 define("DATABASE_INIT", TABLE_NETWORK_INIT . USER_TABLE_INIT .
-  POST_TABLE_INIT . MEDIA_TABLE_INIT . COMMENT_TABLE_INIT . REPORT_TABLE_INIT . MESSAGE_TABLE_INIT . DEFAULT_DATA);
+  POST_TABLE_INIT . MEDIA_TABLE_INIT . COMMENT_TABLE_INIT . REPORT_TABLE_INIT . MESSAGE_TABLE_INIT);
