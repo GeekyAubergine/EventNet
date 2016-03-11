@@ -24,13 +24,18 @@
   cursor: pointer;
 }
 
+#message-area-container {
+  display: flex;
+  flex-flow: row wrap;
+  width: 60em;
+}
 
 /* ---- messages ---- */
-
 #messages {
-  flex: 1 100%;
+  flex: 1;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  margin-bottom: 4em;
 }
 .message {
   flex: 1 100%;
@@ -48,7 +53,10 @@
 /* ---- message creation ---- */
 
 #message-creator {
-  flex: 1 100%;
+  position: fixed;
+  bottom: 0;
+  left: calc(50% - 30em);
+  width: 60em;
   display: flex;
   flex-wrap: wrap;
   align-self: flex-end;

@@ -1,68 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>EventNet</title>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="lib/css/core.css">
-  <link rel="stylesheet" href="lib/css/chat.css">
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>EventNet</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="lib/css/core.css">
+    <link rel="stylesheet" href="lib/css/chat.css">
+  </head>
 
-<body>
-  <header>
-    <div class=width-container>
-      <h1>EventNet</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="/">Home</a>
-          </li>
-          <li>
-            <a href="/chat.html">Chat</a>
-          </li>
-          <li>
-            <a href="/home.html">Map</a>
-          </li>
-          <li>
-            <a href="/events.html">Events</a>
-          </li>
-          <li>
-            <a href="/settings.html">Settings</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  <main class=width-container>
-    <section id=messages>
-      <!-- <article class=message>
-        <div class=meta>
-          <div class=user-icon>
-            <img src="/res/icons/default_user.svg" alt="">
-          </div>
-          <div class=info>
-            <h3>User</h3>
-          </div>
-        </div>
-        <div class=content>
-          <p>Message content</p>
-        </div>
-      </article> -->
-    </section>
-    <section id=message-creator>
-      <div class=container>
-        <div class=user-icon>
-          <img id=user-icon src="res/icons/default_user.svg" alt="">
-        </div>
-        <textarea id=message-creator-textarea placeholder="Type a message"></textarea>
+  <body>
+    <header>
+      <div class=width-container>
+        <h1>EventNet</h1>
+        <nav>
+          <ul>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/chat.html">Chat</a>
+            </li>
+            <li>
+              <a href="/home.html">Map</a>
+            </li>
+            <li>
+              <a href="/events.html">Events</a>
+            </li>
+            <li>
+              <a href="/settings.html">Settings</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    </section>
-  </main>
-  <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
-  <script src="lib/js/xhr.js" charset="utf-8"></script>
-  <script src="lib/js/eventNet.js" charset="utf-8"></script>
-  <script src="lib/js/chat.js" charset="utf-8"></script>
-</body>
+    </header>
+    <main class=width-container>
+      <div id=message-area-container>
+        <section id=messages></section>
+        <section id=message-creator>
+          <div class=container>
+            <div class=user-icon>
+              <img id=user-icon src="res/icons/default_user.svg" alt="">
+            </div>
+            <textarea id=message-creator-textarea placeholder="Type a message"></textarea>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
+    <script src="lib/js/xhr.js" charset="utf-8"></script>
+    <script src="lib/js/eventNet.js" charset="utf-8"></script>
+    <script src="lib/js/chat.js" charset="utf-8"></script>
+  </body>
 
 </html>
