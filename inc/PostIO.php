@@ -7,7 +7,9 @@ class PostIO {
 
   public function __construct($io) {
     $this->io = $io;
-    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, IFNULL(info.number_of_comments, 0) as number_of_comments, reports.number_of_reports as number_of_reports, IF(post.user_id = :userId, 'true', 'false') AS posted_by_user FROM post JOIN user USING(user_id) LEFT JOIN report USING(post_id) LEFT JOIN (select post_id, COUNT(*) AS number_of_comments FROM comment GROUP BY post_id) AS info ON info.post_id = post.post_id LEFT JOIN (select post_id, COUNT(*) AS number_of_reports FROM report GROUP BY post_id) AS reports ON reports.post_id = post.post_id ";
+    // $reportsQuery = "";
+    $commentsQuery = "(SELECT COUNT(*) FROM comment WHERE post.post_id = comment.post_id AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0)"; //(number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0
+    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(post.user_id = :userId, 'true', 'false') AS posted_by_user FROM post JOIN user USING(user_id) LEFT JOIN report USING(post_id)";
   }
 
   public function getPosts($args) {
@@ -47,7 +49,7 @@ class PostIO {
   }
 
   private function getPostsBetweenDates($args, $eventId, $before, $after) {
-    $query = $this->basePostQuery . "WHERE event_id = :eventId AND post_timestamp < :before AND post_timestamp > :after AND (number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0 ORDER BY post.post_timestamp asc ";
+    $query = $this->basePostQuery . " WHERE event_id = :eventId AND post_timestamp < :before AND post_timestamp > :after AND IF(report.user_id = :userId, 1, 0) = 0 AND (SELECT COUNT(*) FROM report WHERE report.post_id = post.post_id) < :maxReports ORDER BY post.post_timestamp asc ";// AND (number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0 ORDER BY post.post_timestamp asc ";
     $bindings = [];
     $bindings[":userId"] = $this->io->getUserId($args);
     $bindings[":eventId"] = $eventId;
