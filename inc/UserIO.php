@@ -6,6 +6,8 @@ class UserIO {
 
   public function __construct($io) {
     $this->io = $io;
+    //Set timezone
+    date_default_timezone_set('UTC');
   }
 
   public function getUser($args) {
