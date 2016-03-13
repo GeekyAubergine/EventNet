@@ -32,16 +32,16 @@ class CommentIO {
 
   public function createComment($args) {
     if (!isset($args["postId"])) {
-      return $io->badRequest("Post ID was missing", $args);
+      return $this->io->badRequest("Post ID was missing", $args);
     }
     if (!isset($args["commentContent"])) {
-      return $io->badRequest("Comment content was missing", $args);
+      return $this->io->badRequest("Comment content was missing", $args);
     }
     if (!isset($args["latitude"])) {
-      return $io->badRequest("Latitude was missing", $args);
+      return $this->io->badRequest("Latitude was missing", $args);
     }
     if (!isset($args["longitude"])) {
-      return $io->badRequest("Longitude was missing", $args);
+      return $this->io->badRequest("Longitude was missing", $args);
     }
 
     $query = "insert into comment (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values (:user, :post, :content, :lat, :lon, now())";
@@ -58,6 +58,25 @@ class CommentIO {
     if ($results["data"] > 0) {
       $results["meta"]["status"] = 201;
       $results["meta"]["message"] = "Comment was created";
+    }
+
+    return $results;
+  }
+
+  public function deleteComment($args) {
+    if (!isset($args["commentId"])) {
+      return $this->io->badRequest("Comment id was missing");
+    }
+
+    $query = "DELETE FROM comment WHERE comment_id = :id";
+    $bindings = [];
+    $bindings[":id"] = $args["commentId"];
+
+    $results = $this->io->queryDB($args, $query, $bindings);
+
+    if ($results["data"] > 0) {
+      $results["meta"]["status"] = 200;
+      $results["meta"]["message"] = "Comment was deleted";
     }
 
     return $results;
