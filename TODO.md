@@ -27,4 +27,4 @@
 ## General to do list
 - Add achived to network table and implement in io
 - Add edited field to post and comment
-- Don't filter reports for user 1
+- Save users previous location and use for location before more accurate results comes in
