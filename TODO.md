@@ -28,3 +28,4 @@
 - Add achived to network table and implement in io
 - Add edited field to post and comment
 - Save users previous location and use for location before more accurate results comes in
+- When comment or post is delete delete associated media
