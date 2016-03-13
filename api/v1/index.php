@@ -56,6 +56,9 @@ switch ($path[0]) {
       case "POST":
         $results = $postIO->createPost($args);
         break;
+      case "DELETE":
+        $results = $postIO->deletePost($args);
+        break;
       default:
         $$results = $io->methodNotAllowed($args);
         break;
@@ -72,6 +75,9 @@ switch ($path[0]) {
         break;
       case "POST":
         $results = $commentIO->createComment($args);
+        break;
+      case "DELETE":
+        $results = $commentIO->deleteComment($args);
         break;
       default:
         $results = $io->methodNotAllowed($args);

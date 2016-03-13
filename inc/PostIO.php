@@ -96,4 +96,23 @@ class PostIO {
     return $results;
   }
 
+  public function deletePost($args) {
+    if (!isset($args["postId"])) {
+      return $this->io->badRequest("Post id was missing");
+    }
+
+    $query = "DELETE FROM comment WHERE post_id = :id; DELETE FROM post WHERE post_id = :id";
+    $bindings = [];
+    $bindings[":id"] = $args["postId"];
+
+    $results = $this->io->queryDB($args, $query, $bindings);
+
+    if ($results["data"] > 0) {
+      $results["meta"]["status"] = 200;
+      $results["meta"]["message"] = "Post was deleted";
+    }
+
+    return $results;
+  }
+
 }
