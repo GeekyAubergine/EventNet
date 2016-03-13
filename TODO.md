@@ -11,11 +11,11 @@
 - [ ] Users can upload images in posts.
 - [ ] Users can upload videos in posts.
 - [x] New posts are automatically loaded at the top of the ‘feed’ when another user posts them, this does not require the user to reload the page.
-- [ ] Users can report posts, a posts with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
+- [x] Users can report posts, a posts with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
 - [x] Users can comment on a post.
 - [ ] Users can edit their own comments.
 - [ ] Users can delete their own comments.
-- [ ] Users can report comments, a comment with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
+- [x] Users can report comments, a comment with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
 - [x] Events, posts, comments and messages are shown with a distance from their creation location to the user’s current location.
 - [ ] Users can view an activity map that shows all ‘activity’ on a map relative to the user’s location.
 - [x] A user’s current location is updated as it changes, this affects the order in which Events are listed and affects the distance from a user that is listed in Events, posts, comments and instant messages.
