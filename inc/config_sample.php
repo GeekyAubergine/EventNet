@@ -9,3 +9,6 @@ const DEBUGGING = false;
 
 //The number of reports a piece of content must have before it is hidden
 const REPORTS_BEFORE_HIDDING_CONTENT = 5;
+
+//Uploads folder
+const UPLOADS_FOLDER = "/uploads/";

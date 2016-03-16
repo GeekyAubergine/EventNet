@@ -14,3 +14,4 @@ include __DIR__.'/CommentIO.php';
 include __DIR__.'/ReportIO.php';
 include __DIR__.'/UserIO.php';
 include __DIR__.'/MessageIO.php';
+include __DIR__.'/MediaIO.php';

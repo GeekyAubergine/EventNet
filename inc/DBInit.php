@@ -40,12 +40,17 @@ define("POST_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post (
 );
 define("MEDIA_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS media (
   media_id BIGINT NOT NULL AUTO_INCREMENT,
-  user_id BIGINT NOT NULL,
-  post_id BIGINT NOT NULL,
   media_source VARCHAR(255) NOT NULL,
   media_description VARCHAR(127) NULL,
-  PRIMARY KEY (media_id),
-  FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
+  PRIMARY KEY (media_id))
+  ENGINE = InnoDB;'
+);
+define("POST_TO_MEDIA_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post_to_media (
+  post_to_media_id BIGINT NOT NULL AUTO_INCREMENT,
+  media_id BIGINT NOT NULL,
+  post_id BIGINT NOT NULL,
+  PRIMARY KEY (post_to_media_id),
+  FOREIGN KEY (media_id) REFERENCES media(media_id) ON DELETE NO ACTION,
   FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE NO ACTION)
   ENGINE = InnoDB;'
 );

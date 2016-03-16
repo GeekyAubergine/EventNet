@@ -9,6 +9,7 @@ $commentIO = new CommentIO($io);
 $userIO = new UserIO($io);
 $messageIO = new MessageIO($io);
 $reportIO = new ReportIO($io);
+$mediaIO = new MediaIO($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -132,9 +133,23 @@ switch ($path[0]) {
         break;
     }
     break;
+  case "media":
+    switch ($verb) {
+      case "POST":
+        $results = $mediaIO->createMedia($args);
+        break;
+      default:
+        $results = $io->methodNotAllowed($args);
+        break;
+    }
+    break;
   default:
     $results = $io->methodNotAllowed($args);
     break;
+}
+
+if (!isset($results["debug"])) {
+  $results["debug"] = [];
 }
 
 $results["debug"]["request"] = $args;

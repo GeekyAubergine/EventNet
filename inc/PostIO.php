@@ -93,6 +93,9 @@ class PostIO {
       $results["meta"]["message"] = "Post was created";
     }
 
+    $postId = $this->io->getLastInsertedID();
+
+
     return $results;
   }
 

@@ -1,8 +1,12 @@
 #!/bin/bash
 
 pkill php
-pkill nodes
+pkill node
 pkill nodejs
+
+echo "Making folders"
+
+mkdir -p "uploads"
 
 echo "Starting Node.js server on port 8081"
 
