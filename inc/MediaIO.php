@@ -22,12 +22,16 @@ class MediaIO {
 
   private function getFileName($fileName) {
     $ending = pathinfo($fileName, PATHINFO_EXTENSION);
-    return md5(time()) . md5($fileName) . $ending;
+    return md5(time()) . md5($fileName) . '.' . $ending;
   }
 
   public function createMedia($args) {
+    $results = [];
+    $results["data"] = [];
+
     $array_name = "files";
     $folder = __DIR__ . "/.." . UPLOADS_FOLDER;
+
     if(isset($_FILES[$array_name])){
         $name_array = $_FILES[$array_name]['name'];
         $tmp_name_array = $_FILES[$array_name]['tmp_name'];
@@ -35,10 +39,20 @@ class MediaIO {
         $size_array = $_FILES[$array_name]['size'];
         $error_array = $_FILES[$array_name]['error'];
         for($i = 0; $i < count($tmp_name_array); $i++){
-          move_uploaded_file($tmp_name_array[$i], $folder . $this->getFileName($name_array[$i]));
+
+          $fileName = $this->getFileName($name_array[$i]);
+          move_uploaded_file($tmp_name_array[$i], $folder . $fileName);
+
+          $query = "insert into media (media_name) values (:name)";
+          $bindings = [];
+          $bindings[":name"] = $fileName;
+
+          $this->io->queryDB($args, $query, $bindings);
+          $id = $this->io->getLastInsertedID();
+
+          array_push($results["data"], $id);
         }
     }
-    $results = [];
     $results["debug"] = [];
     $results["debug"]["files"] = $_FILES["files"];
     $results["debug"]["errors"] = $error_array;

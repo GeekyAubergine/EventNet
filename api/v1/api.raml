@@ -141,6 +141,11 @@ traits:
         type: string
         required: true
         example: Test post, please ignore
+      mediaIds:
+        description: The media ids to associated with this post
+        type: string
+        required: falase
+        example: 1, 3
   /{postId}:
     description: An item in the collection of posts.
     get:

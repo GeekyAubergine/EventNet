@@ -93,10 +93,23 @@ class PostIO {
       $results["meta"]["message"] = "Post was created";
     }
 
-    $postId = $this->io->getLastInsertedID();
-
+    if (isset($args["mediaIds"])) {
+      $postId = $this->io->getLastInsertedID();
+      $this->linkPostToMedia($args, $postId);
+    }
 
     return $results;
+  }
+
+  private function linkPostToMedia($args, $postId) {
+    $bindings = [];
+    $bindings[":post"] = $postId;
+
+    foreach (explode(",", $args["mediaIds"]) as $mediaId) {
+      $query = "INSERT INTO post_to_media (post_id, media_id) VALUES (:post, :media)";
+      $bindings[":media"] = intval($mediaId);
+      $this->io->queryDB($args, $query, $bindings);
+    }
   }
 
   public function deletePost($args) {
