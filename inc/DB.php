@@ -67,6 +67,10 @@ class DB {
     return $results;
   }
 
+  public function getLastInsertedID() {
+    return $this->pdo->lastInsertId();
+  }
+
   public function close() {
     $this->pdo = null;
   }

@@ -141,6 +141,11 @@ traits:
         type: string
         required: true
         example: Test post, please ignore
+      mediaIds:
+        description: The media ids to associated with this post
+        type: string
+        required: falase
+        example: 1, 3
   /{postId}:
     description: An item in the collection of posts.
     get:
@@ -303,3 +308,20 @@ traits:
         type: string
         required: true
         example: Test post, please ignore
+
+/media:
+  description: A collection of media items
+  get:
+    description: Return a list of media items
+    queryParameters:
+      postId:
+        description: The post id to get media for
+        type: integer
+        required: true
+        examlpe: 1
+  post:
+    description: Add a item to the list of media items. Returns the media id
+  /{mediaId}:
+    description: A item in the collection of media items
+    get:
+      description: Returns the media resource for the media item with the given id

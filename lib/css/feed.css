@@ -58,6 +58,34 @@ textarea {
   padding: 0.25em 0.5em;
 }
 
+/* ---- Post media ---- */
+.post .media-container {
+  flex: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.post .media-img-container {
+  flex: 1;
+  min-width: 10em;
+  padding: 0.5em;
+}
+
+.post .media-video-container {
+  flex: 100%;
+  padding: 0.5em;
+}
+
+.post .media-container img {
+  width: 100%;
+  height: auto;
+}
+
+.post .media-container video {
+  width: 100%;
+  height: auto;
+}
+
 /* ---- Post Controls ---- */
 
 .post .controls {

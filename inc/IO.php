@@ -99,6 +99,10 @@ class IO {
     return $results;
   }
 
+  public function getLastInsertedID() {
+    return $this->database->getLastInsertedID();
+  }
+
   public function getUserID($args) {
     if (!isset($args["accessToken"])) {
       return -1;
