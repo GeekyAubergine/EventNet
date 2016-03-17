@@ -40,7 +40,7 @@ define("POST_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post (
 );
 define("MEDIA_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS media (
   media_id BIGINT NOT NULL AUTO_INCREMENT,
-  media_name VARCHAR(80) NOT NULL,
+  media_name VARCHAR(128) NOT NULL,
   PRIMARY KEY (media_id))
   ENGINE = InnoDB;'
 );

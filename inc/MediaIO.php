@@ -8,21 +8,29 @@ class MediaIO {
     $this->io = $io;
   }
 
-  public function getMessages($args) {
-    if (!isset($args["mediaId"])) {
-      return $this->io->badRequest("Event ID was missing", $args);
+  public function getMedia($args) {
+    if (isset($args["mediaId"])) {
+      return $this->io->methodNotImplemented($args);
     }
-    $query = "select * from message join user using(user_id) " .
-    "WHERE event_id = :event ORDER BY message_timestamp desc";
-    $bindings = [];
-    $bindings[":event"] = $args["eventId"];
 
+    if (isset($args["postId"])) {
+      return $this->getMediaForPostId($args);
+    }
+
+    return $this->io->badRequest($args, "MediaId or PostId must be set");
+  }
+
+  private function getMediaForPostId($args) {
+    $query = "SELECT media_name FROM post_to_media JOIN media USING(media_id) WHERE post_id = :post";
+    $bindings = [];
+    $bindings[":post"] = $args["postId"];
     return $this->io->queryDB($args, $query, $bindings);
   }
 
   private function getFileName($fileName) {
     $ending = pathinfo($fileName, PATHINFO_EXTENSION);
-    return md5(time()) . md5($fileName) . '.' . $ending;
+    $fileName = md5(time()) . md5($fileName);
+    return $fileName . '.' . $ending;
   }
 
   public function createMedia($args) {
@@ -30,7 +38,8 @@ class MediaIO {
     $results["data"] = [];
 
     $array_name = "files";
-    $folder = __DIR__ . "/.." . UPLOADS_FOLDER;
+    $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
+    $dbSaveFolder = UPLOADS_FOLDER;
 
     if(isset($_FILES[$array_name])){
         $name_array = $_FILES[$array_name]['name'];
@@ -41,11 +50,12 @@ class MediaIO {
         for($i = 0; $i < count($tmp_name_array); $i++){
 
           $fileName = $this->getFileName($name_array[$i]);
-          move_uploaded_file($tmp_name_array[$i], $folder . $fileName);
+
+          move_uploaded_file($tmp_name_array[$i], $physicalSaveFolder . $fileName);
 
           $query = "insert into media (media_name) values (:name)";
           $bindings = [];
-          $bindings[":name"] = $fileName;
+          $bindings[":name"] = $dbSaveFolder . $fileName;
 
           $this->io->queryDB($args, $query, $bindings);
           $id = $this->io->getLastInsertedID();
@@ -54,7 +64,7 @@ class MediaIO {
         }
     }
     $results["debug"] = [];
-    $results["debug"]["files"] = $_FILES["files"];
+    $results["debug"]["files"] = $_FILES["files"]['name'];
     $results["debug"]["errors"] = $error_array;
 
     return $results;

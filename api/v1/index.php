@@ -135,6 +135,9 @@ switch ($path[0]) {
     break;
   case "media":
     switch ($verb) {
+      case "GET":
+        $results = $mediaIO->getMedia($args);
+        break;
       case "POST":
         $results = $mediaIO->createMedia($args);
         break;
@@ -148,10 +151,12 @@ switch ($path[0]) {
     break;
 }
 
+if (!isset($results["data"])) {
+  $results["data"] = "";
+}
 if (!isset($results["debug"])) {
   $results["debug"] = [];
 }
-
 $results["debug"]["request"] = $args;
 $results["debug"]["verb"] = $verb;
 $results["debug"]["path"] = $path;
