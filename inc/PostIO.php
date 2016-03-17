@@ -91,11 +91,10 @@ class PostIO {
     if ($results["data"] > 0) {
       $results["meta"]["status"] = 201;
       $results["meta"]["message"] = "Post was created";
-    }
-
-    if (isset($args["mediaIds"])) {
-      $postId = $this->io->getLastInsertedID();
-      $this->linkPostToMedia($args, $postId);
+      if (isset($args["mediaIds"])) {
+        $postId = $this->io->getLastInsertedID();
+        $this->linkPostToMedia($args, $postId);
+      }
     }
 
     return $results;
