@@ -73,9 +73,15 @@ textarea {
 
 .post .media-video-container {
   flex: 100%;
+  padding: 0.5em;
 }
 
 .post .media-container img {
+  width: 100%;
+  height: auto;
+}
+
+.post .media-container video {
   width: 100%;
   height: auto;
 }
