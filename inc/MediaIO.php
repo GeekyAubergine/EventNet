@@ -21,7 +21,7 @@ class MediaIO {
   }
 
   private function getMediaForPostId($args) {
-    $query = "SELECT media_name FROM post_to_media JOIN media USING(media_id) WHERE post_id = :post";
+    $query = "SELECT media_name FROM media WHERE post_id = :post";
     $bindings = [];
     $bindings[":post"] = $args["postId"];
     return $this->io->queryDB($args, $query, $bindings);
@@ -33,7 +33,19 @@ class MediaIO {
     return $fileName . '.' . $ending;
   }
 
-  public function createMedia($args) {
+  private function getImageAsJPG($src) {
+    $ending = pathinfo($src, PATHINFO_EXTENSION);
+    if ($ending == "png") {
+
+    }
+  }
+
+  private function formatImage($src, $dst) {
+    list($width, $height) = getimagesize($src);
+
+  }
+
+  public function saveMediaForPost($args, $postId) {
     $results = [];
     $results["data"] = [];
 
@@ -53,8 +65,9 @@ class MediaIO {
 
           move_uploaded_file($tmp_name_array[$i], $physicalSaveFolder . $fileName);
 
-          $query = "insert into media (media_name) values (:name)";
+          $query = "insert into media (media_name, post_id) values (:name, :post)";
           $bindings = [];
+          $bindings[":post"] = $postId;
           $bindings[":name"] = $dbSaveFolder . $fileName;
 
           $this->io->queryDB($args, $query, $bindings);
