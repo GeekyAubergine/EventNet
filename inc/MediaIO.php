@@ -46,9 +46,6 @@ class MediaIO {
   }
 
   public function saveMediaForPost($args, $postId) {
-    $results = [];
-    $results["data"] = [];
-
     $array_name = "files";
     $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
     $dbSaveFolder = UPLOADS_FOLDER;
@@ -60,27 +57,17 @@ class MediaIO {
         $size_array = $_FILES[$array_name]['size'];
         $error_array = $_FILES[$array_name]['error'];
         for($i = 0; $i < count($tmp_name_array); $i++){
-
           $fileName = $this->getFileName($name_array[$i]);
-
           move_uploaded_file($tmp_name_array[$i], $physicalSaveFolder . $fileName);
-
+          
           $query = "insert into media (media_name, post_id) values (:name, :post)";
           $bindings = [];
           $bindings[":post"] = $postId;
           $bindings[":name"] = $dbSaveFolder . $fileName;
 
           $this->io->queryDB($args, $query, $bindings);
-          $id = $this->io->getLastInsertedID();
-
-          array_push($results["data"], $id);
         }
     }
-    $results["debug"] = [];
-    $results["debug"]["files"] = $_FILES["files"]['name'];
-    $results["debug"]["errors"] = $error_array;
-
-    return $results;
   }
 
 }

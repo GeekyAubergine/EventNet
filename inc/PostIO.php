@@ -93,7 +93,7 @@ class PostIO {
       $results["meta"]["message"] = "Post was created";
       $postId = $this->io->getLastInsertedID();
       $mediaIO = new MediaIO($this->io);
-      $results["media"] = $mediaIO->saveMediaForPost($args, $postId);
+      $mediaIO->saveMediaForPost($args, $postId);
     }
     return $results;
   }
