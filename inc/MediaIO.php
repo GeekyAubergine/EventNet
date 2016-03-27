@@ -36,6 +36,8 @@ class MediaIO {
         $createImageFunction = 'imagecreatefromjpeg';
         $saveImageFunction = 'imagejpeg';
         $imageExtension = '.jpg';
+        $exif = exif_read_data($source);
+        $orientation = $exif['Orientation'];
         break;
       case 'png':
         $createImageFunction = 'imagecreatefrompng';
@@ -52,7 +54,7 @@ class MediaIO {
     }
 
     //Create image from appropriate file type
-    $img = $createImageFunction($source);
+    $image = $createImageFunction($source);
     list($width, $height) = getimagesize($source);
 
     $newWidth = 1024;
@@ -60,11 +62,32 @@ class MediaIO {
     if ($width <= $newWidth) {
       $newHeight = ($height / $width) * $newWidth;
       $temp = imagecreatetruecolor($newWidth, $newHeight);
-      imagecopyresampled($temp, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-
-      //Save image
-      $saveImageFunction($temp, $destination);
+      imagecopyresampled($temp, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+      $image = $temp;
     }
+
+    if (isset($orientation)) {
+      $rotation = 0;
+
+      switch($orientation) {
+        case 3:
+          $rotation = 180;
+          break;
+
+        case 6:
+          $rotation = -90;
+          break;
+
+        case 8:
+          $rotation = 90;
+          break;
+      }
+
+      $image = imagerotate($image, $rotation, 0);
+    }
+
+    //Save image
+    $saveImageFunction($image, $destination);
   }
 
   private function getNewFileName($fileName) {
