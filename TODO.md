@@ -8,8 +8,8 @@
 - [x] Users can post a post within an Event.
 - [ ] Users can edit their own posts.
 - [x] Users can delete their own posts.
-- [ ] Users can upload images in posts.
-- [ ] Users can upload videos in posts.
+- [x] Users can upload images in posts.
+- [x] Users can upload videos in posts.
 - [x] New posts are automatically loaded at the top of the ‘feed’ when another user posts them, this does not require the user to reload the page.
 - [x] Users can report posts, a posts with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
 - [x] Users can comment on a post.
