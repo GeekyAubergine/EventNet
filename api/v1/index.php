@@ -138,9 +138,6 @@ switch ($path[0]) {
       case "GET":
         $results = $mediaIO->getMedia($args);
         break;
-      case "POST":
-        $results = $mediaIO->createMedia($args);
-        break;
       default:
         $results = $io->methodNotAllowed($args);
         break;
