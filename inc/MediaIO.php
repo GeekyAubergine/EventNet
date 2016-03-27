@@ -128,4 +128,22 @@ class MediaIO {
     }
   }
 
+  public function deleteMediaForPost($args) {
+    $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
+    $media = $this->getMediaForPostId($args)["data"];
+
+    foreach ($media as $fileName) {
+      $fileName = $fileName["media_name"];
+      $fileName = substr($fileName, strpos($fileName, "/", 2));
+
+      unlink($physicalSaveFolder . $fileName);
+    }
+
+    $query = "DELETE FROM media WHERE post_id = :post";
+    $bindings = [];
+    $bindings[":post"] = $args["postId"];
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
 }
