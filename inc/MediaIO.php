@@ -27,28 +27,57 @@ class MediaIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
-  private function getFileName($fileName) {
-    $ending = pathinfo($fileName, PATHINFO_EXTENSION);
-    $fileName = md5(time()) . md5($fileName);
-    return $fileName . '.' . $ending;
-  }
+  function resizeImage($source, $destination) {
+    $ending = strtolower(pathinfo($source, PATHINFO_EXTENSION));
 
-  private function getImageAsJPG($src) {
-    $ending = pathinfo($src, PATHINFO_EXTENSION);
-    if ($ending == "png") {
+    switch ($ending) {
+      case 'jpg':
+      case 'jpeg':
+        $createImageFunction = 'imagecreatefromjpeg';
+        $saveImageFunction = 'imagejpeg';
+        $imageExtension = '.jpg';
+        break;
+      case 'png':
+        $createImageFunction = 'imagecreatefrompng';
+        $saveImageFunction = 'imagepng';
+        $imageExtension = '.png';
+        break;
+      case 'gif':
+        $createImageFunction = 'imagecreatefromgif';
+        $saveImageFunction = 'imagegif';
+        $imageExtension = '.gif';
+        break;
+      default:
+        throw new Exception('Unknown image type.');
+    }
 
+    //Create image from appropriate file type
+    $img = $createImageFunction($source);
+    list($width, $height) = getimagesize($source);
+
+    $newWidth = 1024;
+
+    if ($width <= $newWidth) {
+      $newHeight = ($height / $width) * $newWidth;
+      $temp = imagecreatetruecolor($newWidth, $newHeight);
+      imagecopyresampled($temp, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+      //Save image
+      $saveImageFunction($temp, $destination);
     }
   }
 
-  private function formatImage($src, $dst) {
-    list($width, $height) = getimagesize($src);
-
+  private function getNewFileName($fileName) {
+    $ending = pathinfo($fileName, PATHINFO_EXTENSION);
+    $fileName = md5(time()) . md5($fileName);
+    return $fileName . '.' . $ending;
   }
 
   public function saveMediaForPost($args, $postId) {
     $array_name = "files";
     $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
     $dbSaveFolder = UPLOADS_FOLDER;
+    $imageRegex = '/\.(png|jpg|jpeg|gif)$/i';
 
     if(isset($_FILES[$array_name])){
         $name_array = $_FILES[$array_name]['name'];
@@ -57,9 +86,15 @@ class MediaIO {
         $size_array = $_FILES[$array_name]['size'];
         $error_array = $_FILES[$array_name]['error'];
         for($i = 0; $i < count($tmp_name_array); $i++){
-          $fileName = $this->getFileName($name_array[$i]);
+          $fileName = $this->getNewFileName($name_array[$i]);
+
           move_uploaded_file($tmp_name_array[$i], $physicalSaveFolder . $fileName);
-          
+
+          //If image, resize
+          if (preg_match($imageRegex, $fileName)) {
+            $this->resizeImage($physicalSaveFolder . $fileName, $physicalSaveFolder . $fileName);
+          }
+
           $query = "insert into media (media_name, post_id) values (:name, :post)";
           $bindings = [];
           $bindings[":post"] = $postId;
