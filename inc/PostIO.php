@@ -103,6 +103,9 @@ class PostIO {
       return $this->io->badRequest("Post id was missing");
     }
 
+    $mediaIO = new MediaIO($this->io);
+    $mediaIO->deleteMediaForPost($args);
+
     $query = "DELETE FROM comment WHERE post_id = :id; DELETE FROM post WHERE post_id = :id";
     $bindings = [];
     $bindings[":id"] = $args["postId"];
