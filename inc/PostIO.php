@@ -98,6 +98,19 @@ class PostIO {
     return $results;
   }
 
+  public function updatePost($args) {
+    if (!isset($args["postContent"])) {
+      return $this->io->badRequest("Content missing", $args);
+    }
+
+    $query = "UPDATE post SET post_content = :content WHERE post_id = :post";
+    $bindings = [];
+    $bindings[":post"] = $args["postId"];
+    $bindings[":content"] = $args["postContent"];
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
   public function deletePost($args) {
     if (!isset($args["postId"])) {
       return $this->io->badRequest("Post id was missing");
