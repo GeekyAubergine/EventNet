@@ -79,6 +79,9 @@ switch ($path[0]) {
       case "POST":
         $results = $commentIO->createComment($args);
         break;
+      case "PUT":
+        $results = $commentIO->updateComment($args);
+        break;
       case "DELETE":
         $results = $commentIO->deleteComment($args);
         break;

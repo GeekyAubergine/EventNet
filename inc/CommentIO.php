@@ -63,6 +63,19 @@ class CommentIO {
     return $results;
   }
 
+  public function updateComment($args) {
+    if (!isset($args["commentContent"])) {
+      return $this->io->badRequest("Content missing", $args);
+    }
+
+    $query = "UPDATE comment SET comment_content = :content WHERE comment_id = :comment";
+    $bindings = [];
+    $bindings[":comment"] = $args["commentId"];
+    $bindings[":content"] = $args["commentContent"];
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
   public function deleteComment($args) {
     if (!isset($args["commentId"])) {
       return $this->io->badRequest("Comment id was missing");
