@@ -33,6 +33,8 @@ define("POST_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post (
   post_latitude DOUBLE NOT NULL,
   post_longitude DOUBLE NOT NULL,
   post_timestamp DATETIME NOT NULL,
+  post_edited TINYINT(1) DEFAULT 0,
+  post_edited_timestamp DATETIME,
   PRIMARY KEY (post_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
   FOREIGN KEY (event_id) REFERENCES event(event_id) ON DELETE NO ACTION)
@@ -54,6 +56,8 @@ define("COMMENT_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS comment (
   comment_latitude DOUBLE NOT NULL,
   comment_longitude DOUBLE NOT NULL,
   comment_timestamp DATETIME NOT NULL,
+  comment_edited TINYINT(1) DEFAULT 0,
+  comment_edited_timestamp DATETIME,
   PRIMARY KEY (comment_id),
   FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE NO ACTION,
   FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE NO ACTION)

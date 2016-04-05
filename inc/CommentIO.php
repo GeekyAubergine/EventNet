@@ -68,7 +68,7 @@ class CommentIO {
       return $this->io->badRequest("Content missing", $args);
     }
 
-    $query = "UPDATE comment SET comment_content = :content WHERE comment_id = :comment";
+    $query = "UPDATE comment SET comment_content = :content, comment_edited = 1, comment_edited_timestamp = NOW() WHERE comment_id = :comment";
     $bindings = [];
     $bindings[":comment"] = $args["commentId"];
     $bindings[":content"] = $args["commentContent"];
