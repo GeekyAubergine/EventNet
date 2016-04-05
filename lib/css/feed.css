@@ -21,8 +21,10 @@ textarea {
   list-style-type: none;
 }
 .meta li {
+  display: flex;
   margin-right: 1em;
   transition: all 250ms;
+  flex-flow: row nowrap;
 }
 .meta li.clickable:hover {
   color: skyblue;
