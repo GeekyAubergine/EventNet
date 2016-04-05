@@ -96,6 +96,11 @@ textarea {
   padding-bottom: 0.5em;
 }
 
+/* ---- Editing ---- */
+.post button {
+  margin-left: 0;
+}
+
 /* ---- Post creation ---- */
 
 #post-creator {
