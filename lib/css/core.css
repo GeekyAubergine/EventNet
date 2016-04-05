@@ -71,7 +71,7 @@ p {
   line-height: 1.5em;
 }
 
-a.button {
+button {
   float: left;
   display: block;
   padding: 0.125em 0.25em;
@@ -80,9 +80,12 @@ a.button {
   border: 0.1em solid #DDD;
   text-decoration: none;
   color: black;
+  background-color: white;
   transition: all 250ms;
+  font-size: 100%;
+  outline: none;
 }
-.button:hover {
+button:hover {
   background-color: deepskyblue;
   color: white;
 }

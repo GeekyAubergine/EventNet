@@ -15,7 +15,6 @@ $verb = $_SERVER['REQUEST_METHOD'];
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case "POST":
-  case "PUT":
     $args = $io->extractVariables(INPUT_POST);
     break;
   default:
@@ -57,6 +56,9 @@ switch ($path[0]) {
       case "POST":
         $results = $postIO->createPost($args);
         break;
+      case "PUT":
+        $results = $postIO->updatePost($args);
+        break;
       case "DELETE":
         $results = $postIO->deletePost($args);
         break;
@@ -76,6 +78,9 @@ switch ($path[0]) {
         break;
       case "POST":
         $results = $commentIO->createComment($args);
+        break;
+      case "PUT":
+        $results = $commentIO->updateComment($args);
         break;
       case "DELETE":
         $results = $commentIO->deleteComment($args);
