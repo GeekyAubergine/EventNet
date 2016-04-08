@@ -9,8 +9,8 @@ class EventIO {
   }
 
   public function getEvents($args) {
-    if (isset($args["eventID"])) {
-      $eventID = intval($args["eventID"]);
+    if (isset($args["eventId"])) {
+      $eventID = intval($args["eventId"]);
 
       return $this->getEventById($args, $eventID);
     }
