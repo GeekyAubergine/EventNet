@@ -6,14 +6,14 @@
 - [x] Users can view the location of Events relative to their location on a map which shows the user's location.
 - [ ] Users can view archived Events.
 - [x] Users can post a post within an Event.
-- [ ] Users can edit their own posts.
+- [x] Users can edit their own posts.
 - [x] Users can delete their own posts.
 - [x] Users can upload images in posts.
 - [x] Users can upload videos in posts.
 - [x] New posts are automatically loaded at the top of the ‘feed’ when another user posts them, this does not require the user to reload the page.
 - [x] Users can report posts, a posts with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
 - [x] Users can comment on a post.
-- [ ] Users can edit their own comments.
+- [x] Users can edit their own comments.
 - [x] Users can delete their own comments.
 - [x] Users can report comments, a comment with a high number of reports (will be set between 5 and 10) will be flagged and not loaded for other users.
 - [x] Events, posts, comments and messages are shown with a distance from their creation location to the user’s current location.
@@ -26,6 +26,9 @@
 
 ## General to do list
 - Add achived to network table and implement in io
-- Add edited field to post and comment
 - Save users previous location and use for location before more accurate results comes in
 - Make gifs run
+- Improve settings
+- More intuitive event joining
+- Add default error function to xhr
+- Remove double loading of comments when creating comment while comments are hidden
