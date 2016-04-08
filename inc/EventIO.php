@@ -26,7 +26,7 @@ class EventIO {
   }
 
   private function getEventById($args, $eventID) {
-    $query = "SELECT event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post FROM event LEFT JOIN (SELECT event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id WHERE event.event_id = :event";
+    $query = "SELECT event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, event.event_archived, info.number_of_posts, info.most_recent_post FROM event LEFT JOIN (SELECT event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id WHERE event.event_id = :event";
     $bindings = [];
     $bindings[":event"] = $eventID;
 
@@ -49,7 +49,7 @@ class EventIO {
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       var d = R * c; // Distance in km
     */
-    $query = "select event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, info.number_of_posts, info.most_recent_post, " .
+    $query = "SELECT event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, event.event_archived, info.number_of_posts, info.most_recent_post, " .
     "(" .
     "6371 * 2 * ATAN2(" .
     "SQRT(" .
