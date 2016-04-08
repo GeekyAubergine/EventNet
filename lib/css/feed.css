@@ -175,3 +175,12 @@ textarea {
 .comments .load-more-comments-button:hover {
   color: skyblue;
 }
+
+/* ---- Archived Notification ---- */
+#archived-notification {
+  background-color: white;
+}
+#archived-notification h2 {
+  padding: 1em;
+  text-align: center;
+}
