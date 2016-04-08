@@ -76,3 +76,13 @@
   justify-content: flex-end;
   padding: 0 0.25em 0.5em 0;
 }
+
+
+/* ---- Archived Notification ---- */
+#archived-notification {
+  background-color: white;
+}
+#archived-notification h2 {
+  padding: 1em;
+  text-align: center;
+}
