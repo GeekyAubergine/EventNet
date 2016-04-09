@@ -84,8 +84,8 @@ class EventIO {
   }
 
   public function createEvent($args) {
-    if (!isset($args["eventsearchTerm"])) {
-      return $this->io->badRequest("Event searchTerm was missing", $args);
+    if (!isset($args["eventName"])) {
+      return $this->io->badRequest("Event name was missing", $args);
     }
     if (!isset($args["latitude"])) {
       return $this->io->badRequest("Latitude was missing", $args);
@@ -96,7 +96,7 @@ class EventIO {
 
     $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (:event, :latitude, :longitude, now());";
     $bindings = [];
-    $bindings[":event"] = $args["eventsearchTerm"];
+    $bindings[":event"] = $args["eventName"];
     $bindings[":latitude"] = $args["latitude"];
     $bindings[":longitude"] = $args["longitude"];
 

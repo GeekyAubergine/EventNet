@@ -131,18 +131,22 @@ input.error {
   border-top: none;
   color: black;
 }
+#search-results:hover {
+  visibility: visible;
+}
 #search-results ul {
-  border-top: 0.1em solid #BBB;
   list-style-type: none;
 }
 #search-results h5 {
   padding: 0.5em;
   background-color: #EEE;
+  border-top: 0.1em solid #BBB;
+  border-bottom: 0.1em solid #BBB;
 }
 #search-results li {
   flex: 100%;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   border-top: 0.1em solid #BBB;
   padding: 0.25em;
 }
@@ -151,6 +155,19 @@ input.error {
 }
 #search-results li:hover {
   background-color: #DDD;
+}
+/* ---- Event Search Results ---- */
+#search-results-events ul li {
+  padding: 0;
+  border: none;
+}
+#search-results-events li h3, h4 {
+  flex: 100%;
+}
+
+/* ---- User Search Results ---- */
+#search-results-users li {
+  flex-flow: row nowrap;
 }
 #search-results-users img {
   width: 3em;
