@@ -126,10 +126,12 @@ input.error {
   top: 2.5em;
   left: 0;
   width: 25em;
+  max-height: 90vh;
   background-color: white;
   border: 0.1em solid #888;
   border-top: none;
   color: black;
+  overflow-y: scroll;
 }
 #search-results:hover {
   visibility: visible;
@@ -164,7 +166,10 @@ input.error {
 #search-results-events li h3, h4 {
   flex: 100%;
 }
-
+/* ---- Post Search Results ---- */
+#search-results-posts p {
+  flex: 100%;
+}
 /* ---- User Search Results ---- */
 #search-results-users li {
   flex-flow: row nowrap;
