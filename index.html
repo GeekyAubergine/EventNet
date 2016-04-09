@@ -12,7 +12,32 @@
 <body>
   <header>
     <div class=width-container>
-      <h1>EventNet</h1>
+      <div>
+        <h1>EventNet</h1>
+        <div id=search-results-container>
+          <div id=search-results>
+            <section>
+              <h3>Events</h3>
+              <ul id=search-results-events></ul>
+            </section>
+            <section>
+              <h3>Posts</h3>
+              <ul id=search-results-posts>
+                <li>sk;dfja;sdlkj</li>
+              </ul>
+            </section>
+            <section>
+              <h3>Comments</h3>
+              <ul id=search-results-comments></ul>
+            </section>
+            <section>
+              <h3>People</h3>
+              <ul id=search-results-people></ul>
+            </section>
+          </div>
+        </div>
+        <input id="search" type="text" name="Search" value="" placeholder="Search for posts, comments, events and people">
+      </div>
       <nav>
         <ul>
           <li>
@@ -46,7 +71,8 @@
         <textarea id=post-creator-textarea placeholder="What's happening?"></textarea>
       </div>
       <div class=controls>
-        <input id=post-creator-post-file-input class="button media-button" type=file accept="image/*, video/*" multiple></a>
+        <input id=post-creator-post-file-input class="button media-button" type=file accept="image/*, video/*" multiple>
+        </a>
         <button id=post-creator-post-button class="button post-button" href="">Post</button>
       </div>
     </section>
@@ -57,6 +83,7 @@
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
   <script src="lib/js/feed.js" charset="utf-8"></script>
+  <script src="lib/js/search.js" charset="utf-8"></script>
 </body>
 
 </html>
