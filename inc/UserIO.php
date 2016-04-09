@@ -11,6 +11,9 @@ class UserIO {
   }
 
   public function getUser($args) {
+    if (isset($args["searchTerm"])) {
+      return $this->getUsernamesForSearchTerm($args);
+    }
     if (isset($args["renewToken"])) {
       return $this->renewToken($args);
     }
@@ -21,7 +24,14 @@ class UserIO {
       return $results;
     }
 
-    return $this->io->badRequest("Either the renew token or the access token must be set", $args);
+    return $this->io->badRequest("Either the renew token, search term or the access token must be set", $args);
+  }
+
+  private function getUsernamesForSearchTerm($args) {
+    $query = "SELECT user_display_name, user_icon FROM user WHERE user_display_name LIKE :search AND user_id != 1";
+    $bindings = [];
+    $bindings[":search"] = "%" . $args["searchTerm"] . "%";
+    return $this->io->queryDB($args, $query, $bindings);
   }
 
   public function accessTokenValid($accessToken) {

@@ -211,7 +211,10 @@ traits:
 /users:
   description: A collection of users
   get:
-    description: Returns whether or not the current access token is valid
+    description: Returns whether or not the current access token is valid, or users name if searched
+    is: [
+      searchable
+    ]
     queryParameters:
       accessToken:
         description: User access token

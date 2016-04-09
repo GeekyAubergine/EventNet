@@ -9,7 +9,7 @@ class CommentIO {
     $this->io = $io;
     $commentsQuery = "(SELECT COUNT(*) FROM comment WHERE comment.post_id = :postId AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0)"; //(number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0
 
-  $this->baseCommentQuery = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, comment.comment_edited, comment.comment_edited_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(comment.user_id = :userId, 'true', 'false') AS commented_by_user FROM comment JOIN user USING(user_id) ";
+    $this->baseCommentQuery = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, comment.comment_edited, comment.comment_edited_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(comment.user_id = :userId, 'true', 'false') AS commented_by_user FROM comment JOIN user USING(user_id) ";
   }
 
   public function getComments($args) {
@@ -17,7 +17,11 @@ class CommentIO {
       return $this->getCommentsForPostId($args, $args["postId"]);
     }
 
-    return $this->io->badRequest("Post id must be set", $args);
+    if (isset($args["searchTerm"])) {
+      return $this->getCommentsWithSearchTerm($args);
+    }
+
+    return $this->io->badRequest("Post id or search term must be set", $args);
   }
 
   private function getCommentsForPostId($args, $postId) {
@@ -28,6 +32,14 @@ class CommentIO {
     $bindings[":maxReports"] = REPORTS_BEFORE_HIDDING_CONTENT;
 
     return $this->io->queryDB($args, $query, $bindings);
+  }
+
+  private function getCommentsWithSearchTerm($args) {
+      $query = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, user.user_display_name, user.user_icon FROM comment JOIN user USING(user_id) WHERE comment_content LIKE :search";
+      $bindings = [];
+      $bindings[":search"] = "%" . $args["searchTerm"] . "%";
+
+      return $this->io->queryDB($args, $query, $bindings);
   }
 
   public function createComment($args) {

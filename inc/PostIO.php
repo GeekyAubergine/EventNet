@@ -36,7 +36,11 @@ class PostIO {
       return $this->getPostsBetweenDates($args, $eventId, $before, $after);
     }
 
-    return $this->io-badRequest("Either the post id or the event id must be set", $args);
+    if (isset($args["searchTerm"])) {
+      return $this->getPostsWithSearchTerm($args);
+    }
+
+    return $this->io-badRequest("Either the post id, a search term or the event id must be set", $args);
   }
 
   private function getPostById($args, $postId) {
@@ -56,6 +60,14 @@ class PostIO {
     $bindings[":before"] = $before;
     $bindings[":after"] = $after;
     $bindings[":maxReports"] = REPORTS_BEFORE_HIDDING_CONTENT;
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
+  private function getPostsWithSearchTerm($args) {
+    $query = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN user USING(user_id) WHERE post_content LIKE :search ";
+    $bindings = [];
+    $bindings[":search"] = "%" . $args["searchTerm"] . "%";
 
     return $this->io->queryDB($args, $query, $bindings);
   }
