@@ -163,11 +163,15 @@ input.error {
   padding: 0;
   border: none;
 }
-#search-results-events li h3, h4 {
+#search-results-events li p {
   flex: 100%;
 }
 /* ---- Post Search Results ---- */
 #search-results-posts p {
+  flex: 100%;
+}
+/* ---- Comment Search Results ---- */
+#search-results-comments p {
   flex: 100%;
 }
 /* ---- User Search Results ---- */
