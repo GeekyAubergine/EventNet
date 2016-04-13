@@ -109,7 +109,6 @@ class UserIO {
   public function createUser($args) {
     $io = new IO();
 
-    $facebookId = 0;
     $googleId = 0;
     $twitterId = 0;
 
@@ -136,6 +135,7 @@ class UserIO {
     $bindings[":twitter"] = $twitterId;
 
     $results = $this->io->queryDB($args, $query, $bindings);
+
     if (count($results["data"]) == 1) {
       $data = [];
       $data["accessToken"] = $results["data"][0]["user_access_token"];
@@ -147,11 +147,16 @@ class UserIO {
       return $results;
     }
 
-    return $this->addUserToDatabase($displayName, $icon, $googleId, $twitterId);
+    if (isset($args["googleId"])) {
+      return $this->addUserToDatabaseForGoogleId($displayName, $icon, $googleId);
+    }
+    if (isset($args["twitterId"])) {
+      return $this->addUserToDatabaseForTwitterId($displayName, $icon, $twitterId);
+    }
   }
 
-  private function addUserToDatabase($displayName, $icon,  $googleId, $twitterId) {
-    $query = "INSERT INTO user (user_public_id, user_display_name, user_icon, user_google_id, user_twitter_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:publicId, :name, :icon, :google, :twitter, :token, :renew, :refresh)";
+  private function addUserToDatabaseForGoogleId($displayName, $icon,  $googleId) {
+    $query = "INSERT INTO user (user_public_id, user_display_name, user_icon, user_google_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:publicId, :name, :icon, :google, :token, :renew, :refresh)";
 
     $accessToken = $this->generateAccessToken($displayName);
     $renewToken = $this->generateRenewToken($displayName);
@@ -161,6 +166,36 @@ class UserIO {
     $bindings[":name"] = $displayName;
     $bindings[":icon"] = $icon;
     $bindings[":google"] = $googleId;
+    $bindings[":token"] = $accessToken;
+    $bindings[":renew"] = $renewToken;
+    $bindings[":refresh"] = $refreshTime;
+    $bindings[":publicId"] = md5(time());
+
+    $results = $this->io->queryDB([], $query, $bindings);
+
+    if ($results["data"] > 0) {
+     $results["meta"]["status"] = 201;
+     $results["meta"]["message"] = "User was created";
+    }
+
+    $results["data"] = [];
+    $results["data"]["accessToken"] = $accessToken;
+    $results["data"]["renewToken"] = $renewToken;
+    $results["data"]["tokenExpire"] = $refreshTime;
+
+    return $results;
+  }
+
+  private function addUserToDatabaseForTwitterId($displayName, $icon, $twitterId) {
+    $query = "INSERT INTO user (user_public_id, user_display_name, user_icon, user_twitter_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:publicId, :name, :icon, :twitter, :token, :renew, :refresh)";
+
+    $accessToken = $this->generateAccessToken($displayName);
+    $renewToken = $this->generateRenewToken($displayName);
+    $refreshTime = $this->getNextRefreshDate();
+
+    $bindings = [];
+    $bindings[":name"] = $displayName;
+    $bindings[":icon"] = $icon;
     $bindings[":twitter"] = $twitterId;
     $bindings[":token"] = $accessToken;
     $bindings[":renew"] = $renewToken;
