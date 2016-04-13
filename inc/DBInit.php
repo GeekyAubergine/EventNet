@@ -12,6 +12,7 @@ define("TABLE_EVENT_INIT", 'CREATE TABLE IF NOT EXISTS event (
   ');
 define("USER_TABLE_INIT", "CREATE TABLE IF NOT EXISTS user (
   user_id BIGINT NOT NULL AUTO_INCREMENT,
+  user_public_id VARCHAR(64) NOT NULL,
   user_display_name VARCHAR(128) NOT NULL,
   user_icon VARCHAR(512) NOT NULL,
   user_google_id VARCHAR(64),
@@ -22,9 +23,9 @@ define("USER_TABLE_INIT", "CREATE TABLE IF NOT EXISTS user (
   PRIMARY KEY (user_id))
   ENGINE = InnoDB;
 
-  INSERT INTO USER (user_display_name, user_icon, user_access_token, user_renew_token, user_access_token_expire)
+  INSERT INTO USER (user_public_id, user_display_name, user_icon, user_access_token, user_renew_token, user_access_token_expire)
   values
-  ('Anonymous', '/res/icons/default_user.svg', '1', '1', '9999-12-31 23:59:59');"
+  ('-1', 'Anonymous', '/res/icons/default_user.svg', '1', '1', '9999-12-31 23:59:59');"
 );
 define("POST_TABLE_INIT", 'CREATE TABLE IF NOT EXISTS post (
   post_id BIGINT NOT NULL AUTO_INCREMENT,

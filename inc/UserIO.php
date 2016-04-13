@@ -28,7 +28,7 @@ class UserIO {
   }
 
   private function getUsernamesForSearchTerm($args) {
-    $query = "SELECT user_display_name, user_icon FROM user WHERE user_display_name LIKE :search AND user_id != 1";
+    $query = "SELECT user_public_id as id, user_display_name, user_icon FROM user WHERE user_display_name LIKE :search AND user_id != 1";
     $bindings = [];
     $bindings[":search"] = "%" . $args["searchTerm"] . "%";
     return $this->io->queryDB($args, $query, $bindings);
@@ -70,18 +70,17 @@ class UserIO {
     $bindings[":renew"] = $args["renewToken"];
 
     //Get refresh time
-    $query = "SELECT user_access_token, user_access_token_expire FROM user WHERE user_renew_token = :renew";
+    $query = "SELECT user_display_name, user_access_token, user_access_token_expire FROM user WHERE user_renew_token = :renew";
 
     $results = $this->io->queryDB([], $query, $bindings);
 
     $refresh =  $results["data"][0]["user_access_token_expire"];
+    $displayName =  $results["data"][0]["user_display_name"];
 
     //Determine if refresh needs to occur
     $expire = strtotime($refresh);
-    $data["test"] = time() . " " . $expire . " " . ($expire - time());
     $margin = 60; //One minute margin
     if ($expire >= time() + $margin) {
-      $data["test2"] = "here";
       $data["accessToken"] = $results["data"][0]["user_access_token"];
       $data["tokenExpire"] = $results["data"][0]["user_access_token_expire"];
 
@@ -152,7 +151,7 @@ class UserIO {
   }
 
   private function addUserToDatabase($displayName, $icon,  $googleId, $twitterId) {
-    $query = "INSERT INTO user (user_display_name, user_icon, user_google_id, user_twitter_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:name, :icon, :google, :twitter, :token, :renew, :refresh)";
+    $query = "INSERT INTO user (user_public_id, user_display_name, user_icon, user_google_id, user_twitter_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:publicId, :name, :icon, :google, :twitter, :token, :renew, :refresh)";
 
     $accessToken = $this->generateAccessToken($displayName);
     $renewToken = $this->generateRenewToken($displayName);
@@ -166,6 +165,7 @@ class UserIO {
     $bindings[":token"] = $accessToken;
     $bindings[":renew"] = $renewToken;
     $bindings[":refresh"] = $refreshTime;
+    $bindings[":publicId"] = md5(time());
 
     $results = $this->io->queryDB([], $query, $bindings);
 
