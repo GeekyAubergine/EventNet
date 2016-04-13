@@ -4,7 +4,7 @@
 - [x] Users can create an Event.
 - [x] Users can join an Event.
 - [x] Users can view the location of Events relative to their location on a map which shows the user's location.
-- [ ] Users can view archived Events.
+- [x] Users can view archived Events.
 - [x] Users can post a post within an Event.
 - [x] Users can edit their own posts.
 - [x] Users can delete their own posts.
@@ -22,7 +22,7 @@
 
 - [x] Users can join an Event and instantly messages with other users on the same Event.
 
-- [ ] Users can search for a string/phrases and it will load all Events (including archived Events), posts and comments where their content matches the given phrase. This will also search for usernames that match the search phrase.
+- [x] Users can search for a string/phrases and it will load all Events (including archived Events), posts and comments where their content matches the given phrase. This will also search for usernames that match the search phrase.
 
 ## General to do list
 - Add achived to network table and implement in io
@@ -32,3 +32,4 @@
 - More intuitive event joining
 - Add default error function to xhr
 - Remove double loading of comments when creating comment while comments are hidden
+- Add api switch for archived events

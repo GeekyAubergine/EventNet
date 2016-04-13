@@ -13,6 +13,8 @@ body {
   display: flex;
 }
 .width-container {
+  display: flex;
+  flex-flow: row wrap;
   max-width: 60em;
   margin-left: auto;
   margin-right: auto;
@@ -20,24 +22,32 @@ body {
 header {
   position: fixed;
   top: 0;
-  overflow: hidden;
+  display: flex;
+  /*overflow: hidden;*/
   width: 100%;
   z-index: 100;
   background-color: deepskyblue;
   color: white;
   height: 3em;
 }
-header h1 {
-  float: left;
-  width: 50%;
-  padding: 0.1em 0;
-  font-weight: normal;
-  line-height: 1.25em;
+header > div {
+  flex: 100%;
+  width: 100%;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
+header > div > div {
+  display: flex;
+  flex-flow: row nowrap;
+}
+header h1 {
+  width: 5em;
+}ß
 nav {
-  float: left;
-  width: 50%;
-  overflow: hidden;
+  display: flex;
+  align-self: flex-end;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 nav ul {
   list-style: none;
@@ -98,4 +108,80 @@ input[type=text], textarea {
 }
 input.error {
   border-color: red;
+}
+
+/* ---- Search ---- */
+#search {
+  padding: 0 0.5em;
+  height: 2em;
+  margin: 0.5em 0;
+  width: 25em;
+}
+
+#search-results-container {
+  position: relative;
+}
+#search-results {
+  position: absolute;
+  top: 2.5em;
+  left: 0;
+  width: 25em;
+  max-height: 90vh;
+  background-color: white;
+  border: 0.1em solid #888;
+  border-top: none;
+  color: black;
+  overflow-y: scroll;
+}
+#search-results:hover {
+  visibility: visible;
+}
+#search-results ul {
+  list-style-type: none;
+}
+#search-results h5 {
+  padding: 0.5em;
+  background-color: #EEE;
+  border-top: 0.1em solid #BBB;
+  border-bottom: 0.1em solid #BBB;
+}
+#search-results li {
+  flex: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  border-top: 0.1em solid #BBB;
+  padding: 0.25em;
+}
+#search-results li:first-of-type {
+  border-top: none;
+}
+#search-results li:hover {
+  background-color: #DDD;
+}
+/* ---- Event Search Results ---- */
+#search-results-events ul li {
+  padding: 0;
+  border: none;
+}
+#search-results-events li p {
+  flex: 100%;
+}
+/* ---- Post Search Results ---- */
+#search-results-posts p {
+  flex: 100%;
+}
+/* ---- Comment Search Results ---- */
+#search-results-comments p {
+  flex: 100%;
+}
+/* ---- User Search Results ---- */
+#search-results-users li {
+  flex-flow: row nowrap;
+}
+#search-results-users img {
+  width: 3em;
+  height: 3em;
+}
+#search-results-users h4 {
+  margin: 0.8em 0.5em;
 }

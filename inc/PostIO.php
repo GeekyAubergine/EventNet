@@ -9,7 +9,7 @@ class PostIO {
     $this->io = $io;
     // $reportsQuery = "";
     $commentsQuery = "(SELECT COUNT(*) FROM comment WHERE post.post_id = comment.post_id AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0)"; //(number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0
-    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_edited, post.post_edited_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(post.user_id = :userId, 'true', 'false') AS posted_by_user FROM post JOIN user USING(user_id) LEFT JOIN report USING(post_id)";
+    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_edited, post.post_edited_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(post.user_id = :userId, 'true', 'false') AS posted_by_user FROM post JOIN user USING(user_id) LEFT JOIN report USING(post_id) ";
   }
 
   public function getPosts($args) {
@@ -36,13 +36,20 @@ class PostIO {
       return $this->getPostsBetweenDates($args, $eventId, $before, $after);
     }
 
-    return $this->io-badRequest("Either the post id or the event id must be set", $args);
+    if (isset($args["searchTerm"])) {
+      return $this->getPostsWithSearchTerm($args);
+    }
+
+    if (isset($args["userId"])) {
+      return $this->getPostsByPublicId($args);
+    }
+
+    return $this->io-badRequest("Either the post id, a search term or the event id must be set", $args);
   }
 
   private function getPostById($args, $postId) {
-    $query = $this->basePostQuery . "WHERE post_id = :postId ORDER BY post.post_timestamp asc";
+    $query = "SELECT event.event_name, post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN event USING(event_id) JOIN user USING(user_id) WHERE post_id = :postId";
     $bindings = [];
-    $bindings[":userId"] = $this->io->getUserId($args);
     $bindings[":postId"] = $postId;
 
     return $this->io->queryDB($args, $query, $bindings);
@@ -56,6 +63,23 @@ class PostIO {
     $bindings[":before"] = $before;
     $bindings[":after"] = $after;
     $bindings[":maxReports"] = REPORTS_BEFORE_HIDDING_CONTENT;
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
+  private function getPostsWithSearchTerm($args) {
+    $query = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN user USING(user_id) WHERE post_content LIKE :search ORDER BY post.post_timestamp asc ";
+    $bindings = [];
+    $bindings[":search"] = "%" . $args["searchTerm"] . "%";
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
+  private function getPostsByPublicId($args) {
+    $query = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN user USING(user_id) WHERE user_public_id = :id ORDER BY post.post_timestamp asc ";
+
+    $bindings = [];
+    $bindings["id"] = $args["userId"];
 
     return $this->io->queryDB($args, $query, $bindings);
   }

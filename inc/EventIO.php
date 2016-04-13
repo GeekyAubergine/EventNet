@@ -34,9 +34,9 @@ class EventIO {
   }
 
   private function getEventsSortedByDistance($args, $latitude, $longitude) {
-    $name = "";
-    if (isset($args["name"])) {
-      $name = $args["name"];
+    $searchTerm = "";
+    if (isset($args["searchTerm"])) {
+      $searchTerm = $args["searchTerm"];
     }
     /*Formula for calculating distance between two lat lngs, originally in JavaScript
       var R = 6371; // Radius of the earth in km
@@ -78,7 +78,7 @@ class EventIO {
     $bindings = [];
     $bindings[":latitude"] = $latitude;
     $bindings[":longitude"] = $longitude;
-    $bindings[":search"] = "%" . $name . "%";
+    $bindings[":search"] = "%" . $searchTerm . "%";
 
     return $this->io->queryDB($args, $query, $bindings);
   }
