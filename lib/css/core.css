@@ -48,6 +48,7 @@ header > div > div > div {
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
+  overflow: none;
 }
 header h1 {
   margin-right: 0.5em;
@@ -193,4 +194,16 @@ input.error {
 }
 #search-results-users h4 {
   margin: 0.8em 0.5em;
+}
+
+@media screen and (max-width: 60em) {
+  header > div {
+    padding-left: 0.25em;
+  }
+}
+
+@media screen and (max-width: 45em) {
+  header > div > div > div {
+    display: none;
+  }
 }
