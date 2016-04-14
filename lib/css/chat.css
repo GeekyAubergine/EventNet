@@ -61,6 +61,8 @@
   flex-wrap: wrap;
   align-self: flex-end;
   background-color: white;
+  border: 0.1em solid #CCC;
+  border-bottom: none;
 }
 #message-creator textarea {
   flex: 1 100%;
