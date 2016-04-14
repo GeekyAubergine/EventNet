@@ -25,6 +25,7 @@ header {
   display: flex;
   /*overflow: hidden;*/
   width: 100%;
+  justify-content: space-between;
   z-index: 100;
   background-color: deepskyblue;
   color: white;
@@ -32,22 +33,31 @@ header {
 }
 header > div {
   flex: 100%;
-  width: 100%;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-}
-header > div > div {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+header > div > div {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+header > div > div > div {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
 }
 header h1 {
-  width: 5em;
-}ß
+  margin-right: 0.5em;
+}
 nav {
   display: flex;
   align-self: flex-end;
   flex-flow: row nowrap;
   justify-content: space-between;
+  margin-left: 0.5em;
 }
 nav ul {
   list-style: none;
@@ -61,7 +71,7 @@ nav li {
 nav a {
   text-decoration: none;
   display: block;
-  padding: 1em;
+  padding: 1em 0.5em;
   color: white;
   border-bottom: 0 solid white;
   transition: all 0.25s ease-out;
@@ -112,10 +122,10 @@ input.error {
 
 /* ---- Search ---- */
 #search {
+  flex: 100%;
   padding: 0 0.5em;
   height: 2em;
   margin: 0.5em 0;
-  width: 25em;
 }
 
 #search-results-container {
@@ -125,7 +135,6 @@ input.error {
   position: absolute;
   top: 2.5em;
   left: 0;
-  width: 25em;
   max-height: 90vh;
   background-color: white;
   border: 0.1em solid #888;
