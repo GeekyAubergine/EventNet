@@ -75,6 +75,7 @@
 
 /* ---- Archived Notification ---- */
 #archived-notification {
+  width: 100%;
   background-color: white;
 }
 #archived-notification h2 {
