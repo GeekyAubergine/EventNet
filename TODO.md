@@ -30,4 +30,3 @@
 - Improve settings
 - More intuitive event joining
 - Remove double loading of comments when creating comment while comments are hidden
-- Add api switch for archived events

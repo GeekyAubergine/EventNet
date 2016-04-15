@@ -72,13 +72,17 @@ class EventIO {
     "FROM event " .
     "LEFT JOIN (".
     "select event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id " .
-    "WHERE event.event_name LIKE :search " .
+    "WHERE event.event_name LIKE :search AND event.event_archived <= :archived " .
     "ORDER BY distance_from_user, info.most_recent_post, info.number_of_posts";
 
     $bindings = [];
     $bindings[":latitude"] = $latitude;
     $bindings[":longitude"] = $longitude;
     $bindings[":search"] = "%" . $searchTerm . "%";
+    $bindings[":archived"] = 0;
+    if (isset($args["archived"]) && $args["archived"]) {
+      $bindings[":archived"] = 1;
+    }
 
     return $this->io->queryDB($args, $query, $bindings);
   }
