@@ -27,7 +27,6 @@
 ## General to do list
 - Add achived to network table and implement in io
 - Save users previous location and use for location before more accurate results comes in
-- Make gifs run
 - Improve settings
 - More intuitive event joining
 - Add default error function to xhr
