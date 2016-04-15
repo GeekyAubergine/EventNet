@@ -94,7 +94,7 @@ class EventIO {
       return $this->io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (:event, :latitude, :longitude, now());";
+    $query = "insert into event (event_name, event_latitude, event_longitude, event_timestamp) values (:event, :latitude, :longitude, UTC_TIMESTAMP);";
     $bindings = [];
     $bindings[":event"] = $args["eventName"];
     $bindings[":latitude"] = $args["latitude"];

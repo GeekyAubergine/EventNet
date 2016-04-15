@@ -39,7 +39,7 @@ class UserIO {
       return $this->io->badRequest("Access token missing", []);
     }
 
-    $query = "SELECT user_id FROM user WHERE user_access_token = :token AND user_access_token_expire > NOW()";
+    $query = "SELECT user_id FROM user WHERE user_access_token = :token AND user_access_token_expire > UTC_TIMESTAMP";
     $bindings[":token"] = $accessToken;
 
     $results = $this->io->queryDB([], $query, $bindings);
@@ -56,7 +56,7 @@ class UserIO {
       return 0;
     }
 
-    $query = "SELECT user_id FROM user where user_access_token = :token AND user_access_token_expire > NOW()";
+    $query = "SELECT user_id FROM user where user_access_token = :token AND user_access_token_expire > UTC_TIMESTAMP";
     $bindings[":token"] = $accessToken;
 
     $results = $this->io->queryDB([], $query, $bindings);
