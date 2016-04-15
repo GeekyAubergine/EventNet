@@ -45,10 +45,7 @@ class MediaIO {
         $imageExtension = '.png';
         break;
       case 'gif':
-        $createImageFunction = 'imagecreatefromgif';
-        $saveImageFunction = 'imagegif';
-        $imageExtension = '.gif';
-        break;
+        return;
       default:
         throw new Exception('Unknown image type.');
     }
