@@ -29,6 +29,5 @@
 - Save users previous location and use for location before more accurate results comes in
 - Improve settings
 - More intuitive event joining
-- Add default error function to xhr
 - Remove double loading of comments when creating comment while comments are hidden
 - Add api switch for archived events
