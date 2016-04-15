@@ -56,7 +56,7 @@ class CommentIO {
       return $this->io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into comment (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values (:user, :post, :content, :lat, :lon, now())";
+    $query = "insert into comment (user_id, post_id, comment_content, comment_latitude, comment_longitude, comment_timestamp) values (:user, :post, :content, :lat, :lon, UTC_TIMESTAMP)";
     $bindings = [];
 
     $bindings[":user"] = $this->io->getUserId($args);;
@@ -80,7 +80,7 @@ class CommentIO {
       return $this->io->badRequest("Content missing", $args);
     }
 
-    $query = "UPDATE comment SET comment_content = :content, comment_edited = 1, comment_edited_timestamp = NOW() WHERE comment_id = :comment";
+    $query = "UPDATE comment SET comment_content = :content, comment_edited = 1, comment_edited_timestamp = UTC_TIMESTAMP WHERE comment_id = :comment";
     $bindings = [];
     $bindings[":comment"] = $args["commentId"];
     $bindings[":content"] = $args["commentContent"];

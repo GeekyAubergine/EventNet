@@ -3,11 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>EventNet</title>
+  <title>EventNet | Events</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-  <meta name="google-signin-client_id" content="742741150395-03gn9452camd85skn1rr310s8gnnulvr.apps.googleusercontent.com">
   <link rel="stylesheet" href="lib/css/core.css">
-  <link rel="stylesheet" href="lib/css/signin.css">
+  <link rel="stylesheet" href="lib/css/map.css">
 </head>
 
 <body>
@@ -62,32 +61,24 @@
     </div>
   </header>
   <main class=width-container>
-    <section id=signed-in class=hidden>
-      <h2>Signed In</h2>
-    </section>
-    <section id=sign-in>
-      <article>
-        <h2>Sign In</h2>
-        <p>Please sign in before using EventNet</p>
-      </article>
-      <article>
-        <a id=google-login-button class=button>
-          <img src=res/icons/google_signin_logo.svg></img>
-          <p>Log in with Google</p>
-        </a>
-        <!-- <a id=fb-login-button class=button>
-          <img src=res/icons/fb_logo.png></img>
-          <p>Log in with Facebook</p>
-        </a> -->
-      </article>
-    </section>
+    <div id=map-container>
+      <div class=container>
+        <h2 id=event-name></h2>
+      </div>
+      <div class=container>
+        <section id="map"></section>
+        <section id="notification-list">
+        </section>
+      </div>
+    </div>
   </main>
-  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqrKgBXzNd6Pq4Qr5vQXOxmnal0DQuoOo"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
-  <script src="lib/js/signin.js" charset="utf-8"></script>
+  <script src="lib/js/map.js" charset="utf-8"></script>
   <script src="lib/js/searchBar.js" charset="utf-8"></script>
+  </script>
 </body>
 
 </html>

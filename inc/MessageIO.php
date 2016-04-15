@@ -33,7 +33,7 @@ class MessageIO {
     if (!isset($args["longitude"])) {
       return $this->io->badRequest("Longitude was missing", $args);
     }
-    $query = "INSERT INTO message (user_id, event_id, message_content, message_latitude, message_longitude, message_timestamp) VALUE (:user, :event, :message, :latitude, :longitude, NOW());";
+    $query = "INSERT INTO message (user_id, event_id, message_content, message_latitude, message_longitude, message_timestamp) VALUE (:user, :event, :message, :latitude, :longitude, UTC_TIMESTAMP);";
 
     $bindings = [];
     $bindings[":user"] = $this->io->getUserId($args);

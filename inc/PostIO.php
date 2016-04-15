@@ -101,7 +101,7 @@ class PostIO {
       return $this->io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into post (user_id, event_id, post_content, post_latitude, post_longitude, post_timestamp) values (:user, :event, :content, :lat, :lon, now())";
+    $query = "insert into post (user_id, event_id, post_content, post_latitude, post_longitude, post_timestamp) values (:user, :event, :content, :lat, :lon, UTC_TIMESTAMP)";
     $bindings = [];
 
     $bindings[":user"] = $this->io->getUserId($args);;
@@ -127,7 +127,7 @@ class PostIO {
       return $this->io->badRequest("Content missing", $args);
     }
 
-    $query = "UPDATE post SET post_content = :content, post_edited = 1, post_edited_timestamp = NOW() WHERE post_id = :post";
+    $query = "UPDATE post SET post_content = :content, post_edited = 1, post_edited_timestamp = UTC_TIMESTAMP WHERE post_id = :post";
     $bindings = [];
     $bindings[":post"] = $args["postId"];
     $bindings[":content"] = $args["postContent"];

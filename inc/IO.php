@@ -89,6 +89,10 @@ class IO {
 
     $query .= ";";
 
+    //Replace now() width UTC_TIMESTAMP
+    $query = str_replace("now()", "UTC_TIMESTAMP", $query);
+    $query = str_replace("NOW()", "UTC_TIMESTAMP", $query);
+
     $results = $this->database->query($query, $bindings);
 
     $results["debug"]["offset"] = $offset;
