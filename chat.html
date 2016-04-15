@@ -1,86 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <title>EventNet</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="lib/css/core.css">
-    <link rel="stylesheet" href="lib/css/chat.css">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <title>EventNet</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="lib/css/core.css">
+  <link rel="stylesheet" href="lib/css/chat.css">
+</head>
 
-  <body>
-    <header>
-      <div class=width-container>
+<body>
+  <header>
+    <div class=width-container>
+      <div>
+        <h1>EventNet</h1>
         <div>
-          <h1>EventNet</h1>
-          <div>
-            <div id=search-results-container class="hidden">
-              <div id=search-results>
-                <section class="hidden">
-                  <h5>Events</h5>
-                  <ul id=search-results-events></ul>
-                </section>
-                <section class="hidden">
-                  <h5>Posts</h5>
-                  <ul id=search-results-posts>
-                  </ul>
-                </section>
-                <section class="hidden">
-                  <h5>Comments</h5>
-                  <ul id=search-results-comments></ul>
-                </section>
-                <section class="hidden">
-                  <h5>People</h5>
-                  <ul id=search-results-users></ul>
-                </section>
-              </div>
+          <div id=search-results-container class="hidden">
+            <div id=search-results>
+              <section class="hidden">
+                <h5>Events</h5>
+                <ul id=search-results-events></ul>
+              </section>
+              <section class="hidden">
+                <h5>Posts</h5>
+                <ul id=search-results-posts>
+                </ul>
+              </section>
+              <section class="hidden">
+                <h5>Comments</h5>
+                <ul id=search-results-comments></ul>
+              </section>
+              <section class="hidden">
+                <h5>People</h5>
+                <ul id=search-results-users></ul>
+              </section>
             </div>
-            <input id="search" type="text" name="Search" value="" placeholder="Search for posts, comments, events and people">
           </div>
+          <input id="search" type="text" name="Search" value="" placeholder="Search for posts, comments, events and people">
         </div>
-        <nav>
-          <ul>
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li>
-              <a href="/chat.html">Chat</a>
-            </li>
-            <li>
-              <a href="/home.html">Map</a>
-            </li>
-            <li>
-              <a href="/events.html">Events</a>
-            </li>
-            <li>
-              <a href="/settings.html">Settings</a>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </header>
-    <main class=width-container>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/chat.html">Chat</a>
+          </li>
+          <li>
+            <a href="/home.html">Map</a>
+          </li>
+          <li>
+            <a href="/events.html">Events</a>
+          </li>
+          <li>
+            <a href="/settings.html">Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class=width-container>
       <div id=message-area-container>
         <section id=messages></section>
-        <section id=message-creator class="hidden">
-          <div class=container>
-            <div class=user-icon>
-              <img id=user-icon src="res/icons/default_user.svg" alt="">
-            </div>
-            <textarea id=message-creator-textarea placeholder="Type a message"></textarea>
+      </div>
+    </div>
+    <div id=message-area-container class=width-container>
+      <section id=message-creator class="hidden">
+        <div class=container>
+          <div class=user-icon>
+            <img id=user-icon src="res/icons/default_user.svg" alt="">
           </div>
+          <textarea id=message-creator-textarea placeholder="Type a message"></textarea>
         </div>
         <section id=archived-notification class="hidden">
           <h2>This Event is archived, you can not create messages</h2>
         </section>
       </section>
-    </main>
-    <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
-    <script src="lib/js/xhr.js" charset="utf-8"></script>
-    <script src="lib/js/eventNet.js" charset="utf-8"></script>
-    <script src="lib/js/chat.js" charset="utf-8"></script>
-    <script src="lib/js/searchBar.js" charset="utf-8"></script>
-  </body>
+    </div>
+  </main>
+  <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
+  <script src="lib/js/xhr.js" charset="utf-8"></script>
+  <script src="lib/js/eventNet.js" charset="utf-8"></script>
+  <script src="lib/js/chat.js" charset="utf-8"></script>
+  <script src="lib/js/searchBar.js" charset="utf-8"></script>
+</body>
 
 </html>
