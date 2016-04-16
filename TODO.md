@@ -25,7 +25,6 @@
 - [x] Users can search for a string/phrases and it will load all Events (including archived Events), posts and comments where their content matches the given phrase. This will also search for usernames that match the search phrase.
 
 ## General to do list
-- Add achived to network table and implement in io
 - Save users previous location and use for location before more accurate results comes in
 - Improve settings
 - More intuitive event joining
