@@ -81,10 +81,10 @@ class IO {
       $limit = min(abs(intval($args["limit"])), 1000); //Max 1000 rows
     }
 
-    $isSelectQuery = strpos($query, 'select') !== false;
+    $isSelectQuery = strpos(strtolower($query), 'select') !== false;
 
     if ($isSelectQuery) {
-      $query .= " limit " . $limit . " offset " . $offset;
+      $query .= " LIMIT " . $limit . " OFFSET " . $offset;
     }
 
     $query .= ";";
