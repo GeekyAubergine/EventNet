@@ -1,0 +1,12 @@
+section {
+  width: 100%;
+  padding: 2em;
+  background: white;
+}
+h2, h3 {
+  width: 100%;
+  text-align: center;
+}
+a {
+  color: skyblue;
+}
