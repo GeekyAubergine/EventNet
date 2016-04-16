@@ -1,5 +1,8 @@
 <?php
 
+/*
+  Class controlling all event functionality
+*/
 class EventIO {
 
   private $io;
@@ -8,6 +11,7 @@ class EventIO {
     $this->io = $io;
   }
 
+  //Used by primary router, calls approriate functions within this class
   public function getEvents($args) {
     if (isset($args["eventId"])) {
       $eventID = intval($args["eventId"]);
@@ -25,6 +29,7 @@ class EventIO {
     return $this->io-badRequest("Either event id or latitude and longitude must be set", $args);
   }
 
+  //Returns event with the given id
   private function getEventById($args, $eventID) {
     $query = "SELECT event.event_id, event.event_name, event.event_latitude, event.event_longitude, event.event_timestamp, event.event_archived, info.number_of_posts, info.most_recent_post FROM event LEFT JOIN (SELECT event_id, COUNT(*) AS number_of_posts, MAX(post_timestamp) as most_recent_post FROM post GROUP BY event_id) AS info ON info.event_id = event.event_id WHERE event.event_id = :event";
     $bindings = [];
@@ -33,12 +38,19 @@ class EventIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  /*
+    Returns a list of events sorted by their distance from the given location.
+    Also filters by a search term if one is given.
+  */
   private function getEventsSortedByDistance($args, $latitude, $longitude) {
     $searchTerm = "";
     if (isset($args["searchTerm"])) {
       $searchTerm = $args["searchTerm"];
     }
-    /*Formula for calculating distance between two lat lngs, originally in JavaScript
+    /*
+      Formula for calculating distance between two lat lngs.
+      This was originally in JavaScript, ported to MySQL.
+
       var R = 6371; // Radius of the earth in km
       var dLat = degreesToRadains(lat2 - lat1); // degreesToRadains below
       var dLon = degreesToRadains(lon2 - lon1);
@@ -87,6 +99,7 @@ class EventIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Used by primary router
   public function createEvent($args) {
     if (!isset($args["eventName"])) {
       return $this->io->badRequest("Event name was missing", $args);
