@@ -1,25 +1,37 @@
-main {
-  margin-top: 5em;
+section {
+  flex: 1;
+  display: flex;
+  background-color: white;
 }
 article {
-  float: left;
-  width: 50%;
+  flex: 50%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
 }
-a.button {
-  float: left;
+h2, p {
+  text-align: center;;
   width: 100%;
-  font-size: 200%;
-  margin: 0;
-  margin-bottom: 1em;
-  border: none;
 }
-a.button img {
+#google-login-button {
+  display: flex;
+  flex-flow: row nowrap;
+  font-size: 200%;
+  padding: 0.5em;
+  margin: 1em 0;
+  border: 1px solid #CCC;
+}
+#google-login-button:hover {
+  border-color: #E9E9E9;
+}
+#google-login-button img {
   float: left;
   width: 1.5em;
   margin: 0.25em 0;
 }
-a.button p {
+#google-login-button p {
   float: left;
+  text-align: left;
   color: white;
   margin-top: 0.25em;
   margin-left: 0.5em;
@@ -29,7 +41,4 @@ a.button p {
 }
 #google-login-button p {
   color: gray;
-}
-#fb-login-button {
-  background-color: #3b5998;
 }
