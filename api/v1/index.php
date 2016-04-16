@@ -152,21 +152,24 @@ switch ($path[0]) {
     break;
 }
 
+//If data or debug is not set then it is set to an empty array
 if (!isset($results["data"])) {
-  $results["data"] = "";
+  $results["data"] = [];
 }
 if (!isset($results["debug"])) {
   $results["debug"] = [];
 }
-$results["debug"]["request"] = $args;
-$results["debug"]["verb"] = $verb;
-$results["debug"]["path"] = $path;
-$results["debug"]["in"] = $args;
-$results["debug"]["INPUT_GET"] = $io->extractVariables();
-$results["debug"]["INPUT_POST"] = $io->extractVariables(INPUT_POST);
-$results["debug"]["request"] = $_REQUEST;
 
-if (!DEBUGGING) {
+//If debugging mode active, add more debugging information, otherwise remove all debugging information
+if (DEBUGGING) {
+  $results["debug"]["request"] = $args;
+  $results["debug"]["verb"] = $verb;
+  $results["debug"]["path"] = $path;
+  $results["debug"]["in"] = $args;
+  $results["debug"]["INPUT_GET"] = $io->extractVariables();
+  $results["debug"]["INPUT_POST"] = $io->extractVariables(INPUT_POST);
+  $results["debug"]["request"] = $_REQUEST;
+} else {
   unset($results["debug"]);
 }
 
