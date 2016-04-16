@@ -57,11 +57,18 @@
   flex-wrap: wrap;
   list-style-type: none;
 }
-#events-list > ul > li > ul > li.distance {
+#events-list > ul > li > ul > li {
   width: 100%;
 }
-#events-list > ul > li > ul > li.time {
+#events-list > ul > li > ul > li > h3, h4 {
   width: 100%;
+}
+#events h4 {
+  text-align: center;
+  border-bottom: 1px solid #BBB;
+}
+#events-list .archived {
+  background-color: #EEE;
 }
 #events-list > ul > li:hover {
   border-left-width: 0.25em;

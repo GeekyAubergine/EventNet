@@ -1,3 +1,5 @@
 deployment-config.json
 .remote-sync.json
 config.php
+node_modules
+uploads/

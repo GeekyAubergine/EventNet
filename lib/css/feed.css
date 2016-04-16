@@ -13,19 +13,34 @@ textarea {
 /* ---- Post and Comment Meta Info ---- */
 
 .meta {
-  flex: 1 100%;
+  flex: 100%;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row nowrap;
+  margin-left: 4em;
+  padding-left: 0.25em;
+  list-style-type: none;
 }
-.meta .info {
-  padding: 0.25em 0.25em;
+.meta li {
+  display: flex;
+  margin-right: 1em;
+  transition: all 250ms;
+  flex-flow: row nowrap;
 }
-.meta .info h3, time, p {
-  width: 100%;
+.meta li.clickable:hover {
+  color: skyblue;
+  cursor: pointer;
 }
 
 /* ---- Posts ---- */
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 #posts {
   flex: 1 100%;
   display: flex;
@@ -38,11 +53,39 @@ textarea {
   margin-top: 1em;
   background-color: white;
   border: 0.1em solid #CCC;
+  animation: fadein 250ms;
 }
 .post .content {
-  flex: 1 100%;
-  padding: 0 0.5em;
-  margin-bottom: 0.5em;
+  flex: 100%;
+  padding: 0.25em 0.5em;
+}
+
+/* ---- Post media ---- */
+.post .media-container {
+  flex: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.post .media-img-container {
+  flex: 1;
+  min-width: 10em;
+  padding: 0.1em;
+}
+
+.post .media-video-container {
+  flex: 100%;
+  padding: 0.5em;
+}
+
+.post .media-container img {
+  width: 100%;
+  height: auto;
+}
+
+.post .media-container video {
+  width: 100%;
+  height: auto;
 }
 
 /* ---- Post Controls ---- */
@@ -51,6 +94,11 @@ textarea {
   flex: 1 100%;
   display: flex;
   padding-bottom: 0.5em;
+}
+
+/* ---- Editing ---- */
+.post button {
+  margin-left: 0;
 }
 
 /* ---- Post creation ---- */
@@ -114,6 +162,9 @@ textarea {
 .comment .user-icon img {
   width: 3em;
 }
+.comment .content {
+  margin-left: 0.5em;
+}
 .comments .load-more-comments-button {
   flex: 1 100%;
   border-top: 0.1em solid #DDD;
@@ -122,6 +173,15 @@ textarea {
   transition: all 250ms;
 }
 .comments .load-more-comments-button:hover {
-  background-color: #E4E4E4;
-  text-decoration: underline;
+  color: skyblue;
+}
+
+/* ---- Archived Notification ---- */
+#archived-notification {
+  width: 100%;
+  background-color: white;
+}
+#archived-notification h2 {
+  padding: 1em;
+  text-align: center;
 }

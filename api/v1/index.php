@@ -5,15 +5,16 @@ include __DIR__.'/../../inc/all.php';
 $io = new IO();
 $eventIO = new EventIO($io);
 $postIO = new PostIO($io);
-$comment = new Comment($io);
+$commentIO = new CommentIO($io);
 $userIO = new UserIO($io);
 $messageIO = new MessageIO($io);
+$reportIO = new ReportIO($io);
+$mediaIO = new MediaIO($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case "POST":
-  case "PUT":
     $args = $io->extractVariables(INPUT_POST);
     break;
   default:
@@ -39,7 +40,7 @@ switch ($path[0]) {
         $results = $eventIO->createEvent($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -55,8 +56,14 @@ switch ($path[0]) {
       case "POST":
         $results = $postIO->createPost($args);
         break;
+      case "PUT":
+        $results = $postIO->updatePost($args);
+        break;
+      case "DELETE":
+        $results = $postIO->deletePost($args);
+        break;
       default:
-        $results["meta"]["ok"] = false;
+        $$results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -67,30 +74,50 @@ switch ($path[0]) {
     }
     switch ($verb) {
       case "GET":
-        $results = $comment->getComments($args);
+        $results = $commentIO->getComments($args);
         break;
       case "POST":
-        $results = $comment->createComment($args);
+        $results = $commentIO->createComment($args);
+        break;
+      case "PUT":
+        $results = $commentIO->updateComment($args);
+        break;
+      case "DELETE":
+        $results = $commentIO->deleteComment($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
   case "users":
-    //Get networkId
+    //Get renewToken
     if (isset($path[1]) && trim($path[1]) != "") {
-      $args["userId"] = $path[1];
+      $args["renewToken"] = $path[1];
     }
     switch ($verb) {
       case "GET":
-        $results = $userIO->getUsers($args);
+        $results = $userIO->getUser($args);
         break;
       case "POST":
-        $results = $userIO->createUser($args);
+        if (isset($args["renewToken"])) {
+          $results = $userIO->renewToken($args);
+        } else {
+          $results = $userIO->createUser($args);
+        }
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
+        break;
+    }
+    break;
+  case "reports":
+    switch ($verb) {
+      case "POST":
+        $results = $reportIO->createReport($args);
+        break;
+      default:
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
@@ -107,15 +134,31 @@ switch ($path[0]) {
         $results = $messageIO->createMessage($args);
         break;
       default:
-        $results["meta"]["ok"] = false;
+        $results = $io->methodNotAllowed($args);
+        break;
+    }
+    break;
+  case "media":
+    switch ($verb) {
+      case "GET":
+        $results = $mediaIO->getMedia($args);
+        break;
+      default:
+        $results = $io->methodNotAllowed($args);
         break;
     }
     break;
   default:
-    $results["meta"]["ok"] = false;
+    $results = $io->methodNotAllowed($args);
     break;
 }
 
+if (!isset($results["data"])) {
+  $results["data"] = "";
+}
+if (!isset($results["debug"])) {
+  $results["debug"] = [];
+}
 $results["debug"]["request"] = $args;
 $results["debug"]["verb"] = $verb;
 $results["debug"]["path"] = $path;

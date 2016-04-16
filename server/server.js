@@ -21,7 +21,7 @@ function emit(messageHeader, messageBody) {
 
 function onUserPosted(data) {
   log("User posted");
-  emit("newPost");
+  emit("newPost", data);
 }
 
 function onUserCommented(data) {

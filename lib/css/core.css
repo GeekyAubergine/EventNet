@@ -13,6 +13,8 @@ body {
   display: flex;
 }
 .width-container {
+  display: flex;
+  flex-flow: row wrap;
   max-width: 60em;
   margin-left: auto;
   margin-right: auto;
@@ -20,24 +22,43 @@ body {
 header {
   position: fixed;
   top: 0;
-  overflow: hidden;
+  display: flex;
+  /*overflow: hidden;*/
   width: 100%;
+  justify-content: space-between;
   z-index: 100;
   background-color: deepskyblue;
   color: white;
   height: 3em;
 }
+header > div {
+  flex: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+header > div > div {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+header > div > div > div {
+  flex: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  overflow: none;
+}
 header h1 {
-  float: left;
-  width: 50%;
-  padding: 0.1em 0;
-  font-weight: normal;
-  line-height: 1.25em;
+  margin-right: 0.5em;
 }
 nav {
-  float: left;
-  width: 50%;
-  overflow: hidden;
+  display: flex;
+  align-self: flex-end;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-left: 0.5em;
 }
 nav ul {
   list-style: none;
@@ -51,7 +72,7 @@ nav li {
 nav a {
   text-decoration: none;
   display: block;
-  padding: 1em;
+  padding: 1em 0.5em;
   color: white;
   border-bottom: 0 solid white;
   transition: all 0.25s ease-out;
@@ -71,7 +92,7 @@ p {
   line-height: 1.5em;
 }
 
-a.button {
+button {
   float: left;
   display: block;
   padding: 0.125em 0.25em;
@@ -80,9 +101,12 @@ a.button {
   border: 0.1em solid #DDD;
   text-decoration: none;
   color: black;
+  background-color: white;
   transition: all 250ms;
+  font-size: 100%;
+  outline: none;
 }
-.button:hover {
+button:hover {
   background-color: deepskyblue;
   color: white;
 }
@@ -95,4 +119,91 @@ input[type=text], textarea {
 }
 input.error {
   border-color: red;
+}
+
+/* ---- Search ---- */
+#search {
+  flex: 100%;
+  padding: 0 0.5em;
+  height: 2em;
+  margin: 0.5em 0;
+}
+
+#search-results-container {
+  position: relative;
+}
+#search-results {
+  position: absolute;
+  top: 2.5em;
+  left: 0;
+  max-height: 90vh;
+  background-color: white;
+  border: 0.1em solid #888;
+  border-top: none;
+  color: black;
+  overflow-y: scroll;
+}
+#search-results:hover {
+  visibility: visible;
+}
+#search-results ul {
+  list-style-type: none;
+}
+#search-results h5 {
+  padding: 0.5em;
+  background-color: #EEE;
+  border-top: 0.1em solid #BBB;
+  border-bottom: 0.1em solid #BBB;
+}
+#search-results li {
+  flex: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  border-top: 0.1em solid #BBB;
+  padding: 0.25em;
+}
+#search-results li:first-of-type {
+  border-top: none;
+}
+#search-results li:hover {
+  background-color: #DDD;
+}
+/* ---- Event Search Results ---- */
+#search-results-events ul li {
+  padding: 0;
+  border: none;
+}
+#search-results-events li p {
+  flex: 100%;
+}
+/* ---- Post Search Results ---- */
+#search-results-posts p {
+  flex: 100%;
+}
+/* ---- Comment Search Results ---- */
+#search-results-comments p {
+  flex: 100%;
+}
+/* ---- User Search Results ---- */
+#search-results-users li {
+  flex-flow: row nowrap;
+}
+#search-results-users img {
+  width: 3em;
+  height: 3em;
+}
+#search-results-users h4 {
+  margin: 0.8em 0.5em;
+}
+
+@media screen and (max-width: 60em) {
+  header > div {
+    padding-left: 0.25em;
+  }
+}
+
+@media screen and (max-width: 45em) {
+  header > div > div > div {
+    display: none;
+  }
 }

@@ -37,7 +37,7 @@ class DB {
   public function query($query, $bindings = null) {
     $results = [];
 
-    $isSelectQuery = strpos($query, 'select') !== false;
+    $isSelectQuery = strpos(strtolower($query), 'select') !== false;
 
     try {
       if (isset($bindings)) {
@@ -65,6 +65,10 @@ class DB {
     $results["debug"]["count"] = count($result);
 
     return $results;
+  }
+
+  public function getLastInsertedID() {
+    return $this->pdo->lastInsertId();
   }
 
   public function close() {

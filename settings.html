@@ -3,10 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>EventNet | Events</title>
+  <title>EventNet</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
+  <meta name="google-signin-client_id" content="742741150395-03gn9452camd85skn1rr310s8gnnulvr.apps.googleusercontent.com">
   <link rel="stylesheet" href="lib/css/core.css">
-  <link rel="stylesheet" href="lib/css/event.css">
+  <link rel="stylesheet" href="lib/css/settings.css">
 </head>
 
 <body>
@@ -61,30 +62,18 @@
     </div>
   </header>
   <main class=width-container>
-    <div id=events-container>
-      <div class=container>
-        <h2>Events</h2>
-      </div>
-      <div class=container>
-        <section id="map"></section>
-        <section id=events-list>
-          <div id=new-event>
-            <input id=search-box type=text placeholder="Find an event"></input>
-            <a id=new-event-button class=button>Create</a>
-          </div>
-          <ul id=events>
-          </ul>
-        </section>
-      </div>
-    </div>
+    <section id=sign-in class="hidden">
+      <h2>You are not currently signed in</h2><h3> To sign in <a href="/signin.html" title="Sign in">Click Here</a></h3>
+    </section>
+    <section id=signed-in class="hidden">
+      <h2>You are currently signed in</h2><h3> To sign out <a id="signout-button" href="settings.html" title="Sign out">Click Here</a></h3>
+    </section>
   </main>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqrKgBXzNd6Pq4Qr5vQXOxmnal0DQuoOo"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
-  <script src="lib/js/event.js" charset="utf-8"></script>
+  <script src="lib/js/settings.js" charset="utf-8"></script>
   <script src="lib/js/searchBar.js" charset="utf-8"></script>
-  </script>
 </body>
 
 </html>

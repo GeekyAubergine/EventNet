@@ -13,7 +13,33 @@
 <body>
   <header>
     <div class=width-container>
-      <h1>EventNet</h1>
+      <div>
+        <h1>EventNet</h1>
+        <div>
+          <div id=search-results-container class="hidden">
+            <div id=search-results>
+              <section class="hidden">
+                <h5>Events</h5>
+                <ul id=search-results-events></ul>
+              </section>
+              <section class="hidden">
+                <h5>Posts</h5>
+                <ul id=search-results-posts>
+                </ul>
+              </section>
+              <section class="hidden">
+                <h5>Comments</h5>
+                <ul id=search-results-comments></ul>
+              </section>
+              <section class="hidden">
+                <h5>People</h5>
+                <ul id=search-results-users></ul>
+              </section>
+            </div>
+          </div>
+          <input id="search" type="text" name="Search" value="" placeholder="Search for posts, comments, events and people">
+        </div>
+      </div>
       <nav>
         <ul>
           <li>
@@ -23,7 +49,7 @@
             <a href="/chat.html">Chat</a>
           </li>
           <li>
-            <a href="/home.html">Map</a>
+            <a href="/map.html">Map</a>
           </li>
           <li>
             <a href="/events.html">Events</a>
@@ -36,32 +62,23 @@
     </div>
   </header>
   <main class=width-container>
-    <section id=signed-in class=hidden>
-      <h2>Signed In</h2>
-    </section>
     <section id=sign-in>
       <article>
         <h2>Sign In</h2>
         <p>Please sign in before using EventNet</p>
-      </article>
-      <article>
         <a id=google-login-button class=button>
           <img src=res/icons/google_signin_logo.svg></img>
           <p>Log in with Google</p>
-        </a>
-        <a id=fb-login-button class=button>
-          <img src=res/icons/fb_logo.png></img>
-          <p>Log in with Facebook</p>
         </a>
       </article>
     </section>
   </main>
   <script src="https://apis.google.com/js/api:client.js"></script>
-  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
   <script src="lib/js/signin.js" charset="utf-8"></script>
+  <script src="lib/js/searchBar.js" charset="utf-8"></script>
 </body>
 
 </html>

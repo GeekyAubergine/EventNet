@@ -10,12 +10,7 @@ class IO {
   public function extractVariables($method = INPUT_GET) {
     $variables = array();
     foreach ($_REQUEST as $key => $value) {
-      $string = filter_input($method, $key, FILTER_SANITIZE_STRING);
-      //Only encode if GET
-      if ($method == INPUT_GET) {
-        $string = urlencode($string);
-      }
-      $variables[$key] = stripslashes(strip_tags($string));
+      $variables[$key] = stripslashes(strip_tags(urldecode(filter_input($method, $key, FILTER_SANITIZE_STRING))));
     }
     return $variables;
   }
@@ -56,6 +51,24 @@ class IO {
     return $results;
   }
 
+  public function methodNotAllowed($args) {
+    $results = [];
+    $results["meta"]["ok"] = false;
+    $results["meta"]["status"] = 405;
+    $results["meta"]["message"] = "Method now allowed";
+    $results["debug"]["request"] = $args;
+    return $results;
+  }
+
+  public function methodNotImplemented($args) {
+    $results = [];
+    $results["meta"]["ok"] = false;
+    $results["meta"]["status"] = 501;
+    $results["meta"]["message"] = "Method not implemented";
+    $results["debug"]["request"] = $args;
+    return $results;
+  }
+
   public function queryDB($args, $query, $bindings = null) {
     $limit = 25;
     $offset = 0;
@@ -65,16 +78,20 @@ class IO {
     }
 
     if (isset($args["limit"])) {
-      $limit = abs(intval($args["limit"]));
+      $limit = min(abs(intval($args["limit"])), 1000); //Max 1000 rows
     }
 
-    $isSelectQuery = strpos($query, 'select') !== false;
+    $isSelectQuery = strpos(strtolower($query), 'select') !== false;
 
     if ($isSelectQuery) {
-      $query .= " limit " . $limit . " offset " . $offset;
+      $query .= " LIMIT " . $limit . " OFFSET " . $offset;
     }
 
     $query .= ";";
+
+    //Replace now() width UTC_TIMESTAMP
+    $query = str_replace("now()", "UTC_TIMESTAMP", $query);
+    $query = str_replace("NOW()", "UTC_TIMESTAMP", $query);
 
     $results = $this->database->query($query, $bindings);
 
@@ -84,6 +101,26 @@ class IO {
     $results["debug"]["bindings"] = $bindings;
 
     return $results;
+  }
+
+  public function getLastInsertedID() {
+    return $this->database->getLastInsertedID();
+  }
+
+  public function getUserID($args) {
+    if (!isset($args["accessToken"])) {
+      return -1;
+    }
+    $accessToken = $args["accessToken"];
+    $user = new UserIO($this);
+
+    if ($user->accessTokenValid($accessToken)) {
+      $userId = $user->getUserIdForAccessToken($accessToken);
+    } else {
+      $userId = 0;
+    }
+
+    return $userId;
   }
 
   public function close() {
