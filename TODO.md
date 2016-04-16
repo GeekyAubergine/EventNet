@@ -25,4 +25,3 @@
 - [x] Users can search for a string/phrases and it will load all Events (including archived Events), posts and comments where their content matches the given phrase. This will also search for usernames that match the search phrase.
 
 ## General to do list
-- Improve settings
