@@ -1,4 +1,7 @@
 <?php
+/*
+  Primary router for the API
+*/
 
 include __DIR__.'/../../inc/all.php';
 

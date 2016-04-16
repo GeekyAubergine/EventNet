@@ -1,4 +1,7 @@
 <?php
+/*
+  File used to include all other PHP files
+*/
 
 if (!file_exists(__DIR__.'/config.php')) {
   echo ("Missing config.php");
