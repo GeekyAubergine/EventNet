@@ -7,7 +7,7 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700' rel='stylesheet' type='text/css'>
   <meta name="google-signin-client_id" content="742741150395-03gn9452camd85skn1rr310s8gnnulvr.apps.googleusercontent.com">
   <link rel="stylesheet" href="lib/css/core.css">
-  <link rel="stylesheet" href="lib/css/signout.css">
+  <link rel="stylesheet" href="lib/css/settings.css">
 </head>
 
 <body>
@@ -62,32 +62,17 @@
     </div>
   </header>
   <main class=width-container>
-    <section id=signed-in class=hidden>
-      <h2>Signed In</h2>
+    <section id=sign-in class="hidden">
+      <h2>You are not currently signed in</h2><h3> To sign in <a href="/signin.html" title="Sign in">Click Here</a></h3>
     </section>
-    <section id=sign-in>
-      <article>
-        <h2>Sign In</h2>
-        <p>Please sign in before using EventNet</p>
-      </article>
-      <article>
-        <a id=google-logout-button class=button>
-          <img src=res/icons/google_signin_logo.svg></img>
-          <p>Log Out Of Google</p>
-        </a>
-        <a id=fb-logout-button class=button>
-          <img src=res/icons/fb_logo.png></img>
-          <p>Log Out Of Facebook</p>
-        </a>
-      </article>
+    <section id=signed-in class="hidden">
+      <h2>You are currently signed in</h2><h3> To sign out <a id="signout-button" href="settings.html" title="Sign out">Click Here</a></h3>
     </section>
   </main>
-  <script src="https://apis.google.com/js/platform.js"></script>
-  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
   <script src="lib/js/xhr.js" charset="utf-8"></script>
   <script src="lib/js/eventNet.js" charset="utf-8"></script>
-  <script src="lib/js/signout.js" charset="utf-8"></script>
+  <script src="lib/js/settings.js" charset="utf-8"></script>
   <script src="lib/js/searchBar.js" charset="utf-8"></script>
 </body>
 
