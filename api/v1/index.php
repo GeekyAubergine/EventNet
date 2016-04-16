@@ -3,13 +3,6 @@
 include __DIR__.'/../../inc/all.php';
 
 $io = new IO();
-$eventIO = new EventIO($io);
-$postIO = new PostIO($io);
-$commentIO = new CommentIO($io);
-$userIO = new UserIO($io);
-$messageIO = new MessageIO($io);
-$reportIO = new ReportIO($io);
-$mediaIO = new MediaIO($io);
 
 $verb = $_SERVER['REQUEST_METHOD'];
 
@@ -27,6 +20,7 @@ $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
 
 switch ($path[0]) {
   case "events":
+    $eventIO = new EventIO($io);
     //Get eventId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["eventId"] = $path[1];
@@ -45,6 +39,7 @@ switch ($path[0]) {
     }
     break;
   case "posts":
+    $postIO = new PostIO($io);
     //Get postId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["postId"] = $path[1];
@@ -68,6 +63,7 @@ switch ($path[0]) {
     }
     break;
   case "comments":
+    $commentIO = new CommentIO($io);
     //Get commentId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["commentId"] = $path[1];
@@ -91,6 +87,7 @@ switch ($path[0]) {
     }
     break;
   case "users":
+    $userIO = new UserIO($io);
     //Get renewToken
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["renewToken"] = $path[1];
@@ -112,6 +109,7 @@ switch ($path[0]) {
     }
     break;
   case "reports":
+    $reportIO = new ReportIO($io);
     switch ($verb) {
       case "POST":
         $results = $reportIO->createReport($args);
@@ -122,7 +120,8 @@ switch ($path[0]) {
     }
     break;
   case "messages":
-    //Get networkId
+    $messageIO = new MessageIO($io);
+    //Get message id
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["messageId"] = $path[1];
     }
@@ -139,6 +138,7 @@ switch ($path[0]) {
     }
     break;
   case "media":
+    $mediaIO = new MediaIO($io);
     switch ($verb) {
       case "GET":
         $results = $mediaIO->getMedia($args);
