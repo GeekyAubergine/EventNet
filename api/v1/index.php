@@ -3,10 +3,8 @@
 include __DIR__.'/../../inc/all.php';
 
 $io = new IO();
-
 $verb = $_SERVER['REQUEST_METHOD'];
-
-switch ($_SERVER['REQUEST_METHOD']) {
+switch ($verb) {
   case "POST":
     $args = $io->extractVariables(INPUT_POST);
     break;
