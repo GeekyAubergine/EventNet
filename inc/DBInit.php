@@ -1,5 +1,8 @@
 <?php
-/** Do not edit below**/
+/*
+  This is used to initialise the database
+*/
+
 define("TABLE_EVENT_INIT", 'CREATE TABLE IF NOT EXISTS event (
   event_id BIGINT NOT NULL AUTO_INCREMENT,
   event_name VARCHAR(256) NOT NULL,
