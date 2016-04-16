@@ -2,6 +2,7 @@
 
 include __DIR__.'/../../inc/all.php';
 
+//Create instance of IO and extract request variables
 $io = new IO();
 $verb = $_SERVER['REQUEST_METHOD'];
 switch ($verb) {
@@ -12,6 +13,7 @@ switch ($verb) {
     $args = $io->extractVariables(INPUT_GET);
 }
 
+//Preare results array and prepare path
 $results = [];
 $results["meta"]["ok"] = true;
 $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
@@ -23,7 +25,6 @@ switch ($path[0]) {
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["eventId"] = $path[1];
     }
-    //Determine if this is the stopping level
     switch ($verb) {
       case "GET":
         $results = $eventIO->getEvents($args);
