@@ -26,4 +26,3 @@
 
 ## General to do list
 - Improve settings
-- More intuitive event joining
