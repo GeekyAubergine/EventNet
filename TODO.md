@@ -26,3 +26,4 @@
 
 ## General to do list
 - Add commentId switch to comments
+- Make user join network if one not joined
