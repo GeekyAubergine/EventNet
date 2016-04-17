@@ -44,7 +44,7 @@ class CommentIO {
       return $this->io->queryDB($args, $query, $bindings);
   }
 
-  //Used by primary router
+  //Creates a comment
   public function createComment($args) {
     if (!isset($args["postId"])) {
       return $this->io->badRequest("Post ID was missing", $args);
@@ -78,7 +78,7 @@ class CommentIO {
     return $results;
   }
 
-  //Used by primary router
+  //Updates a comment
   public function updateComment($args) {
     if (!isset($args["commentContent"])) {
       return $this->io->badRequest("Content missing", $args);
@@ -92,7 +92,7 @@ class CommentIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
-  //Used by primary router
+  //Delete a comment
   public function deleteComment($args) {
     if (!isset($args["commentId"])) {
       return $this->io->badRequest("Comment id was missing");

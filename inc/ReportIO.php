@@ -1,5 +1,8 @@
 <?php
 
+/*
+  Class controlling all reporting functionality
+*/
 class ReportIO {
 
   private $io;
@@ -8,6 +11,7 @@ class ReportIO {
     $this->io = $io;
   }
 
+  //Creates a report
   public function createReport($args) {
     if (!isset($args["accessToken"])) {
       return $this->io->badRequest("Access token was missing", $args);

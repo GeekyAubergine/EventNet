@@ -1,17 +1,17 @@
 <?php
 
+/*
+  Class for controlling all posting functionality
+*/
 class PostIO {
 
   private $io;
-  private $basePostQuery;
 
   public function __construct($io) {
     $this->io = $io;
-    // $reportsQuery = "";
-    $commentsQuery = "(SELECT COUNT(*) FROM comment WHERE post.post_id = comment.post_id AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0)"; //(number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0
-    $this->basePostQuery = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_edited, post.post_edited_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(post.user_id = :userId, 'true', 'false') AS posted_by_user FROM post JOIN user USING(user_id) LEFT JOIN report USING(post_id) ";
   }
 
+  //Used by primary router, calls approriate functions within this class
   public function getPosts($args) {
     //Get post
     if (isset($args["postId"])) {
@@ -36,10 +36,12 @@ class PostIO {
       return $this->getPostsBetweenDates($args, $eventId, $before, $after);
     }
 
+    //Get posts for search term
     if (isset($args["searchTerm"])) {
       return $this->getPostsWithSearchTerm($args);
     }
 
+    //Get posts for userId
     if (isset($args["userId"])) {
       return $this->getPostsByPublicId($args);
     }
@@ -47,6 +49,7 @@ class PostIO {
     return $this->io-badRequest("Either the post id, a search term or the event id must be set", $args);
   }
 
+  //Returns post with the given post id
   private function getPostById($args, $postId) {
     $query = "SELECT event.event_name, post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN event USING(event_id) JOIN user USING(user_id) WHERE post_id = :postId";
     $bindings = [];
@@ -55,8 +58,9 @@ class PostIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Returns posts for the given event id betwen the given dates
   private function getPostsBetweenDates($args, $eventId, $before, $after) {
-    $query = $this->basePostQuery . " WHERE event_id = :eventId AND post_timestamp < :before AND post_timestamp > :after AND IF(report.user_id = :userId, 1, 0) = 0 AND (SELECT COUNT(*) FROM report WHERE report.post_id = post.post_id) < :maxReports ORDER BY post.post_timestamp asc ";// AND (number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0 ORDER BY post.post_timestamp asc ";
+    $query = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_edited, post.post_edited_timestamp, user.user_display_name, user.user_icon, (SELECT COUNT(*) FROM comment WHERE post.post_id = comment.post_id AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0) AS number_of_comments, IF(post.user_id = :userId, 'true', 'false') AS posted_by_user FROM post JOIN user USING(user_id) LEFT JOIN report USING(post_id) WHERE event_id = :eventId AND post_timestamp < :before AND post_timestamp > :after AND IF(report.user_id = :userId, 1, 0) = 0 AND (SELECT COUNT(*) FROM report WHERE report.post_id = post.post_id) < :maxReports ORDER BY post.post_timestamp asc ";// AND (number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0 ORDER BY post.post_timestamp asc ";
     $bindings = [];
     $bindings[":userId"] = $this->io->getUserId($args);
     $bindings[":eventId"] = $eventId;
@@ -67,6 +71,7 @@ class PostIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Returns posts who's contents matches the given search term
   private function getPostsWithSearchTerm($args) {
     $query = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN user USING(user_id) WHERE post_content LIKE :search ORDER BY post.post_timestamp asc ";
     $bindings = [];
@@ -75,6 +80,7 @@ class PostIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Returns posts that were created by the given user 'public' ID
   private function getPostsByPublicId($args) {
     $query = "SELECT post.post_id, post.post_content, post.post_latitude, post.post_longitude, post.post_timestamp, post.post_id, user.user_display_name, user.user_icon FROM post JOIN user USING(user_id) WHERE user_public_id = :id ORDER BY post.post_timestamp asc ";
 
@@ -84,6 +90,7 @@ class PostIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Creates a post
   public function createPost($args) {
     if (!isset($args["eventId"])) {
       return $this->io->badRequest("Network ID was missing", $args);
@@ -101,7 +108,7 @@ class PostIO {
       return $this->io->badRequest("Longitude was missing", $args);
     }
 
-    $query = "insert into post (user_id, event_id, post_content, post_latitude, post_longitude, post_timestamp) values (:user, :event, :content, :lat, :lon, UTC_TIMESTAMP)";
+    $query = "INSERT INTO post (user_id, event_id, post_content, post_latitude, post_longitude, post_timestamp) VALUES (:user, :event, :content, :lat, :lon, UTC_TIMESTAMP)";
     $bindings = [];
 
     $bindings[":user"] = $this->io->getUserId($args);;
@@ -122,6 +129,7 @@ class PostIO {
     return $results;
   }
 
+  //Updates a post
   public function updatePost($args) {
     if (!isset($args["postContent"])) {
       return $this->io->badRequest("Content missing", $args);
@@ -135,6 +143,7 @@ class PostIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Delete a post
   public function deletePost($args) {
     if (!isset($args["postId"])) {
       return $this->io->badRequest("Post id was missing");
