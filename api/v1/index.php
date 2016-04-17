@@ -1,19 +1,14 @@
 <?php
+/*
+  Primary router for the API
+*/
 
 include __DIR__.'/../../inc/all.php';
 
+//Create instance of IO and extract request variables
 $io = new IO();
-$eventIO = new EventIO($io);
-$postIO = new PostIO($io);
-$commentIO = new CommentIO($io);
-$userIO = new UserIO($io);
-$messageIO = new MessageIO($io);
-$reportIO = new ReportIO($io);
-$mediaIO = new MediaIO($io);
-
 $verb = $_SERVER['REQUEST_METHOD'];
-
-switch ($_SERVER['REQUEST_METHOD']) {
+switch ($verb) {
   case "POST":
     $args = $io->extractVariables(INPUT_POST);
     break;
@@ -21,17 +16,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
     $args = $io->extractVariables(INPUT_GET);
 }
 
+//Preare results array and prepare path
 $results = [];
 $results["meta"]["ok"] = true;
 $path = explode('/', ltrim($_SERVER['PATH_INFO'], "/"));
 
 switch ($path[0]) {
   case "events":
+    $eventIO = new EventIO($io);
     //Get eventId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["eventId"] = $path[1];
     }
-    //Determine if this is the stopping level
     switch ($verb) {
       case "GET":
         $results = $eventIO->getEvents($args);
@@ -45,6 +41,7 @@ switch ($path[0]) {
     }
     break;
   case "posts":
+    $postIO = new PostIO($io);
     //Get postId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["postId"] = $path[1];
@@ -68,6 +65,7 @@ switch ($path[0]) {
     }
     break;
   case "comments":
+    $commentIO = new CommentIO($io);
     //Get commentId
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["commentId"] = $path[1];
@@ -91,6 +89,7 @@ switch ($path[0]) {
     }
     break;
   case "users":
+    $userIO = new UserIO($io);
     //Get renewToken
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["renewToken"] = $path[1];
@@ -112,6 +111,7 @@ switch ($path[0]) {
     }
     break;
   case "reports":
+    $reportIO = new ReportIO($io);
     switch ($verb) {
       case "POST":
         $results = $reportIO->createReport($args);
@@ -122,7 +122,8 @@ switch ($path[0]) {
     }
     break;
   case "messages":
-    //Get networkId
+    $messageIO = new MessageIO($io);
+    //Get message id
     if (isset($path[1]) && trim($path[1]) != "") {
       $args["messageId"] = $path[1];
     }
@@ -139,6 +140,7 @@ switch ($path[0]) {
     }
     break;
   case "media":
+    $mediaIO = new MediaIO($io);
     switch ($verb) {
       case "GET":
         $results = $mediaIO->getMedia($args);
@@ -153,21 +155,24 @@ switch ($path[0]) {
     break;
 }
 
+//If data or debug is not set then it is set to an empty array
 if (!isset($results["data"])) {
-  $results["data"] = "";
+  $results["data"] = [];
 }
 if (!isset($results["debug"])) {
   $results["debug"] = [];
 }
-$results["debug"]["request"] = $args;
-$results["debug"]["verb"] = $verb;
-$results["debug"]["path"] = $path;
-$results["debug"]["in"] = $args;
-$results["debug"]["INPUT_GET"] = $io->extractVariables();
-$results["debug"]["INPUT_POST"] = $io->extractVariables(INPUT_POST);
-$results["debug"]["request"] = $_REQUEST;
 
-if (!DEBUGGING) {
+//If debugging mode active, add more debugging information, otherwise remove all debugging information
+if (DEBUGGING) {
+  $results["debug"]["request"] = $args;
+  $results["debug"]["verb"] = $verb;
+  $results["debug"]["path"] = $path;
+  $results["debug"]["in"] = $args;
+  $results["debug"]["INPUT_GET"] = $io->extractVariables();
+  $results["debug"]["INPUT_POST"] = $io->extractVariables(INPUT_POST);
+  $results["debug"]["request"] = $_REQUEST;
+} else {
   unset($results["debug"]);
 }
 

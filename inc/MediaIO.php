@@ -1,5 +1,8 @@
 <?php
 
+/*
+  Class controlling all media funcionality
+*/
 class MediaIO {
 
   private $io;
@@ -8,6 +11,7 @@ class MediaIO {
     $this->io = $io;
   }
 
+  //Used by primary router, calls approriate functions within this class
   public function getMedia($args) {
     if (isset($args["mediaId"])) {
       return $this->io->methodNotImplemented($args);
@@ -20,6 +24,7 @@ class MediaIO {
     return $this->io->badRequest($args, "MediaId or PostId must be set");
   }
 
+  //Returns the media for a given media id
   private function getMediaForPostId($args) {
     $query = "SELECT media_name FROM media WHERE post_id = :post";
     $bindings = [];
@@ -27,7 +32,11 @@ class MediaIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
-  function resizeImage($source, $destination) {
+  /*
+    Resizes a given image and saves it to the given destiantaion.
+    If the file is of a known type it will be resized, if it is not then it is ignored.
+  */
+  private function resizeImage($source, $destination) {
     $ending = strtolower(pathinfo($source, PATHINFO_EXTENSION));
 
     switch ($ending) {
@@ -44,10 +53,8 @@ class MediaIO {
         $saveImageFunction = 'imagepng';
         $imageExtension = '.png';
         break;
-      case 'gif':
-        return;
       default:
-        throw new Exception('Unknown image type.');
+        return;
     }
 
     //Create image from appropriate file type
@@ -87,12 +94,14 @@ class MediaIO {
     $saveImageFunction($image, $destination);
   }
 
+  //Returns a 'random' new file name for the image
   private function getNewFileName($fileName) {
     $ending = pathinfo($fileName, PATHINFO_EXTENSION);
     $fileName = md5(time()) . md5($fileName);
     return $fileName . '.' . $ending;
   }
 
+  //Saves the uploaded files (if they exist) and links them to the given post.
   public function saveMediaForPost($args, $postId) {
     $array_name = "files";
     $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
@@ -125,6 +134,7 @@ class MediaIO {
     }
   }
 
+  //Deletes all media for a given post id
   public function deleteMediaForPost($args) {
     $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
     $media = $this->getMediaForPostId($args)["data"];

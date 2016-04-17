@@ -1,4 +1,8 @@
 <?php
+/*
+  Example config file. Please copy this to a new file called 'config.php' and
+  set the variables to the values for your environment
+*/
 
 const DATABASE_HOST = '127.0.0.1';
 const DATABASE_NAME = 'eventnet';

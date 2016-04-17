@@ -1,5 +1,8 @@
 <?php
 
+/*
+  Class controlling all user functionality
+*/
 class UserIO {
 
   private $io;
@@ -10,6 +13,7 @@ class UserIO {
     date_default_timezone_set('UTC');
   }
 
+  //Used by primary router, calls approriate function
   public function getUser($args) {
     if (isset($args["searchTerm"])) {
       return $this->getUsernamesForSearchTerm($args);
@@ -27,6 +31,7 @@ class UserIO {
     return $this->io->badRequest("Either the renew token, search term or the access token must be set", $args);
   }
 
+  //Returns the public ids for users who's names matches the given search term
   private function getUsernamesForSearchTerm($args) {
     $query = "SELECT user_public_id as id, user_display_name, user_icon FROM user WHERE user_display_name LIKE :search AND user_id != 1";
     $bindings = [];
@@ -34,6 +39,7 @@ class UserIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Returns if the access token if valid
   public function accessTokenValid($accessToken) {
     if (!isset($accessToken)) {
       return $this->io->badRequest("Access token missing", []);
@@ -47,6 +53,7 @@ class UserIO {
     return count($results["data"]) == 1;
   }
 
+  //Returns the user id for a given access token
   public function getUserIdForAccessToken($accessToken) {
     if (!isset($accessToken)) {
       return $this->io->badRequest("Access token missing", []);
@@ -64,6 +71,7 @@ class UserIO {
     return $results["data"][0]["user_id"];
   }
 
+  //Returns the access token and renewal date for the access token.
   public function renewToken($args) {
     $data = [];
     $bindings = [];
@@ -106,6 +114,7 @@ class UserIO {
     return $results;
   }
 
+  //Creates a user
   public function createUser($args) {
     $io = new IO();
 
@@ -155,6 +164,7 @@ class UserIO {
     }
   }
 
+  //Creates a user for the given google id
   private function addUserToDatabaseForGoogleId($displayName, $icon,  $googleId) {
     $query = "INSERT INTO user (user_public_id, user_display_name, user_icon, user_google_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:publicId, :name, :icon, :google, :token, :renew, :refresh)";
 
@@ -186,6 +196,7 @@ class UserIO {
     return $results;
   }
 
+  //Creates user for the given twitter id
   private function addUserToDatabaseForTwitterId($displayName, $icon, $twitterId) {
     $query = "INSERT INTO user (user_public_id, user_display_name, user_icon, user_twitter_id, user_access_token, user_renew_token, user_access_token_expire) VALUES (:publicId, :name, :icon, :twitter, :token, :renew, :refresh)";
 
@@ -217,14 +228,17 @@ class UserIO {
     return $results;
   }
 
+  //Generate a access token for a given user.
   private function generateAccessToken($userName) {
     return md5(time()) . md5($userName);
   }
 
+  //Generates a renewal token
   private function generateRenewToken($userName) {
     return md5(time() . $userName) . md5($userName);
   }
 
+  //Calculates the next refresh date
   private function getNextRefreshDate() {
     $timeDelta = 24 * 60 * 60; //Expires every day
     return date('Y-m-d H:i:s', time() + $timeDelta);
