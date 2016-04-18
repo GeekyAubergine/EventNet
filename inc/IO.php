@@ -43,7 +43,7 @@ class IO {
       echo json_encode($results);
     } else {
       header("Content-Type: text/plain");
-      echo("results: ");
+      echo("Results: ");
       var_dump($results);
     }
   }

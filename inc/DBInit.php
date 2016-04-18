@@ -26,7 +26,7 @@ define("USER_TABLE_INIT", "CREATE TABLE IF NOT EXISTS user (
   PRIMARY KEY (user_id))
   ENGINE = InnoDB;
 
-  INSERT INTO USER (user_public_id, user_display_name, user_icon, user_access_token, user_renew_token, user_access_token_expire)
+  INSERT INTO user (user_public_id, user_display_name, user_icon, user_access_token, user_renew_token, user_access_token_expire)
   values
   ('-1', 'Anonymous', '/res/icons/default_user.svg', '1', '1', '9999-12-31 23:59:59');"
 );
