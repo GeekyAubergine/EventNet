@@ -17,11 +17,15 @@ class CommentIO {
       return $this->getCommentsForPostId($args, $args["postId"]);
     }
 
+    if (isset($args["commentId"])) {
+      return $this->getCommentForCommentId($args, $args["commentId"]);
+    }
+
     if (isset($args["searchTerm"])) {
       return $this->getCommentsWithSearchTerm($args);
     }
 
-    return $this->io->badRequest("Post id or search term must be set", $args);
+    return $this->io->badRequest("Post id, comment id or search term must be set", $args);
   }
 
   //Returns comments for given post id
@@ -31,6 +35,16 @@ class CommentIO {
     $bindings[":userId"] = $this->io->getUserId($args);
     $bindings[":postId"] = $postId;
     $bindings[":maxReports"] = REPORTS_BEFORE_HIDDING_CONTENT;
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
+  //Returns comments for given comment id
+  private function getCommentForCommentId($args, $commentId) {
+    $query = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, comment.comment_edited, comment.comment_edited_timestamp, user.user_display_name, user.user_icon, IF(comment.user_id = :userId, 'true', 'false') AS commented_by_user FROM comment JOIN user USING(user_id) WHERE comment.comment_id = :commentId ORDER BY comment.comment_timestamp asc";
+    $bindings = [];
+    $bindings[":userId"] = $this->io->getUserId($args);
+    $bindings[":commentId"] = $commentId;
 
     return $this->io->queryDB($args, $query, $bindings);
   }
