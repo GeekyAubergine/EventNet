@@ -27,3 +27,4 @@
 ## General to do list
 - Add commentId switch to comments
 - Make user join network if one not joined
+- Fix weird css issue on small number of messages

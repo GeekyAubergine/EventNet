@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #DDD;
+}
+main {
+  flex: 1;
+  max-width: 60em;
+  background: white;
+  padding: 1em;
+}
+section {
+}
+img {
+  width: 100%;
+}
+h1, h2 {
+  padding: 1em 0 0 0;
+}
+p {
+  padding: 0.5em 0;
+  line-height: 150%;
+}
+ul {
+  padding: 0.5em 1em;
+}
