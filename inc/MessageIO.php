@@ -1,5 +1,8 @@
 <?php
 
+/*
+  Class for controlling all messaging functionality
+*/
 class MessageIO {
 
   private $io;
@@ -8,6 +11,7 @@ class MessageIO {
     $this->io = $io;
   }
 
+  //Returns messages for a given event id
   public function getMessages($args) {
     if (!isset($args["eventId"])) {
       return $this->io->badRequest("Event ID was missing", $args);
@@ -20,6 +24,7 @@ class MessageIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Creates a message using given paramaters.
   public function createMessage($args) {
     if (!isset($args["eventId"])) {
       return $this->io->badRequest("Network ID was missing", $args);

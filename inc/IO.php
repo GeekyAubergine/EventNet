@@ -1,5 +1,8 @@
 <?php
 
+/*
+  Class controlling all input and output within the API
+*/
 class IO {
   private $database;
 
@@ -7,6 +10,7 @@ class IO {
     $this->database = new DB();
   }
 
+  //Extracts the variables sent in the request. It santitises the input.
   public function extractVariables($method = INPUT_GET) {
     $variables = array();
     foreach ($_REQUEST as $key => $value) {
@@ -15,6 +19,7 @@ class IO {
     return $variables;
   }
 
+  //Formats the results to send back the client in the requested format.
   public function sendResults($results) {
     global $_REQUEST;
 
@@ -22,7 +27,8 @@ class IO {
     $jsonHeader = !(stripos($_SERVER['HTTP_ACCEPT'], 'application/json') === false);
     $json = $jsonHeader || $jsonFormat;
 
-    if (isset($result["meta"]["ok"]) && $results["meta"]["ok"] === false) { //Check for error
+    //Check for error
+    if (isset($result["meta"]["ok"]) && $results["meta"]["ok"] === false) {
       $status = isset($results["meta"]["status"]) ? $results["meta"]["status"] : 599;
       $message = isset($results["meta"]["message"]) ? $results["meta"]["message"] : "An unknown error has occured";
     } else {
@@ -42,6 +48,7 @@ class IO {
     }
   }
 
+  //Returns information to the client that their request is bad.
   public function badRequest($message, $args) {
     $results = [];
     $results["meta"]["ok"] = false;
@@ -51,6 +58,7 @@ class IO {
     return $results;
   }
 
+  //Returns information to the client that the method is not allowed.
   public function methodNotAllowed($args) {
     $results = [];
     $results["meta"]["ok"] = false;
@@ -60,6 +68,7 @@ class IO {
     return $results;
   }
 
+  //Returns information to the client if the requested method has not be implemented.
   public function methodNotImplemented($args) {
     $results = [];
     $results["meta"]["ok"] = false;
@@ -69,6 +78,10 @@ class IO {
     return $results;
   }
 
+  /*
+    Queryies the database using the given query and bindings. It will also
+    extract and limits and offsets in the args.
+  */
   public function queryDB($args, $query, $bindings = null) {
     $limit = 25;
     $offset = 0;
@@ -103,10 +116,12 @@ class IO {
     return $results;
   }
 
+  //Returns the last ID inserted into the database.
   public function getLastInsertedID() {
     return $this->database->getLastInsertedID();
   }
 
+  //Returns the user ID, returns 0 if
   public function getUserID($args) {
     if (!isset($args["accessToken"])) {
       return -1;
@@ -124,6 +139,7 @@ class IO {
   }
 
   public function close() {
+    $this->database->close();
     $this->database = null;
   }
 

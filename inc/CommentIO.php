@@ -1,31 +1,36 @@
 <?php
 
+/*
+  Class controlling all commenting functionality
+*/
 class CommentIO {
 
   private $io;
-  private $baseCommentQuery;
 
   public function __construct($io) {
     $this->io = $io;
-    $commentsQuery = "(SELECT COUNT(*) FROM comment WHERE comment.post_id = :postId AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0)"; //(number_of_reports < :maxReports OR ISNULL(number_of_reports)) AND IF(report.user_id = :userId, 1, 0) = 0
-
-    $this->baseCommentQuery = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, comment.comment_edited, comment.comment_edited_timestamp, user.user_display_name, user.user_icon, " . $commentsQuery . " as number_of_comments, IF(comment.user_id = :userId, 'true', 'false') AS commented_by_user FROM comment JOIN user USING(user_id) ";
   }
 
+  //Used by primary router, calls approriate functions within this class
   public function getComments($args) {
     if (isset($args["postId"])) {
       return $this->getCommentsForPostId($args, $args["postId"]);
+    }
+
+    if (isset($args["commentId"])) {
+      return $this->getCommentForCommentId($args, $args["commentId"]);
     }
 
     if (isset($args["searchTerm"])) {
       return $this->getCommentsWithSearchTerm($args);
     }
 
-    return $this->io->badRequest("Post id or search term must be set", $args);
+    return $this->io->badRequest("Post id, comment id or search term must be set", $args);
   }
 
+  //Returns comments for given post id
   private function getCommentsForPostId($args, $postId) {
-    $query = $this->baseCommentQuery . "WHERE comment.post_id = :postId AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0 ORDER BY comment.comment_timestamp asc";
+    $query = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, comment.comment_edited, comment.comment_edited_timestamp, user.user_display_name, user.user_icon, (SELECT COUNT(*) FROM comment WHERE comment.post_id = :postId AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0) as number_of_comments, IF(comment.user_id = :userId, 'true', 'false') AS commented_by_user FROM comment JOIN user USING(user_id) WHERE comment.post_id = :postId AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id) < :maxReports AND (SELECT COUNT(*) FROM report WHERE report.comment_id = comment.comment_id AND report.user_id = :userId) = 0 ORDER BY comment.comment_timestamp asc";
     $bindings = [];
     $bindings[":userId"] = $this->io->getUserId($args);
     $bindings[":postId"] = $postId;
@@ -34,6 +39,17 @@ class CommentIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Returns comments for given comment id
+  private function getCommentForCommentId($args, $commentId) {
+    $query = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, comment.comment_edited, comment.comment_edited_timestamp, user.user_display_name, user.user_icon, IF(comment.user_id = :userId, 'true', 'false') AS commented_by_user FROM comment JOIN user USING(user_id) WHERE comment.comment_id = :commentId ORDER BY comment.comment_timestamp asc";
+    $bindings = [];
+    $bindings[":userId"] = $this->io->getUserId($args);
+    $bindings[":commentId"] = $commentId;
+
+    return $this->io->queryDB($args, $query, $bindings);
+  }
+
+  //Returns comments that contain content that matches the given search term
   private function getCommentsWithSearchTerm($args) {
       $query = "SELECT comment.comment_id, comment.comment_content, comment.comment_latitude, comment.comment_longitude, comment.comment_timestamp, comment.post_id, user.user_display_name, user.user_icon FROM comment JOIN user USING(user_id) WHERE comment_content LIKE :search";
       $bindings = [];
@@ -42,6 +58,7 @@ class CommentIO {
       return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Creates a comment
   public function createComment($args) {
     if (!isset($args["postId"])) {
       return $this->io->badRequest("Post ID was missing", $args);
@@ -75,6 +92,7 @@ class CommentIO {
     return $results;
   }
 
+  //Updates a comment
   public function updateComment($args) {
     if (!isset($args["commentContent"])) {
       return $this->io->badRequest("Content missing", $args);
@@ -88,6 +106,7 @@ class CommentIO {
     return $this->io->queryDB($args, $query, $bindings);
   }
 
+  //Delete a comment
   public function deleteComment($args) {
     if (!isset($args["commentId"])) {
       return $this->io->badRequest("Comment id was missing");

@@ -3,3 +3,4 @@ deployment-config.json
 config.php
 node_modules
 uploads/
+dox/*.JPG

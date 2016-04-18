@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Installation Guide</title>
+  <link rel="stylesheet" href="dox.css">
+</head>
+
+<body>
+  <main>
+    <h1>Installation Guide</h1>
+    <section>
+      <h2>Installation Instructions</h2>
+      <p>This requires the following programs to be installed:</p>
+      <ul>
+        <li>PHP</li>
+        <li>MySQL</li>
+        <li>Node.js and npm (Node package manager)</li>
+      </ul>
+      <p>After installing the programs:</p>
+      <ol>
+        <li>Run the command <code>npm install</code></li>
+        <li>In the 'inc' folder copy the contents of 'config_sample.php' to 'config.php' and update the variables to use the settings of your environment</li>
+        <li>In the root folder of the server, run the command <code>sh util/start_eventnet.sh</code>This will start the PHP and Node.js servers</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Client instructions</h2>
+      <p>If you are running the server on a server that is not on a server with a domain, you will need to edit the hosts file on all client computers by adding an entry pointing eventnet.com to the IP address of the server.</p>
+    </section>
+  </main>
+</body>
+
+</html>
