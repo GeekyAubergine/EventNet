@@ -5,16 +5,27 @@
   padding: 0.25em;
   width: 3.5em;
 }
+
 /* ---- Message and Comment Meta Info ---- */
 
 #message-area-container {
   width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
-
 .meta {
+  -webkit-box-flex: 100%;
+  -webkit-flex: 100%;
+  -ms-flex: 100%;
   flex: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   margin-left: 4em;
   padding-left: 0.25em;
@@ -22,6 +33,7 @@
 }
 .meta li {
   margin-right: 1em;
+  -webkit-transition: all 250ms;
   transition: all 250ms;
 }
 .meta li.clickable:hover {
@@ -30,20 +42,40 @@
 }
 
 /* ---- messages ---- */
+
 #messages {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
   flex-flow: row wrap;
   margin-bottom: 4em;
 }
 .message {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 100%;
+  -ms-flex: 1 100%;
   flex: 1 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   background-color: white;
   border: 0.1em solid #CCC;
 }
 .message .content {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 100%;
+  -ms-flex: 1 100%;
   flex: 1 100%;
   padding: 0.25em 0.5em;
   margin-bottom: 0.5em;
@@ -56,13 +88,21 @@
   bottom: 0;
   left: 0;
   width: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
   background-color: white;
   border: 0.1em solid #CCC;
   border-bottom: none;
 }
 #message-creator textarea {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 100%;
+  -ms-flex: 1 100%;
   flex: 1 100%;
   height: 3em;
   margin: 0.5em;
@@ -71,14 +111,23 @@
   resize: none;
 }
 #message-creator .controls {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 100%;
+  -ms-flex: 1 100%;
   flex: 1 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
   padding: 0 0.25em 0.5em 0;
 }
 
-
 /* ---- Archived Notification ---- */
+
 #archived-notification {
   width: 100%;
   background-color: white;
