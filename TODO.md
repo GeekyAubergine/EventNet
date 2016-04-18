@@ -23,8 +23,3 @@
 - [x] Users can join an Event and instantly messages with other users on the same Event.
 
 - [x] Users can search for a string/phrases and it will load all Events (including archived Events), posts and comments where their content matches the given phrase. This will also search for usernames that match the search phrase.
-
-## General to do list
-- Add commentId switch to comments
-- Make user join network if one not joined
-- Fix weird css issue on small number of messages
