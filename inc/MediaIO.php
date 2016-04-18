@@ -106,7 +106,7 @@ class MediaIO {
     $array_name = "files";
     $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
     $dbSaveFolder = UPLOADS_FOLDER;
-    $imageRegex = '/\.(png|jpg|jpeg|gif)$/i';
+    $imageRegex = '/\.(png|jpg|jpeg)$/i';
 
     if(isset($_FILES[$array_name])){
         $name_array = $_FILES[$array_name]['name'];
@@ -117,19 +117,20 @@ class MediaIO {
         for($i = 0; $i < count($tmp_name_array); $i++){
           $fileName = $this->getNewFileName($name_array[$i]);
 
-          move_uploaded_file($tmp_name_array[$i], $physicalSaveFolder . $fileName);
+          if (move_uploaded_file($tmp_name_array[$i], $physicalSaveFolder . $fileName)) {
 
-          //If image, resize
-          if (preg_match($imageRegex, $fileName)) {
-            $this->resizeImage($physicalSaveFolder . $fileName, $physicalSaveFolder . $fileName);
+            //If image, resize
+            if (function_exists("imagecreatefromjpeg") && function_exists("imagecreatefrompng") && preg_match($imageRegex, $fileName)) {
+              $this->resizeImage($physicalSaveFolder . $fileName, $physicalSaveFolder . $fileName);
+            }
+
+            $query = "insert into media (media_name, post_id) values (:name, :post)";
+            $bindings = [];
+            $bindings[":post"] = $postId;
+            $bindings[":name"] = $dbSaveFolder . $fileName;
+
+            $this->io->queryDB($args, $query, $bindings);
           }
-
-          $query = "insert into media (media_name, post_id) values (:name, :post)";
-          $bindings = [];
-          $bindings[":post"] = $postId;
-          $bindings[":name"] = $dbSaveFolder . $fileName;
-
-          $this->io->queryDB($args, $query, $bindings);
         }
     }
   }

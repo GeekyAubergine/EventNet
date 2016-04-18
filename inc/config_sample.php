@@ -15,4 +15,9 @@ const DEBUGGING = false;
 const REPORTS_BEFORE_HIDDING_CONTENT = 5;
 
 //Uploads folder
-const UPLOADS_FOLDER = "/uploads/";
+const UPLOADS_FOLDER = "uploads/";
+
+ini_set('upload_max_filesize', '500M');
+ini_set('post_max_size', '500M');
+ini_set('max_input_time', 4000); // Play with the values
+ini_set('max_execution_time', 4000); // Play with the values
