@@ -104,7 +104,7 @@ class MediaIO {
   //Saves the uploaded files (if they exist) and links them to the given post.
   public function saveMediaForPost($args, $postId) {
     $array_name = "files";
-    $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . UPLOADS_FOLDER;
+    $physicalSaveFolder = $_SERVER['DOCUMENT_ROOT'] . "/" . UPLOADS_FOLDER;
     $dbSaveFolder = UPLOADS_FOLDER;
     $imageRegex = '/\.(png|jpg|jpeg)$/i';
 

@@ -134,6 +134,7 @@ textarea {
 }
 .post .media-container img {
   width: 100%;
+  max-width: 10em;
   height: auto;
 }
 .post .media-container video {
