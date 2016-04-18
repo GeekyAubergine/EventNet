@@ -7,6 +7,11 @@
 }
 /* ---- Message and Comment Meta Info ---- */
 
+#message-area-container {
+  width: 100%;
+  display: flex;
+}
+
 .meta {
   flex: 100%;
   display: flex;
